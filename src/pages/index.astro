@@ -2,6 +2,8 @@
 import { ViewTransitions } from 'astro:transitions';
 import Reproductor from '../components/Reproductor.astro';
 import Header from '../components/Header.astro';
+import MainIndex from '../layouts/MainIndex.astro';
+import Layout from '../layouts/Layout.astro';
 
 import './../css/output.css'
 ---
@@ -11,8 +13,9 @@ import './../css/output.css'
 <a href="./song.html">Song</a>
 <br> -->
 
-
-<Header/>
-<Reproductor/>
-
-<ViewTransitions/>
+<Layout>
+    <Header/>
+    <MainIndex/>
+    <ViewTransitions/>
+    <Reproductor/>
+</Layout>
