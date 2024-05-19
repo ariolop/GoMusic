@@ -16,7 +16,7 @@ const audios = (
     ).innerJoin(
         Artista, eq(Album.idArtista, Artista.idArtista)
     ).innerJoin(
-        Usuario, eq(Artista.idUsuario, Usuario.idUsuario)
+        Usuario, eq(Artista.idUsuario, Usuario.id)
     )
 );
 

@@ -4,7 +4,7 @@ import { db, Audios, Administrador, Usuario, Album, Artista } from 'astro:db';
 export default async function seed() {
 	await db.insert(Usuario).values([
 		{
-			idUsuario: 1,
+			id: "1",
 			username: "crilex",
 			nombre: "Alejandro",
 			apellidos: "Rios Lopez",
@@ -13,7 +13,7 @@ export default async function seed() {
 		},
 
 		{
-			idUsuario: 2,
+			id: "2",
 			username: "David Bisbal",
 			nombre: "David",
 			apellidos: "Bisbal",
@@ -22,7 +22,7 @@ export default async function seed() {
 		},
 
 		{
-			idUsuario: 3,
+			id: "3",
 			username: "Aitana",
 			nombre: "Aitana",
 			apellidos: "ocaña",
@@ -31,7 +31,7 @@ export default async function seed() {
 		},
 
 		{
-			idUsuario: 4,
+			id: "4",
 			username: "Gia Woods",
 			nombre: "Gia",
 			apellidos: "Woods",
@@ -40,7 +40,7 @@ export default async function seed() {
 		},
 
 		{
-			idUsuario: 5,
+			id: "5",
 			username: "cristicc24",
 			nombre: "Cristina",
 			apellidos: "Cabrera",
@@ -53,12 +53,12 @@ export default async function seed() {
 	await db.insert(Administrador).values([
 		{
 			idAdministrador: 1,
-			idUsuario: 1
+			idUsuario: "1"
 		},
 
 		{
 			idAdministrador: 2,
-			idUsuario: 5
+			idUsuario: "5"
 		},
 		
 	])
@@ -66,15 +66,15 @@ export default async function seed() {
 	await db.insert(Artista).values([
 		{
 			idArtista: 1,
-			idUsuario: 2
+			idUsuario: "2"
 		},
 		{
 			idArtista: 2,
-			idUsuario: 3
+			idUsuario: "3"
 		},
 		{
 			idArtista: 3,
-			idUsuario: 4
+			idUsuario: "4"
 		},
 	])
 

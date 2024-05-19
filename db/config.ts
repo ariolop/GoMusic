@@ -2,11 +2,11 @@ import { defineDb, defineTable, column } from 'astro:db';
 
 const Usuario = defineTable({
   columns: {
-    idUsuario: column.number({ primaryKey: true }),
-    username: column.text(),
+    id: column.text({ primaryKey: true, optional: false, unique: true }),
+    username: column.text({ unique: true }),
     nombre: column.text(),
     apellidos: column.text(),
-    email: column.text(),
+    email: column.text({ optional: false, unique: true }),
     contrasena: column.text()
   }
 })
@@ -14,21 +14,21 @@ const Usuario = defineTable({
 const Administrador = defineTable({
   columns: {
     idAdministrador: column.number({ primaryKey: true }),
-    idUsuario: column.number({ references: () => Usuario.columns.idUsuario })
+    idUsuario: column.text({ references: () => Usuario.columns.id })
   }
 })
 
 const Artista = defineTable({
   columns: {
     idArtista: column.number({ primaryKey: true }),
-    idUsuario: column.number({ references: () => Usuario.columns.idUsuario })
+    idUsuario: column.text({ references: () => Usuario.columns.id })
   }
 })
 
 const Normal = defineTable({
   columns: {
     idNormal: column.number({ primaryKey: true }),
-    idUsuario: column.number({ references: () => Usuario.columns.idUsuario })
+    idUsuario: column.text({ references: () => Usuario.columns.id })
   }
 })
 
@@ -106,6 +106,14 @@ const Playlist_Audio = defineTable({
   }
 })
 
+const Session = defineTable({
+  columns: {
+    id: column.text({ optional: false , unique: true}),
+    userId: column.text({ optional: false, references: () => Usuario.columns.id }),
+    expiresAt: column.number()
+  }
+})
+
 // https://astro.build/db/config
 export default defineDb({
   tables: { 
@@ -119,6 +127,7 @@ export default defineDb({
     Usuario_Escucha_Audio,
     Usuario_MeGusta_Audio,
     Playlist,
-    Playlist_Audio
+    Playlist_Audio,
+    Session
   }
 });
