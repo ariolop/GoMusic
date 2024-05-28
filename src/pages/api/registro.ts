@@ -7,12 +7,15 @@ import { lucia } from "../../auth";
 export async function POST(context: APIContext): Promise<Response> {
     //Parse the form data
     const formData = await context.request.formData();
+    const username = formData.get("username");
+    const name = formData.get("name");
+    const surname = formData.get("surname");
     const email = formData.get("email");
     const password = formData.get("password");
 
     //Validate the form data
-    if (!email ||!password) {
-        return new Response('Username and Password are required', { status: 400 })
+    if (!email ||!password || !username ||!name) {
+        return new Response('Falta algún campo de los requeridos', { status: 400 })
     }
 
     //Insertar user into db
@@ -22,9 +25,9 @@ export async function POST(context: APIContext): Promise<Response> {
     await db.insert(Usuario).values([
         {
             id: userId,
-            username: "Test",
-            nombre: "",
-            apellidos: "",
+            username: username.toString(),
+            nombre: name.toString(),
+            apellidos: surname.toString(),
             email: email.toString(),
             contrasena: hashedPassword
         }

@@ -19,13 +19,14 @@ const usuarios = await db.select().from(Usuario);
 {
     usuarios.map(({ id, username, nombre, apellidos, email, contrasena }) => (
     <article>
-        <p>{id}</p>
-        <p>{username}</p>
-        <p>{nombre}</p>
-        <p>{apellidos}</p>
-        <p>{email}</p>
-        <p>{contrasena}</p>
+        <p>Id: {id}</p>
+        <p>Username: {username}</p>
+        <p>Nombre: {nombre}</p>
+        <p>Apellidos: {apellidos}</p>
+        <p>Email: {email}</p>
+        <p>Contrasena: {contrasena}</p>
     </article>
+    <p>-------------------------------------------------------------------------------------------------------------------------------------------------</p>
     ))
 }
 
