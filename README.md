@@ -1,3 +1,7 @@
+Clonar el proyecto con Git:
+
+git clone askdnaljkdasjlkdlasd
+
 Iniciar el proyecto en local:
 
 npx astro dev
