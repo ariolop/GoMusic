@@ -1,6 +1,10 @@
-Iniciar el proyecto:
+Iniciar el proyecto en local:
 
-npm run dev
+npx astro dev
+
+Iniciar el proyecto en remoto:
+
+npx astro dev --remote
 
 Para realizar modificaciones en Tailwindcss:
 
