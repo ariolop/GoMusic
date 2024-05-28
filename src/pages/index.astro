@@ -6,6 +6,9 @@ import MainIndex from '../layouts/MainIndex.astro';
 import Layout from '../layouts/Layout.astro';
 
 import './../css/output.css'
+import { db, Usuario } from 'astro:db';
+
+const usuarios = await db.select().from(Usuario);
 ---
 
 <!-- <h1>Main page</h1>
@@ -13,9 +16,24 @@ import './../css/output.css'
 <a href="./song.html">Song</a>
 <br> -->
 
-<Layout>
+{
+    usuarios.map(({ id, username, nombre, apellidos, email, contrasena }) => (
+    <article>
+        <p>{id}</p>
+        <p>{username}</p>
+        <p>{nombre}</p>
+        <p>{apellidos}</p>
+        <p>{email}</p>
+        <p>{contrasena}</p>
+    </article>
+    ))
+}
+
+
+
+<!-- <Layout>
     <Header/>
     <MainIndex/>
     <ViewTransitions/>
     <Reproductor/>
-</Layout>
+</Layout> -->

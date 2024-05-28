@@ -16,7 +16,7 @@ export async function POST(context: APIContext): Promise<Response> {
     }
 
     //Insertar user into db
-    const userId = generateId(15);
+    const userId = generateId(9);
     const hashedPassword = await new Argon2id().hash(password.toString());
 
     await db.insert(Usuario).values([
