@@ -14,38 +14,38 @@ export default async function seed() {
 
 		// {
 		// 	id: "2",
-		// 	username: "David Bisbal",
+		// 	username: "davidBisb",
 		// 	nombre: "David",
 		// 	apellidos: "Bisbal",
 		// 	email: "davidbisbal@business.com",
-		// 	contrasena: "123456"
+		// 	contrasena: "davilillobisbal..125"
 		// },
 
 		// {
 		// 	id: "3",
-		// 	username: "Aitana",
+		// 	username: "aitanita09",
 		// 	nombre: "Aitana",
 		// 	apellidos: "ocaña",
 		// 	email: "aitana_ocana@business.com",
-		// 	contrasena: "4a65d4a65d"
+		// 	contrasena: "yatraLover123--"
 		// },
 
 		// {
 		// 	id: "4",
-		// 	username: "Gia Woods",
+		// 	username: "giawoodi",
 		// 	nombre: "Gia",
 		// 	apellidos: "Woods",
 		// 	email: "gia_woods@business.com",
-		// 	contrasena: "65sd465a4d"
+		// 	contrasena: "woodMadera,,19"
 		// },
 
 		// {
 		// 	id: "5",
 		// 	username: "cristicc24",
 		// 	nombre: "Cristina",
-		// 	apellidos: "Cabrera",
+		// 	apellidos: "Cabrera Carrillo",
 		// 	email: "criistinacab@gmail.com",
-		// 	contrasena: "a65fd65ad"
+		// 	contrasena: "mividiti--0989"
 		// },
 		
 	// ])

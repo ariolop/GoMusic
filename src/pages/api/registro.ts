@@ -29,7 +29,8 @@ export async function POST(context: APIContext): Promise<Response> {
             nombre: name.toString(),
             apellidos: surname.toString(),
             email: email.toString(),
-            contrasena: hashedPassword
+            contrasena: hashedPassword,
+            imagenPerfil: ""
         }
     ])
 

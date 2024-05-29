@@ -1,0 +1,11 @@
+---
+
+import {db, eq, Usuario, Session} from 'astro:db'
+
+const userId = "r6g6715ey"
+
+await db.delete(Session).where(eq(Session.userId, userId));
+await db.delete(Usuario).where(eq(Usuario.id, userId));
+
+---
+

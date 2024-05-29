@@ -7,7 +7,8 @@ const Usuario = defineTable({
     nombre: column.text(),
     apellidos: column.text(),
     email: column.text({ optional: false, unique: true }),
-    contrasena: column.text()
+    contrasena: column.text(),
+    imagenPerfil: column.text({ default: "" })
   }
 })
 
