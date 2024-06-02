@@ -15,21 +15,21 @@ const Usuario = defineTable({
 const Administrador = defineTable({
   columns: {
     idAdministrador: column.number({ primaryKey: true }),
-    idUsuario: column.text({ references: () => Usuario.columns.id })
+    idUsuario: column.text({ unique: true, references: () => Usuario.columns.id })
   }
 })
 
 const Artista = defineTable({
   columns: {
     idArtista: column.number({ primaryKey: true }),
-    idUsuario: column.text({ references: () => Usuario.columns.id })
+    idUsuario: column.text({ unique: true, references: () => Usuario.columns.id })
   }
 })
 
 const Normal = defineTable({
   columns: {
     idNormal: column.number({ primaryKey: true }),
-    idUsuario: column.text({ references: () => Usuario.columns.id })
+    idUsuario: column.text({ unique: true, references: () => Usuario.columns.id })
   }
 })
 
@@ -57,13 +57,13 @@ const Audios = defineTable({
   }
 })
 
-// const Album_Cancion = defineTable({
-//   columns: {
-//     idAlbumAudio: column.number({ primaryKey: true }),
-//     idAlbum: column.number({ references: () => Album.columns.idAlbum }),
-//     idAudio: column.number({ references: () => Audios.columns.idAudio })
-//   }
-// })
+const Album_Cancion = defineTable({
+  columns: {
+    idAlbumAudio: column.number({ primaryKey: true }),
+    idAlbum: column.number({ references: () => Album.columns.idAlbum }),
+    idAudio: column.number({ references: () => Audios.columns.idAudio })
+  }
+})
 
 const Comentarios = defineTable({
   columns: {
@@ -129,6 +129,7 @@ export default defineDb({
     Usuario_MeGusta_Audio,
     Playlist,
     Playlist_Audio,
-    Session
+    Session,
+    Album_Cancion
   }
 });

@@ -1,4 +1,10 @@
 ---
+import { estaLogueado } from '../components/Cookies/Cookies.astro';
+const cookies = Astro.request.headers.get('cookie')
+
+if(!estaLogueado(cookies))
+    return Astro.redirect("./login.html")
+
 import { ViewTransitions } from 'astro:transitions';
 import Reproductor from '../components/Reproductor.astro';
 import Header from '../components/HeaderIndex.astro';
@@ -6,35 +12,11 @@ import MainIndex from '../layouts/MainIndex.astro';
 import Layout from '../layouts/Layout.astro';
 
 import './../css/output.css'
-import { db, Usuario } from 'astro:db';
-
-const usuarios = await db.select().from(Usuario);
 ---
 
-<!-- <h1>Main page</h1>
-<p>Página principal donde aparecen las canciones</p>
-<a href="./song.html">Song</a>
-<br> -->
-
-{
-    usuarios.map(({ id, username, nombre, apellidos, email, contrasena }) => (
-    <article>
-        <p>Id: {id}</p>
-        <p>Username: {username}</p>
-        <p>Nombre: {nombre}</p>
-        <p>Apellidos: {apellidos}</p>
-        <p>Email: {email}</p>
-        <p>Contrasena: {contrasena}</p>
-    </article>
-    <p>-------------------------------------------------------------------------------------------------------------------------------------------------</p>
-    ))
-}
-
-
-
-<!-- <Layout>
+<Layout>
     <Header/>
     <MainIndex/>
     <ViewTransitions/>
     <Reproductor/>
-</Layout> -->
+</Layout>

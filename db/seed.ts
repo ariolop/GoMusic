@@ -11,25 +11,7 @@ export default async function seed() {
 		// 	email: "adjlkdhnjlakdhnw@lakndlkas.com",
 		// 	contrasena: "123456"
 		// 	},
-
-		// {
-		// 	id: "2",
-		// 	username: "davidBisb",
-		// 	nombre: "David",
-		// 	apellidos: "Bisbal",
-		// 	email: "davidbisbal@business.com",
-		// 	contrasena: "davilillobisbal..125"
-		// },
-
-		// {
-		// 	id: "3",
-		// 	username: "aitanita09",
-		// 	nombre: "Aitana",
-		// 	apellidos: "ocaña",
-		// 	email: "aitana_ocana@business.com",
-		// 	contrasena: "yatraLover123--"
-		// },
-
+		
 		// {
 		// 	id: "4",
 		// 	username: "giawoodi",
@@ -47,6 +29,23 @@ export default async function seed() {
 		// 	email: "criistinacab@gmail.com",
 		// 	contrasena: "mividiti--0989"
 		// },
+		//{
+		//	idUsuario: 6,
+		//	username: "samariaSS",
+		//	nombre: "Samaria",
+		//	apellidos: "",
+		//	email: "samaria@business.com",
+		//	contrasena: "samarita3215.."
+		//},
+
+		//{
+		//	idUsuario: 7,
+		//	username: "sabrinitaCar",
+		//	nombre: "Sabrina",
+		//	apellidos: "Carpenter",
+		//	email: "sabrinacar@business.com",
+		//	contrasena: "sabrinacarcar6464.."
+		//},
 		
 	// ])
 
@@ -98,45 +97,45 @@ export default async function seed() {
 	// 	},
 	// ])
 
-	// await db.insert(Audios).values([
-	// 	{
-	// 		idAudio: 1,
-	// 		nombreAudio: "Paquito Chocolatero",
-	// 		album: 1,
-	// 		genero: "asdad",
-	// 		tipo: "asdad",
-	// 		rutaImagen: "/src/assets/portadas/tvari_tokyo_cafe.jpg",
-	// 		rutaSonido: "/src/assets/audios/tvari_tokyo_cafe.mp3",
-	// 		estado: "aceptado",
-	// 		subidoEn: new Date(Date.parse("2024/04/04")),
-	// 		aceptadoEn: new Date(Date.parse("2024/04/04")),
-	// 		idAdministradorAcepta: 1
-	// 	},
-	// 	{
-	// 		idAudio: 2,
-	// 		nombreAudio: "Happy Day",
-	// 		album: 2,
-	// 		genero: "asdad",
-	// 		tipo: "asdad",
-	// 		rutaImagen: "/src/assets/portadas/happy_day.webp",
-	// 		rutaSonido: "/src/assets/audios/happy_day.mp3",
-	// 		estado: "aceptado",
-	// 		subidoEn: new Date(Date.parse("2024/04/06")),
-	// 		aceptadoEn: new Date(Date.parse("2024/04/08")),
-	// 		idAdministradorAcepta: 1
-	// 	},
-	// 	{
-	// 		idAudio: 3,
-	// 		nombreAudio: "Gia Would",
-	// 		album: 3,
-	// 		genero: "Pop Rock",
-	// 		tipo: "asdad",
-	// 		rutaImagen: "/src/assets/portadas/Your_engine.jpg",
-	// 		rutaSonido: "/src/assets/audios/Gia_would.mp3",
-	// 		estado: "aceptado",
-	// 		subidoEn: new Date(Date.parse("2024/04/01")),
-	// 		aceptadoEn: new Date(Date.parse("2024/04/02")),
-	// 		idAdministradorAcepta: 2
-	// 	},
-	// ])
+	await db.insert(Audios).values([
+		{
+			idAudio: 1,
+			nombreAudio: "Paquito Chocolatero",
+			album: 1,
+			genero: "asdad",
+			tipo: "asdad",
+			rutaImagen: "/src/assets/portadas/tvari_tokyo_cafe.jpg",
+			rutaSonido: "/src/assets/audios/tvari_tokyo_cafe.mp3",
+			estado: "aceptado",
+			subidoEn: new Date(Date.parse("2024/04/04")),
+			aceptadoEn: new Date(Date.parse("2024/04/04")),
+			idAdministradorAcepta: 1
+		},
+		{
+			idAudio: 2,
+			nombreAudio: "Happy Day",
+			album: 2,
+			genero: "asdad",
+			tipo: "asdad",
+			rutaImagen: "/src/assets/portadas/happy_day.webp",
+			rutaSonido: "/src/assets/audios/happy_day.mp3",
+			estado: "aceptado",
+			subidoEn: new Date(Date.parse("2024/04/06")),
+			aceptadoEn: new Date(Date.parse("2024/04/08")),
+			idAdministradorAcepta: 1
+		},
+		{
+			idAudio: 3,
+			nombreAudio: "Gia Would",
+			album: 3,
+			genero: "Pop Rock",
+			tipo: "asdad",
+			rutaImagen: "/src/assets/portadas/Your_engine.jpg",
+			rutaSonido: "/src/assets/audios/Gia_would.mp3",
+			estado: "aceptado",
+			subidoEn: new Date(Date.parse("2024/04/01")),
+			aceptadoEn: new Date(Date.parse("2024/04/02")),
+			idAdministradorAcepta: 2
+		},
+	])
 }

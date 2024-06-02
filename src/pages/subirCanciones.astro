@@ -1,0 +1,17 @@
+---
+console.log(Astro.request.method);
+
+if (Astro.request.method == "POST") {
+    const data = await Astro.request.formData()
+    const file = data.get("file") as File
+}
+---
+
+<h1>Subida de canciones</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    <label for="file">Upload</label>
+    <input type="file" name="fichero" id="fichero">
+    <br>
+    <input type="submit" style="border: 1; background-color: black; color: white; padding: 5px;"></input>
+</form>

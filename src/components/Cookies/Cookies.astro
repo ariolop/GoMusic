@@ -1,0 +1,17 @@
+---
+export function getCookie(cookies: string, name: string) {
+    let matches = cookies.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+export function estaLogueado(cookies: string)
+{
+    if(!cookies) //Si no hay cookies, seguro que no está logueado (retorno temprano)
+        return false
+
+    return getCookie(cookies, "auth_session")
+}
+---
+  

@@ -35,14 +35,15 @@ export async function POST(context: APIContext): Promise<Response> {
     ])
 
     //Generate session
-    const session = await lucia.createSession(userId, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
+    // const session = await lucia.createSession(userId, {});
+    // const sessionCookie = lucia.createSessionCookie(session.id);
     
-    context.cookies.set(
-        sessionCookie.name, 
-        sessionCookie.value, 
-        sessionCookie.attributes
-    );
+    // context.cookies.set(
+    //     sessionCookie.name, 
+    //     sessionCookie.value, 
+    //     sessionCookie.attributes
+    // );
 
-    return context.redirect("/");
+    //Redirect to login para que inicie sesión
+    return context.redirect("./login.html"); 
 }
