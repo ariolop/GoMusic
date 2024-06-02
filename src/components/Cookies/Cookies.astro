@@ -1,4 +1,6 @@
 ---
+import { db, Session, eq } from "astro:db";
+
 export function getCookie(cookies: string, name: string) {
     let matches = cookies.match(new RegExp(
       "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -12,6 +14,14 @@ export function estaLogueado(cookies: string)
         return false
 
     return getCookie(cookies, "auth_session")
+}
+
+export async function getUserActivo(cookies: string)
+{
+    const auth_session = getCookie(cookies, 'auth_session')
+    const u = await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, auth_session))
+
+    return u[0].userId
 }
 ---
   

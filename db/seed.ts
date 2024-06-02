@@ -97,45 +97,45 @@ export default async function seed() {
 	// 	},
 	// ])
 
-	await db.insert(Audios).values([
-		{
-			idAudio: 1,
-			nombreAudio: "Paquito Chocolatero",
-			album: 1,
-			genero: "asdad",
-			tipo: "asdad",
-			rutaImagen: "/src/assets/portadas/tvari_tokyo_cafe.jpg",
-			rutaSonido: "/src/assets/audios/tvari_tokyo_cafe.mp3",
-			estado: "aceptado",
-			subidoEn: new Date(Date.parse("2024/04/04")),
-			aceptadoEn: new Date(Date.parse("2024/04/04")),
-			idAdministradorAcepta: 1
-		},
-		{
-			idAudio: 2,
-			nombreAudio: "Happy Day",
-			album: 2,
-			genero: "asdad",
-			tipo: "asdad",
-			rutaImagen: "/src/assets/portadas/happy_day.webp",
-			rutaSonido: "/src/assets/audios/happy_day.mp3",
-			estado: "aceptado",
-			subidoEn: new Date(Date.parse("2024/04/06")),
-			aceptadoEn: new Date(Date.parse("2024/04/08")),
-			idAdministradorAcepta: 1
-		},
-		{
-			idAudio: 3,
-			nombreAudio: "Gia Would",
-			album: 3,
-			genero: "Pop Rock",
-			tipo: "asdad",
-			rutaImagen: "/src/assets/portadas/Your_engine.jpg",
-			rutaSonido: "/src/assets/audios/Gia_would.mp3",
-			estado: "aceptado",
-			subidoEn: new Date(Date.parse("2024/04/01")),
-			aceptadoEn: new Date(Date.parse("2024/04/02")),
-			idAdministradorAcepta: 2
-		},
-	])
+	// await db.insert(Audios).values([
+	// 	{
+	// 		idAudio: 1,
+	// 		nombreAudio: "Paquito Chocolatero",
+	// 		album: 1,
+	// 		genero: "asdad",
+	// 		tipo: "asdad",
+	// 		rutaImagen: "/src/assets/portadas/tvari_tokyo_cafe.jpg",
+	// 		rutaSonido: "/src/assets/audios/tvari_tokyo_cafe.mp3",
+	// 		estado: "aceptado",
+	// 		subidoEn: new Date(Date.parse("2024/04/04")),
+	// 		aceptadoEn: new Date(Date.parse("2024/04/04")),
+	// 		idAdministradorAcepta: 1
+	// 	},
+	// 	{
+	// 		idAudio: 2,
+	// 		nombreAudio: "Happy Day",
+	// 		album: 2,
+	// 		genero: "asdad",
+	// 		tipo: "asdad",
+	// 		rutaImagen: "/src/assets/portadas/happy_day.webp",
+	// 		rutaSonido: "/src/assets/audios/happy_day.mp3",
+	// 		estado: "aceptado",
+	// 		subidoEn: new Date(Date.parse("2024/04/06")),
+	// 		aceptadoEn: new Date(Date.parse("2024/04/08")),
+	// 		idAdministradorAcepta: 1
+	// 	},
+	// 	{
+	// 		idAudio: 3,
+	// 		nombreAudio: "Gia Would",
+	// 		album: 3,
+	// 		genero: "Pop Rock",
+	// 		tipo: "asdad",
+	// 		rutaImagen: "/src/assets/portadas/Your_engine.jpg",
+	// 		rutaSonido: "/src/assets/audios/Gia_would.mp3",
+	// 		estado: "aceptado",
+	// 		subidoEn: new Date(Date.parse("2024/04/01")),
+	// 		aceptadoEn: new Date(Date.parse("2024/04/02")),
+	// 		idAdministradorAcepta: 2
+	// 	},
+	// ])
 }
