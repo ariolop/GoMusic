@@ -1,11 +1,15 @@
 ---
 import './../css/output.css'
+import ErrorLogin from '../components/Error/ErrorLogin.astro'
+
+const url = Astro.request.url.split("?")[1]
+
 ---
 
 <div class="w-screen h-[88vh] flex justify-center items-center p-8">
     <div class="w-4/4 md:w-2/4 xl:w-2/6 rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Iniciar sesión</h2>
-        <form method="POST" action="/api/login" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
+        <form method="POST" action="/api/loginUser" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
             <div class="w-full sm:w-10/12 mt-2 flex justify-center flex-wrap">
                 <label class="w-full text-lg" for="email">Correo electrónico <span class="text-red-600">*</span></label>
                 <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" id="email" name="email" type="text" required placeholder="Introduce tu correo">
@@ -26,4 +30,7 @@ import './../css/output.css'
             </div>
         </form>
     </div>
+    {
+        url ? <ErrorLogin /> : ""
+    }
 </div>

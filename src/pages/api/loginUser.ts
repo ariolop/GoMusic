@@ -19,7 +19,8 @@ export async function POST(context: APIContext): Promise<Response> {
     const foundUser = (await db.select().from(Usuario).where(eq(Usuario.email, email))).at(0)
 
     if (!foundUser) {
-        return new Response('Email o contraseña incorrectos', { status: 400 })
+        //return new Response('login', { status: 400 })
+        return context.redirect("/login?intento=fallido")
     }
 
     //Validate the password
