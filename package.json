@@ -14,9 +14,20 @@
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/vercel": "^7.6.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
+    "@types/node": "^20.14.2",
+    "@types/node-fetch": "^2.6.11",
+    "@vercel/blob": "^0.23.3",
+    "@vercel/build-utils": "^8.2.1",
+    "@vercel/node": "^3.1.6",
     "astro": "^4.5.15",
     "lucia": "^3.2.0",
+    "multiparty": "^4.2.3",
+    "node-fetch": "^3.3.2",
     "oslo": "^1.2.0",
-    "tailwindcss": "^3.4.3"
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/multiparty": "^0.0.36"
   }
 }
