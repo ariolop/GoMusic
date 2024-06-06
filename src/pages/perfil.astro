@@ -21,10 +21,10 @@ console.log(infoUser);
             <div class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4">
                 <h3 class="font-bold text-xl">Menú</h3>
                 <ul id="menu">
-                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="datos" href="#">Tus datos</a></li>
-                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="musica" href="#">Tu música</a></li>
-                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="seguridad" href="#">Seguridad</a></li>
-                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="cerrarSesion" href="api/cerrarSesion">Cerrar sesión</a></li> <!-- TODO: crear la api para cerrar sesión -->
+                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkGeneral" href="#">General</a></li>
+                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkMusica" href="#">Tu música</a></li>
+                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkSeguridad" href="#">Seguridad</a></li>
+                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkCerrarSesion" href="api/cerrarSesion">Cerrar sesión</a></li> <!-- TODO: crear la api para cerrar sesión -->
                 </ul>
             </div>
         </div>
@@ -61,17 +61,17 @@ document.getElementById("menu").addEventListener("click", (e) => {
     e.preventDefault()
 
     switch(e.target.id) {
-        case "general": 
+        case "linkGeneral": 
             document.getElementById("general").classList.remove("hidden")
             document.getElementById("musica").classList.add("hidden")
             document.getElementById("seguridad").classList.add("hidden")
             break;
-        case "musica": 
+        case "linkMusica": 
             document.getElementById("general").classList.add("hidden")
             document.getElementById("musica").classList.remove("hidden")
             document.getElementById("seguridad").classList.add("hidden")
             break;
-        case "seguridad": 
+        case "linkSeguridad": 
             document.getElementById("general").classList.add("hidden")
             document.getElementById("musica").classList.add("hidden")
             document.getElementById("seguridad").classList.remove("hidden")
