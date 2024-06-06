@@ -40,12 +40,12 @@ console.log(infoUser);
                     <p>Apellidos</p>
                     <p>Email</p>
                 </div>
-                <div id="musica" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all hidden">
+                <div id="musica" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0">
                     <h3 class="font-bold text-xl mb-2">Música</h3>
                     <p>Administrar canciones</p>
                     <p>Administrar comentarios</p>
                 </div>
-                <div id="seguridad" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all hidden">
+                <div id="seguridad" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0">
                     <h3 class="font-bold text-xl mb-2">Seguridad</h3>
                     <p>Cambiar contraseña</p>
                     <p>Doble autenticación</p>
@@ -62,19 +62,22 @@ document.getElementById("menu").addEventListener("click", (e) => {
 
     switch(e.target.id) {
         case "linkGeneral": 
-            document.getElementById("general").classList.remove("hidden")
-            document.getElementById("musica").classList.add("hidden")
-            document.getElementById("seguridad").classList.add("hidden")
+            document.getElementById("general").classList.add("opacity-100")
+            document.getElementById("general").classList.remove("opacity-0")
+            document.getElementById("musica").classList.add("opacity-0")
+            document.getElementById("seguridad").classList.add("opacity-0")
             break;
         case "linkMusica": 
-            document.getElementById("general").classList.add("hidden")
-            document.getElementById("musica").classList.remove("hidden")
-            document.getElementById("seguridad").classList.add("hidden")
+            document.getElementById("general").classList.add("opacity-0")
+            document.getElementById("general").classList.add("opacity-100")
+            document.getElementById("musica").classList.remove("opacity-0")
+            document.getElementById("seguridad").classList.add("opacity-0")
             break;
         case "linkSeguridad": 
-            document.getElementById("general").classList.add("hidden")
-            document.getElementById("musica").classList.add("hidden")
-            document.getElementById("seguridad").classList.remove("hidden")
+            document.getElementById("general").classList.add("opacity-0")
+            document.getElementById("musica").classList.add("opacity-0")
+            document.getElementById("general").classList.add("opacity-100")
+            document.getElementById("seguridad").classList.remove("opacity-0")
             break;
     }
 })
