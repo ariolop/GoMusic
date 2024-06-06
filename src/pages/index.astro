@@ -3,7 +3,7 @@ import { estaLogueado } from '../components/Cookies/Cookies.astro';
 const cookies = Astro.request.headers.get('cookie')
 
 if(!estaLogueado(cookies))
-    return Astro.redirect("./login.html")
+    return Astro.redirect("./login")
 
 import { ViewTransitions } from 'astro:transitions';
 import Reproductor from '../components/Reproductor.astro';
