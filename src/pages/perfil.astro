@@ -21,16 +21,16 @@ console.log(infoUser);
             <div class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4">
                 <h3 class="font-bold text-xl">Menú</h3>
                 <ul id="menu">
-                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkGeneral" href="#">General</a></li>
-                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkMusica" href="#">Tu música</a></li>
-                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkSeguridad" href="#">Seguridad</a></li>
+                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkGeneral" href="">General</a></li>
+                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkMusica" href="">Tu música</a></li>
+                    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkSeguridad" href="">Seguridad</a></li>
                     <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkCerrarSesion" href="api/cerrarSesion">Cerrar sesión</a></li> <!-- TODO: crear la api para cerrar sesión -->
                 </ul>
             </div>
         </div>
         <div class="h-96 w-full p-2 md:p-8">
-            <form action="">
-                <div id="general" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all">
+            <form action="" class="h-full relative">
+                <div id="general" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all absolute">
                     <h3 class="font-bold text-xl mb-2">Datos perfil</h3>
                     <img src={infoUser["imagenPerfil"] ? infoUser["imagenPerfil"] : "/src/logos/usuarioSinLogo.png"} class={infoUser["imagenPerfil"] ? "w-20" : "bg-white w-20"}>
                     <p>Nombre de usuario</p>
@@ -40,12 +40,12 @@ console.log(infoUser);
                     <p>Apellidos</p>
                     <p>Email</p>
                 </div>
-                <div id="musica" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0">
+                <div id="musica" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0 absolute">
                     <h3 class="font-bold text-xl mb-2">Música</h3>
                     <p>Administrar canciones</p>
                     <p>Administrar comentarios</p>
                 </div>
-                <div id="seguridad" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0">
+                <div id="seguridad" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0 absolute">
                     <h3 class="font-bold text-xl mb-2">Seguridad</h3>
                     <p>Cambiar contraseña</p>
                     <p>Doble autenticación</p>
