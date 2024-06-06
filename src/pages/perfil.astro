@@ -65,18 +65,24 @@ document.getElementById("menu").addEventListener("click", (e) => {
             document.getElementById("general").classList.add("opacity-100")
             document.getElementById("general").classList.remove("opacity-0")
             document.getElementById("musica").classList.add("opacity-0")
+            document.getElementById("musica").classList.remove("opacity-100")
             document.getElementById("seguridad").classList.add("opacity-0")
+            document.getElementById("seguridad").classList.remove("opacity-100")
             break;
         case "linkMusica": 
             document.getElementById("general").classList.add("opacity-0")
-            document.getElementById("general").classList.add("opacity-100")
+            document.getElementById("general").classList.remove("opacity-100")
+            document.getElementById("musica").classList.add("opacity-100")
             document.getElementById("musica").classList.remove("opacity-0")
             document.getElementById("seguridad").classList.add("opacity-0")
+            document.getElementById("seguridad").classList.remove("opacity-100")
             break;
         case "linkSeguridad": 
             document.getElementById("general").classList.add("opacity-0")
+            document.getElementById("general").classList.remove("opacity-100")
             document.getElementById("musica").classList.add("opacity-0")
-            document.getElementById("general").classList.add("opacity-100")
+            document.getElementById("musica").classList.remove("opacity-100")
+            document.getElementById("seguridad").classList.add("opacity-100")
             document.getElementById("seguridad").classList.remove("opacity-0")
             break;
     }
