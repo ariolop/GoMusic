@@ -7,7 +7,7 @@ const url = Astro.request.url.split("?")[1]
 ---
 
 <div class="w-screen h-[88vh] flex justify-center items-center p-8">
-    <div class="w-4/4 md:w-2/4 xl:w-2/6 rounded border border-black">
+    <div class="w-4/4 sm:w-3/4 md:w-7/12 lg:w-5/12 rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Iniciar sesión</h2>
         <form method="POST" action="/api/loginUser" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
             <div class="w-full sm:w-10/12 mt-2 flex justify-center flex-wrap">
@@ -23,7 +23,7 @@ const url = Astro.request.url.split("?")[1]
                 <label class="w-full text-lg" for="password">Mantener sesión iniciada<span class="text-red-600"></span></label>
             </div>
             <div class="w-1/2 mt-8">
-                <a class="text-orange-600 rounded p-2 text-xs font-bold hover:text-orange-400" href="registro">¿No tienes cuenta? Registrate</a>
+                <a class="text-orange-600 rounded text-xs font-bold hover:text-orange-400" href="registro">¿No tienes cuenta? Registrate</a>
             </div>
             <div class="w-1/2 mt-8 flex justify-end">
                 <button class="bg-orange-300 rounded p-2 font-bold hover:bg-orange-400">Iniciar sesión</button>
