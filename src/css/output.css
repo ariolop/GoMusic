@@ -624,10 +624,6 @@ progress::-webkit-progress-value {
   position: relative;
 }
 
-.sticky {
-  position: sticky;
-}
-
 .-left-0 {
   left: -0px;
 }
@@ -640,32 +636,32 @@ progress::-webkit-progress-value {
   bottom: 0px;
 }
 
-.right-0 {
-  right: 0px;
-}
-
 .bottom-1 {
   bottom: 0.25rem;
 }
 
-.left-1 {
-  left: 0.25rem;
+.left-1\/2 {
+  left: 50%;
+}
+
+.right-0 {
+  right: 0px;
 }
 
 .right-1 {
   right: 0.25rem;
 }
 
-.left-2 {
-  left: 0.5rem;
+.right-5 {
+  right: 1.25rem;
 }
 
-.right-2 {
-  right: 0.5rem;
+.right-3 {
+  right: 0.75rem;
 }
 
-.left-1\/2 {
-  left: 50%;
+.bottom-3 {
+  bottom: 0.75rem;
 }
 
 .order-1 {
@@ -715,11 +711,6 @@ progress::-webkit-progress-value {
   margin-bottom: 0.75rem;
 }
 
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -766,10 +757,6 @@ progress::-webkit-progress-value {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mb-1 {
-  margin-bottom: 0.25rem;
 }
 
 .flex {
@@ -889,20 +876,16 @@ progress::-webkit-progress-value {
   width: 66.666667%;
 }
 
+.w-\[95\%\] {
+  width: 95%;
+}
+
 .w-full {
   width: 100%;
 }
 
 .w-screen {
   width: 100vw;
-}
-
-.w-1\/4 {
-  width: 25%;
-}
-
-.w-\[95\%\] {
-  width: 95%;
 }
 
 .max-w-28 {
@@ -919,11 +902,6 @@ progress::-webkit-progress-value {
 
 .flex-shrink-0 {
   flex-shrink: 0;
-}
-
-.translate-x-2\/4 {
-  --tw-translate-x: 50%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .translate-x-\[-50\%\] {
@@ -1067,9 +1045,9 @@ progress::-webkit-progress-value {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.object-center {
-  -o-object-position: center;
-     object-position: center;
+.bg-green-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity));
 }
 
 .p-1 {
@@ -1178,6 +1156,16 @@ progress::-webkit-progress-value {
   color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
+.text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
+.text-green-500 {
+  --tw-text-opacity: 1;
+  color: rgb(34 197 94 / var(--tw-text-opacity));
+}
+
 .opacity-0 {
   opacity: 0;
 }
@@ -1284,10 +1272,6 @@ progress::-webkit-progress-value {
 }
 
 @media (min-width: 640px) {
-  .sm\:bottom-1 {
-    bottom: 0.25rem;
-  }
-
   .sm\:bottom-0 {
     bottom: 0px;
   }
@@ -1310,6 +1294,10 @@ progress::-webkit-progress-value {
 
   .sm\:w-1\/3 {
     width: 33.333333%;
+  }
+
+  .sm\:w-1\/4 {
+    width: 25%;
   }
 
   .sm\:w-10 {
@@ -1336,14 +1324,6 @@ progress::-webkit-progress-value {
     width: 66.666667%;
   }
 
-  .sm\:w-2\/3 {
-    width: 66.666667%;
-  }
-
-  .sm\:w-1\/4 {
-    width: 25%;
-  }
-
   .sm\:w-full {
     width: 100%;
   }
@@ -1352,20 +1332,12 @@ progress::-webkit-progress-value {
     max-width: 7rem;
   }
 
-  .sm\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .sm\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .sm\:justify-start {
     justify-content: flex-start;
-  }
-
-  .sm\:rounded-lg {
-    border-radius: 0.5rem;
   }
 
   .sm\:rounded-none {
@@ -1398,16 +1370,8 @@ progress::-webkit-progress-value {
     display: flex;
   }
 
-  .md\:h-14 {
-    height: 3.5rem;
-  }
-
   .md\:h-96 {
     height: 24rem;
-  }
-
-  .md\:h-full {
-    height: 100%;
   }
 
   .md\:w-1\/3 {
@@ -1416,14 +1380,6 @@ progress::-webkit-progress-value {
 
   .md\:w-11\/12 {
     width: 91.666667%;
-  }
-
-  .md\:w-2\/4 {
-    width: 50%;
-  }
-
-  .md\:w-28 {
-    width: 7rem;
   }
 
   .md\:w-3\/4 {
@@ -1450,21 +1406,12 @@ progress::-webkit-progress-value {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .md\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .md\:grid-rows-2 {
     grid-template-rows: repeat(2, minmax(0, 1fr));
   }
 
   .md\:p-8 {
     padding: 2rem;
-  }
-
-  .md\:px-16 {
-    padding-left: 4rem;
-    padding-right: 4rem;
   }
 
   .md\:px-12 {
@@ -1488,6 +1435,10 @@ progress::-webkit-progress-value {
     height: 3.5rem;
   }
 
+  .lg\:w-14 {
+    width: 3.5rem;
+  }
+
   .lg\:w-16 {
     width: 4rem;
   }
@@ -1498,10 +1449,6 @@ progress::-webkit-progress-value {
 
   .lg\:w-6\/12 {
     width: 50%;
-  }
-
-  .lg\:w-14 {
-    width: 3.5rem;
   }
 
   .lg\:grid-cols-4 {
@@ -1525,6 +1472,11 @@ progress::-webkit-progress-value {
     background-color: rgb(153 27 27 / var(--tw-bg-opacity));
   }
 
+  .dark\:bg-green-800 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(22 101 52 / var(--tw-bg-opacity));
+  }
+
   .dark\:text-gray-400 {
     --tw-text-opacity: 1;
     color: rgb(156 163 175 / var(--tw-text-opacity));
@@ -1538,6 +1490,11 @@ progress::-webkit-progress-value {
   .dark\:text-red-200 {
     --tw-text-opacity: 1;
     color: rgb(254 202 202 / var(--tw-text-opacity));
+  }
+
+  .dark\:text-green-200 {
+    --tw-text-opacity: 1;
+    color: rgb(187 247 208 / var(--tw-text-opacity));
   }
 
   .dark\:hover\:bg-gray-700:hover {

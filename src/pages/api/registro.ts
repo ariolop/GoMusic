@@ -34,5 +34,5 @@ export async function POST(context: APIContext): Promise<Response> {
     ])
 
     //Redirect to login para que inicie sesión
-    return context.redirect("./../login"); 
+    return context.redirect("./../login?usuario=nuevo"); 
 }
