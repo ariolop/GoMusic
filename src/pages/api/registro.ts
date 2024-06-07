@@ -2,7 +2,6 @@ import type { APIContext } from "astro";
 import { db, Usuario } from "astro:db";
 import { generateId } from 'lucia';
 import { Argon2id } from "oslo/password";
-import { lucia } from "../../auth";
 
 export async function POST(context: APIContext): Promise<Response> {
     //Parse the form data
@@ -35,5 +34,5 @@ export async function POST(context: APIContext): Promise<Response> {
     ])
 
     //Redirect to login para que inicie sesión
-    return context.redirect("./login"); 
+    return context.redirect("./../login"); 
 }

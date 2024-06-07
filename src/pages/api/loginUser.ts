@@ -35,6 +35,7 @@ export async function POST(context: APIContext): Promise<Response> {
 
     if(!sesionIniciada)
         sessionCookie.attributes.maxAge = null
+        sessionCookie.attributes.expires = null
     
     context.cookies.set(
         sessionCookie.name, 
