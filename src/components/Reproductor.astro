@@ -22,10 +22,6 @@ const audios = (
 
 const audio = audios.filter(audio => audio.Audios.idAudio == idAudio)[0];
 
-// const images = import.meta.glob<{
-//         default: ImageMetadata 
-//     }>('/src/assets/portadas/*.{jpeg,jpg,png,webp}');
-    
 ---
 
 <div transition:persist id="container" class="w-[95%] sm:w-full bg-orange-200 fixed bottom-1 left-1/2 translate-x-[-50%] sm:bottom-0 rounded-lg sm:rounded-none">
@@ -72,7 +68,7 @@ const audio = audios.filter(audio => audio.Audios.idAudio == idAudio)[0];
                 </svg>
             </button>
         </div>
-        <audio id="audio" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/happy_day-rg6nSXuWatbRX584WNKgESzKMddtWi.mp3" data-idaudio={audio.Audios.idAudio}></audio>
+        <audio id="audio" src={audio.Audios.rutaSonido} data-idaudio={audio.Audios.idAudio}></audio>
     </div>
 
     <script is:inline define:vars={{audios}}>
