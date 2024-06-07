@@ -644,6 +644,30 @@ progress::-webkit-progress-value {
   right: 0px;
 }
 
+.bottom-1 {
+  bottom: 0.25rem;
+}
+
+.left-1 {
+  left: 0.25rem;
+}
+
+.right-1 {
+  right: 0.25rem;
+}
+
+.left-2 {
+  left: 0.5rem;
+}
+
+.right-2 {
+  right: 0.5rem;
+}
+
+.left-1\/2 {
+  left: 50%;
+}
+
 .order-1 {
   order: 1;
 }
@@ -689,6 +713,11 @@ progress::-webkit-progress-value {
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
+}
+
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .mb-2 {
@@ -737,6 +766,10 @@ progress::-webkit-progress-value {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
 }
 
 .flex {
@@ -868,6 +901,10 @@ progress::-webkit-progress-value {
   width: 25%;
 }
 
+.w-\[95\%\] {
+  width: 95%;
+}
+
 .max-w-28 {
   max-width: 7rem;
 }
@@ -882,6 +919,16 @@ progress::-webkit-progress-value {
 
 .flex-shrink-0 {
   flex-shrink: 0;
+}
+
+.translate-x-2\/4 {
+  --tw-translate-x: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-x-\[-50\%\] {
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .cursor-pointer {
@@ -1018,6 +1065,11 @@ progress::-webkit-progress-value {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.object-center {
+  -o-object-position: center;
+     object-position: center;
 }
 
 .p-1 {
@@ -1232,6 +1284,14 @@ progress::-webkit-progress-value {
 }
 
 @media (min-width: 640px) {
+  .sm\:bottom-1 {
+    bottom: 0.25rem;
+  }
+
+  .sm\:bottom-0 {
+    bottom: 0px;
+  }
+
   .sm\:order-1 {
     order: 1;
   }
@@ -1284,6 +1344,10 @@ progress::-webkit-progress-value {
     width: 25%;
   }
 
+  .sm\:w-full {
+    width: 100%;
+  }
+
   .sm\:max-w-28 {
     max-width: 7rem;
   }
@@ -1298,6 +1362,14 @@ progress::-webkit-progress-value {
 
   .sm\:justify-start {
     justify-content: flex-start;
+  }
+
+  .sm\:rounded-lg {
+    border-radius: 0.5rem;
+  }
+
+  .sm\:rounded-none {
+    border-radius: 0px;
   }
 
   .sm\:bg-transparent {
