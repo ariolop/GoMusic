@@ -9,7 +9,6 @@ import { db, Usuario, eq } from "astro:db";
 const cookies = Astro.request.headers.get('cookie')
 const userActivo = await getUserActivo(cookies)
 const infoUser = (await db.select().from(Usuario).where(eq(Usuario.id, userActivo)))[0]
-console.log(infoUser);
 
 ---
 
