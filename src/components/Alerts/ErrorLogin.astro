@@ -20,7 +20,9 @@ import './../../css/output.css'
 </div>
 
 <script is:inline>
-    document.getElementById("close").addEventListener("click", () => {
-        document.getElementById("toast-danger").classList.add("hidden")
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("close").addEventListener("click", () => {
+            document.getElementById("toast-danger").classList.add("hidden")
+        })
     })
 </script>
