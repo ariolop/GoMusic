@@ -33,9 +33,9 @@ import AvisoNuevoUsuario from '../components/Alerts/AvisoNuevoUsuario.astro'
         </form>
     </div>
     {
-        url.includes("fallido") ? <ErrorLogin /> : ""
+        url && url.includes("fallido") ? <ErrorLogin /> : ""
     }
     {
-        url.includes("nuevo") ? <AvisoNuevoUsuario /> : ""
+        url && url.includes("nuevo") ? <AvisoNuevoUsuario /> : ""
     }
 </div>
