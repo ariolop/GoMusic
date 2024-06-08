@@ -39,27 +39,36 @@ const infoUser = (await db.select().from(Usuario).where(eq(Usuario.id, userActiv
         switch(e.target.id) { //Ignorar error
             case "linkGeneral": 
                 document.getElementById("general").classList.add("opacity-100")
-                document.getElementById("general").classList.remove("opacity-0")
+                document.getElementById("general").classList.remove("opacity-0") // 
+                document.getElementById("general").classList.add("z-10")
                 document.getElementById("musica").classList.add("opacity-0")
                 document.getElementById("musica").classList.remove("opacity-100")
+                document.getElementById("musica").classList.remove("z-10")
                 document.getElementById("seguridad").classList.add("opacity-0")
                 document.getElementById("seguridad").classList.remove("opacity-100")
+                document.getElementById("seguridad").classList.remove("z-10")
                 break;
             case "linkMusica": 
                 document.getElementById("general").classList.add("opacity-0")
                 document.getElementById("general").classList.remove("opacity-100")
+                document.getElementById("general").classList.remove("z-10")
                 document.getElementById("musica").classList.add("opacity-100")
                 document.getElementById("musica").classList.remove("opacity-0")
+                document.getElementById("musica").classList.add("z-10")
                 document.getElementById("seguridad").classList.add("opacity-0")
                 document.getElementById("seguridad").classList.remove("opacity-100")
+                document.getElementById("seguridad").classList.remove("z-10")
                 break;
             case "linkSeguridad": 
                 document.getElementById("general").classList.add("opacity-0")
                 document.getElementById("general").classList.remove("opacity-100")
+                document.getElementById("general").classList.remove("z-10")
                 document.getElementById("musica").classList.add("opacity-0")
                 document.getElementById("musica").classList.remove("opacity-100")
+                document.getElementById("musica").classList.remove("z-10")
                 document.getElementById("seguridad").classList.add("opacity-100")
                 document.getElementById("seguridad").classList.remove("opacity-0")
+                document.getElementById("seguridad").classList.add("z-10")
                 break;
         }
     })
