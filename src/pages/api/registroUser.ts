@@ -12,9 +12,20 @@ export async function POST(context: APIContext): Promise<Response> {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    //Validate the form data
+    //Validate the form data (aquí no debería entrar nunca porque los campos requeridos tienen "required")
     if (!email ||!password || !username ||!name) {
         return new Response('Falta algún campo de los requeridos', { status: 400 })
+    }
+
+    //Validate the strength password
+    if (!(password.toString().length >= 8) && 
+        !password.toString().match("/[$@#&!]+/") && 
+        !password.toString().match("/[0-9]+/") &&
+        !password.toString().match("/[A-Z]+/") && 
+        !password.toString().match("/[a-z]+/") 
+    ) {
+        return context.redirect("/registro?contrasena=debil");
+        //return new Response('La contraseña debe tener más de 8 caracteres, un símbolo ($@#&!), un número, una letra mayúscula y una letra mínúscula', {status: 400})
     }
 
     //Insertar user into db
