@@ -5,16 +5,15 @@ const cookies = Astro.request.headers.get('cookie')
 if(!estaLogueado(cookies))
     return Astro.redirect("./login")
 
-import Layout from "../layouts/Layout.astro";
-import Header from '../components/HeaderIndex.astro';
-import './../css/output.css'
 import { ViewTransitions } from 'astro:transitions';
-import MainPerfil from '../layouts/MainPerfil.astro';
-
+import Header from '../components/HeaderIndex.astro';
+import Layout from '../layouts/Layout.astro';
+import FormUploadMusic from '../components/Uploads/FormUploadMusic.astro';
 ---
 
 <Layout>
     <Header/>
     <ViewTransitions/>
-    <MainPerfil/>
+    <FormUploadMusic/>
 </Layout>
+  

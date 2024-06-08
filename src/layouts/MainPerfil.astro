@@ -1,0 +1,67 @@
+---
+import { getUserActivo } from "../components/Cookies/Cookies.astro";
+import { db, Usuario, eq } from "astro:db";
+
+import PerfilGeneral from "../components/Usuario/PerfilGeneral.astro";
+import PerfilSeguridad from "../components/Usuario/PerfilSeguridad.astro";
+import PerfilMusica from "../components/Usuario/PerfilMusica.astro";
+
+const cookies = Astro.request.headers.get('cookie')
+const userActivo = await getUserActivo(cookies)
+const infoUser = (await db.select().from(Usuario).where(eq(Usuario.id, userActivo)))[0]
+---
+
+<div class="md:flex h-96 max-w-7xl mx-auto">
+    <div class="h-20 md:h-96 w-full md:w-1/3 p-2 md:p-8 md:max-w-80 md:min-w-56">
+        <div class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4">
+            <h3 class="font-bold text-xl">Menú</h3>
+            <ul id="menu">
+                <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkGeneral" href="">General</a></li>
+                <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkMusica" href="">Tu música</a></li>
+                <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkSeguridad" href="">Seguridad</a></li>
+                <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkCerrarSesion" href="api/cerrarSesion">Cerrar sesión</a></li> <!-- TODO: crear la api para cerrar sesión -->
+            </ul>
+        </div>
+    </div>
+    <div class="h-96 w-full p-2 md:w-2/3 md:p-8">
+        <div class="h-full relative">
+            <PerfilGeneral infoUser={infoUser}/>
+            <PerfilSeguridad infoUser={infoUser}/>
+            <PerfilMusica infoUser={infoUser}/>
+        </div>
+    </div>
+</div>
+
+<script is:inline>
+    document.getElementById("menu").addEventListener("click", (e) => {
+        e.preventDefault()
+    
+        switch(e.target.id) { //Ignorar error
+            case "linkGeneral": 
+                document.getElementById("general").classList.add("opacity-100")
+                document.getElementById("general").classList.remove("opacity-0")
+                document.getElementById("musica").classList.add("opacity-0")
+                document.getElementById("musica").classList.remove("opacity-100")
+                document.getElementById("seguridad").classList.add("opacity-0")
+                document.getElementById("seguridad").classList.remove("opacity-100")
+                break;
+            case "linkMusica": 
+                document.getElementById("general").classList.add("opacity-0")
+                document.getElementById("general").classList.remove("opacity-100")
+                document.getElementById("musica").classList.add("opacity-100")
+                document.getElementById("musica").classList.remove("opacity-0")
+                document.getElementById("seguridad").classList.add("opacity-0")
+                document.getElementById("seguridad").classList.remove("opacity-100")
+                break;
+            case "linkSeguridad": 
+                document.getElementById("general").classList.add("opacity-0")
+                document.getElementById("general").classList.remove("opacity-100")
+                document.getElementById("musica").classList.add("opacity-0")
+                document.getElementById("musica").classList.remove("opacity-100")
+                document.getElementById("seguridad").classList.add("opacity-100")
+                document.getElementById("seguridad").classList.remove("opacity-0")
+                break;
+        }
+    })
+    
+</script>

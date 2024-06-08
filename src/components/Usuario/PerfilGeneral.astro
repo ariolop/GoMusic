@@ -1,0 +1,26 @@
+---
+interface Props {
+    infoUser: object
+}
+
+const { infoUser } = Astro.props
+
+---
+
+<div id="general" class="w-full h-full flex bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all absolute">
+    <div class="w-1/2">
+        <h3 class="font-bold text-xl mb-2">Datos perfil</h3>
+        <img src={infoUser["imagenPerfil"]} class="w-28">
+    </div>
+
+    <div class="w-1/2">
+        <h3 class="font-bold text-xl mb-4">Datos personales</h3>
+        <form action="api/actualizarDatos" class="flex flex-wrap justify-between">
+            <input class="w-full mb-2 rounded-md p-1" type="text"  name="username" id="username" placeholder="Nombre de usuario">
+            <input class="w-[49%] mb-2 rounded-md p-1" type="text" name="nombre" id="nombre" placeholder="Nombre">
+            <input class="w-[49%] mb-2 rounded-md p-1" type="text" name="apellidos" id="apellidos" placeholder="Apellidos">
+            <input class="w-full mb-2 rounded-md p-1" type="email" name="email" id="email" placeholder="Email">
+            <input type="submit">
+        </form>
+    </div>
+</div>
