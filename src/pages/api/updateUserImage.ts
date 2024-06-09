@@ -14,7 +14,7 @@ export async function POST(context: APIContext): Promise<Response> {
     const userId = (await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, idSession)))[0].userId
 
 
-    const { folders, blobs } = await list({ mode: 'folded', prefix: "/" + userId });
+    const { folders, blobs } = await list({ mode: 'folded', prefix: "/imagenesPerfil/" + userId });
 
     const jsonLista = JSON.stringify(blobs)
 
