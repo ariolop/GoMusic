@@ -13,18 +13,14 @@ export async function POST(context: APIContext): Promise<Response> {
     const idSession = context.cookies.get('auth_session').value
     const userId = (await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, idSession)))[0].userId
 
-
+    //Borramos la imagen antigua del servidor
     const { blobs } = await list({ prefix: "imagenesPerfil/" + userId + "/" });
+    del(blobs[0].url)
 
-    const urlOldImage = blobs[0].url
-
-    return new Response(urlOldImage, { status: 400 })
-
-
-    
-    //Subimos la imagen al servidor y obtenemos la URL
+    //Subimos la imagen nueva al servidor y obtenemos la URL
     const { url } = await put("imagenesPerfil/" + userId + "/" + image.name, image, { access: 'public' });
 
+    //Actualizamos el registro del usuario de la BD
     await db.update(Usuario)
     .set({
         imagenPerfil: url
