@@ -10,9 +10,10 @@ export async function POST(context: APIContext): Promise<Response> {
     const image = formData.get("file_image") as File;
     console.log(image);
 
-    const lista = (await list()).folders.join("\n")
+    const lista = await list()
+    const jsonLista = JSON.stringify(lista)
 
-    return new Response(lista, { status: 400 })
+    return new Response(jsonLista, { status: 400 })
 
     const idSession = context.cookies.get('auth_session').value
     const userId = (await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, idSession)))[0].userId
