@@ -15,12 +15,15 @@ const { infoUser } = Astro.props
 
     <div class="w-1/2">
         <h3 class="font-bold text-xl mb-4">Datos personales</h3>
-        <form action="api/actualizarDatos" class="flex flex-wrap justify-between">
-            <input class="w-full mb-2 rounded-md p-1" type="text"  name="username" id="username" placeholder="Nombre de usuario">
-            <input class="w-[49%] mb-2 rounded-md p-1" type="text" name="nombre" id="nombre" placeholder="Nombre">
-            <input class="w-[49%] mb-2 rounded-md p-1" type="text" name="apellidos" id="apellidos" placeholder="Apellidos">
-            <input class="w-full mb-2 rounded-md p-1" type="email" name="email" id="email" placeholder="Email">
-            <input type="submit">
+        <form method="POST" action="api/updateUser" class="flex flex-wrap flex-row-reverse justify-between">
+            <label class="w-full font-semibold">Username</label>
+            <input class="w-full mb-2 rounded-md p-1" type="text"  name="username" id="username" placeholder="Nombre de usuario" value={infoUser["username"]} required>
+            <label class="w-[49%] font-semibold">Apellidos</label><label class="w-[49%] font-semibold">Nombre</label>
+            <input class="w-[49%] mb-2 rounded-md p-1" type="text" name="apellidos" id="apellidos" placeholder="Apellidos" value={infoUser["apellidos"]}>
+            <input class="w-[49%] mb-2 rounded-md p-1" type="text" name="nombre" id="nombre" placeholder="Nombre" value={infoUser["nombre"]}  required>
+            <label class="w-full font-semibold">Email</label>
+            <input class="w-full mb-2 rounded-md p-1" type="email" name="email" id="email" placeholder="Email" value={infoUser["email"]}  required>
+            <input class="bg-[#DBAC63] p-1 px-2 rounded-md text-white font-semibold cursor-pointer mt-2" type="submit" value="Actualizar">
         </form>
     </div>
 </div>
