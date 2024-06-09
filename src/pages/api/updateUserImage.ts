@@ -14,12 +14,11 @@ export async function POST(context: APIContext): Promise<Response> {
     const userId = (await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, idSession)))[0].userId
 
 
-    const { folders, blobs } = await list({ mode: 'folded', prefix: "/imagenesPerfil/" + userId });
+    const { blobs } = await list();
 
     const jsonblobs = JSON.stringify(blobs)
-    const jsonfolders = JSON.stringify(folders)
 
-    return new Response(jsonfolders, { status: 400 })
+    return new Response(jsonblobs, { status: 400 })
 
 
     
