@@ -10,7 +10,7 @@ export async function POST(context: APIContext): Promise<Response> {
     const image = formData.get("file_image") as File;
     console.log(image);
 
-    const lista = (await list()).blobs.join("\n")
+    const lista = (await list()).folders.join("\n")
 
     return new Response(lista, { status: 400 })
 
