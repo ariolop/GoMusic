@@ -1,6 +1,7 @@
 import type { APIContext } from "astro";
 import { put, del, list } from "@vercel/blob";
 import { db, Session, Usuario, eq } from "astro:db";
+import { date } from "astro/zod";
 
 
 export async function POST(context: APIContext): Promise<Response> {
@@ -9,10 +10,13 @@ export async function POST(context: APIContext): Promise<Response> {
     const image = formData.get("file_image") as File;
     console.log(image);
 
-    const lista = list()
+    const lista = (await list()).blobs
+
     console.log(lista);
     
-    
+    alert(lista);
+    .-dwdawdlkm´ñw dateasd
+
     const idSession = context.cookies.get('auth_session').value
     const userId = (await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, idSession)))[0].userId
     
