@@ -24,8 +24,8 @@ export async function POST(context: APIContext): Promise<Response> {
         !password.toString().match("/+[A-Z]+/") || 
         !password.toString().match("/+[a-z]+/") 
     ) {
-        return context.redirect("/registro?contrasena=debil");
-        //return new Response('La contraseña debe tener más de 8 caracteres, un símbolo ($@#&!), un número, una letra mayúscula y una letra mínúscula', {status: 400})
+        return new Response(password.toString(), { status: 400 })
+        //return context.redirect("/registro?contrasena=debil");
     }
 
     //Insertar user into db
