@@ -14,7 +14,7 @@ export async function POST(context: APIContext): Promise<Response> {
     const userId = (await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, idSession)))[0].userId
 
 
-    const { blobs } = await list({ prefix: "/imagenesPerfil" });
+    const { blobs } = await list({ prefix: "imagenesPerfil/" });
 
     const jsonblobs = JSON.stringify(blobs)
 
