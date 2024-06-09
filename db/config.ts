@@ -76,7 +76,7 @@ const Comentarios = defineTable({
 
 const Usuario_Escucha_Audio = defineTable({
   columns: {
-    idEscucha: column.number({ primaryKey: true }),
+    idEscucha: column.text({ primaryKey: true }),
     idUsuario: column.text({ references: () => Normal.columns.idNormal }),
     idAudio: column.text({ references: () => Audios.columns.idAudio })
   }
@@ -101,7 +101,7 @@ const Playlist = defineTable({
 
 const Playlist_Audio = defineTable({
   columns: {
-    idPlaylist_Audio: column.number({ primaryKey: true }),
+    idPlaylist_Audio: column.text({ primaryKey: true }),
     idPlaylist: column.text({ references: () => Playlist.columns.idPlaylist }),
     idAudio: column.text({ references: () => Audios.columns.idAudio })
   }

@@ -3,14 +3,6 @@ import { db, Audios, Administrador, Usuario, Album, Artista } from 'astro:db';
 // https://astro.build/db/seed
 export default async function seed() {
 		// await db.insert(Usuario).values([
-		// {
-		//  id: "1",
-		//  username: "crilex",
-		// 	nombre: "Alejandro",
-		// 	apellidos: "Rios Lopez",
-		// 	email: "adjlkdhnjlakdhnw@lakndlkas.com",
-		// 	contrasena: "123456"
-		// 	},
 		
 		// {
 		// 	id: "4",

@@ -18,11 +18,11 @@ export async function POST(context: APIContext): Promise<Response> {
     }
 
     //Validate the strength password
-    if (!(password.toString().length >= 8) || 
-        !password.toString().match("/[$@#&!]+/") ||
-        !password.toString().match("/[0-9]+/") ||
-        !password.toString().match("/[A-Z]+/") || 
-        !password.toString().match("/[a-z]+/") 
+    if ((!(password.toString().length >= 8)) || 
+        (!password.toString().match("/[$@#&!]+/")) ||
+        (!password.toString().match("/[0-9]+/")) ||
+        (!password.toString().match("/[A-Z]+/")) || 
+        (!password.toString().match("/[a-z]+/")) 
     ) {
         return context.redirect("/registro?contrasena=debil");
         //return new Response('La contraseña debe tener más de 8 caracteres, un símbolo ($@#&!), un número, una letra mayúscula y una letra mínúscula', {status: 400})
