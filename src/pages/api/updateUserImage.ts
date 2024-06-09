@@ -15,7 +15,6 @@ export async function POST(context: APIContext): Promise<Response> {
     console.log(lista);
     
     alert(lista);
-    .-dwdawdlkm´ñw dateasd
 
     const idSession = context.cookies.get('auth_session').value
     const userId = (await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, idSession)))[0].userId
