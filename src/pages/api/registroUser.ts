@@ -19,10 +19,10 @@ export async function POST(context: APIContext): Promise<Response> {
 
     //Validate the strength password
     if ( password.toString().length < 8 || 
-        !password.toString().match("/+[$@#&!]+/") ||
-        !password.toString().match("/+[0-9]+/") ||
-        !password.toString().match("/+[A-Z]+/") || 
-        !password.toString().match("/+[a-z]+/") 
+        !password.toString().match(/[$@#&!]+/) ||
+        !password.toString().match(/[0-9]+/) ||
+        !password.toString().match(/[A-Z]+/) || 
+        !password.toString().match(/[a-z]+/) 
     ) {
         return new Response(password.toString(), { status: 400 })
         //return context.redirect("/registro?contrasena=debil");
