@@ -14,11 +14,11 @@ export async function POST(context: APIContext): Promise<Response> {
     const userId = (await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, idSession)))[0].userId
 
 
-    const { blobs } = await list({ prefix: "imagenesPerfil/" });
+    const { blobs } = await list({ prefix: "imagenesPerfil/" + userId + "/" });
 
-    const jsonblobs = JSON.stringify(blobs)
+    const urlOldImage = blobs[0].url
 
-    return new Response(jsonblobs, { status: 400 })
+    return new Response(urlOldImage, { status: 400 })
 
 
     
