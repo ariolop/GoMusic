@@ -6,7 +6,8 @@ import { db, Session, Usuario, eq } from "astro:db";
 export async function POST(context: APIContext): Promise<Response> {
     //Read the form data
     const formData = await context.request.formData();
-    let image = formData.get("file_image") as File;
+    const image = formData.get("file_image") as File;
+    console.log(image);
 
     //Subimos la imagen al servidor y obtenemos la URL
     const { url } = await put("imagenesPerfil/" + image.name, image, { access: 'public' });
