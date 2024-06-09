@@ -1,14 +1,33 @@
 ---
+import { db, Usuario, Artista, eq } from 'astro:db'
+
 interface Props {
-    infoUser: object
+    infoUser: Object
 }
 
 const { infoUser } = Astro.props
 
+const esArtista = await db.select().from(Artista).where(eq(Artista.idUsuario, infoUser.id))
+
 ---
 
-<div id="musica" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0 absolute">
-    <h3 class="font-bold text-xl mb-2">Música</h3>
-    <p>Administrar canciones</p>
-    <p>Administrar comentarios</p>
-</div>
+{
+    esArtista.length > 0 ? 
+    <div id="musica" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0 absolute">
+        <h3 class="font-bold text-xl mb-2">Música</h3>
+        <p>Administrar canciones</p>
+        <p>Administrar comentarios</p>
+    </div> : 
+    <div id="musica" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0 absolute">
+        <h3 class="font-bold text-xl mb-2">Música</h3>
+        <p>¿Quieres convertirte en artista?</p>
+        <ul class="list-disc">
+            <li class="list-item ml-8">Podrá subir canciones y crear álbumes para que el resto de usuarios puedan escuchar su música y convertirse en la estrella que quieres ser.</li>
+            <li class="list-item ml-8">Desde aquí podrá administrar sus álbumes y canciones en todo momento.</li>
+        </ul>
+        <p class="font-bold">No esperes más! Haz clic en el botón inferior y listo.</p>
+        <form method="POST" action="api/addRoleArtist">
+            <button class="p-1 px-2 bg-[#DBAC63] mt-2 rounded-md text-white font-bold">QUIERO SER ARTISTA</button>
+        </form>
+    </div>
+}

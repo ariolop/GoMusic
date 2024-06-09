@@ -14,38 +14,38 @@ const Usuario = defineTable({
 
 const Administrador = defineTable({
   columns: {
-    idAdministrador: column.number({ primaryKey: true }),
+    idAdministrador: column.text({ primaryKey: true }),
     idUsuario: column.text({ unique: true, references: () => Usuario.columns.id })
   }
 })
 
 const Artista = defineTable({
   columns: {
-    idArtista: column.number({ primaryKey: true }),
+    idArtista: column.text({ primaryKey: true }),
     idUsuario: column.text({ unique: true, references: () => Usuario.columns.id })
   }
 })
 
 const Normal = defineTable({
   columns: {
-    idNormal: column.number({ primaryKey: true }),
+    idNormal: column.text({ primaryKey: true }),
     idUsuario: column.text({ unique: true, references: () => Usuario.columns.id })
   }
 })
 
 const Album = defineTable({
   columns: {
-    idAlbum: column.number({ primaryKey: true }),
+    idAlbum: column.text({ primaryKey: true }),
     nombreAlbum: column.text(),
-    idArtista: column.number({ references: () => Artista.columns.idArtista })
+    idArtista: column.text({ references: () => Artista.columns.idArtista })
   }
 })
 
 const Audios = defineTable({
   columns: {
-    idAudio: column.number({ primaryKey: true }),
+    idAudio: column.text({ primaryKey: true }),
     nombreAudio: column.text(),
-    album: column.number({ references: () => Album.columns.idAlbum }),
+    album: column.text({ references: () => Album.columns.idAlbum }),
     genero: column.text(),
     tipo: column.text(),
     rutaImagen: column.text(),
@@ -53,57 +53,57 @@ const Audios = defineTable({
     estado: column.text(), //Rechazado, pendiente, aceptado
     subidoEn: column.date(),
     aceptadoEn: column.date({ optional: true }),
-    idAdministradorAcepta: column.number({ references: () => Administrador.columns.idAdministrador })
+    idAdministradorAcepta: column.text({ references: () => Administrador.columns.idAdministrador })
   }
 })
 
 const Album_Cancion = defineTable({
   columns: {
-    idAlbumAudio: column.number({ primaryKey: true }),
-    idAlbum: column.number({ references: () => Album.columns.idAlbum }),
-    idAudio: column.number({ references: () => Audios.columns.idAudio })
+    idAlbumAudio: column.text({ primaryKey: true }),
+    idAlbum: column.text({ references: () => Album.columns.idAlbum }),
+    idAudio: column.text({ references: () => Audios.columns.idAudio })
   }
 })
 
 const Comentarios = defineTable({
   columns: {
-    idComentarios: column.number({ primaryKey: true }),
+    idComentarios: column.text({ primaryKey: true }),
     mensaje: column.text(),
-    idUsuario: column.number({ references: () => Normal.columns.idNormal }),
-    idAudio: column.number({ references: () => Audios.columns.idAudio })
+    idUsuario: column.text({ references: () => Normal.columns.idNormal }),
+    idAudio: column.text({ references: () => Audios.columns.idAudio })
   }
 })
 
 const Usuario_Escucha_Audio = defineTable({
   columns: {
     idEscucha: column.number({ primaryKey: true }),
-    idUsuario: column.number({ references: () => Normal.columns.idNormal }),
-    idAudio: column.number({ references: () => Audios.columns.idAudio })
+    idUsuario: column.text({ references: () => Normal.columns.idNormal }),
+    idAudio: column.text({ references: () => Audios.columns.idAudio })
   }
 })
 
 const Usuario_MeGusta_Audio = defineTable({
   columns: {
-    idMegusta: column.number({ primaryKey: true }),
-    idUsuario: column.number({ references: () => Normal.columns.idNormal }),
-    idAudio: column.number({ references: () => Audios.columns.idAudio })
+    idMegusta: column.text({ primaryKey: true }),
+    idUsuario: column.text({ references: () => Normal.columns.idNormal }),
+    idAudio: column.text({ references: () => Audios.columns.idAudio })
   }
 })
 
 const Playlist = defineTable({
   columns: {
-    idPlaylist: column.number({ primaryKey: true }),
+    idPlaylist: column.text({ primaryKey: true }),
     nombre: column.text(),
     visibilidad: column.boolean(),
-    usuarioID: column.number({ references: () => Normal.columns.idNormal })
+    usuarioID: column.text({ references: () => Normal.columns.idNormal})
   }
 })
 
 const Playlist_Audio = defineTable({
   columns: {
     idPlaylist_Audio: column.number({ primaryKey: true }),
-    idPlaylist: column.number({ references: () => Playlist.columns.idPlaylist }),
-    idAudio: column.number({ references: () => Audios.columns.idAudio })
+    idPlaylist: column.text({ references: () => Playlist.columns.idPlaylist }),
+    idAudio: column.text({ references: () => Audios.columns.idAudio })
   }
 })
 
