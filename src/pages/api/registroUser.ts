@@ -1,3 +1,4 @@
+import { list } from "@vercel/blob";
 import type { APIContext } from "astro";
 import { db, Usuario } from "astro:db";
 import { generateId } from 'lucia';
@@ -28,10 +29,16 @@ export async function POST(context: APIContext): Promise<Response> {
         //return context.redirect("/registro?contrasena=debil");
     }
 
-    //Insertar user into db
+    //Generamos el id y encriptamos la contraseña
     const userId = generateId(9);
     const hashedPassword = await new Argon2id().hash(password.toString());
 
+    //Seleccionamos una imagen defult de forma aleatoria
+    const { blobs: listImageDefault } = await list({ prefix: "imagenesPerfil/default/" });
+    const randomPosition = Math.floor(Math.random() * listImageDefault.length) 
+    const userImage = listImageDefault[randomPosition].url
+
+    //Insertamos el registro en la BD
     await db.insert(Usuario).values([
         {
             id: userId,
@@ -40,7 +47,7 @@ export async function POST(context: APIContext): Promise<Response> {
             apellidos: surname.toString(),
             email: email.toString(),
             contrasena: hashedPassword,
-            imagenPerfil: ""
+            imagenPerfil: userImage
         }
     ])
 
