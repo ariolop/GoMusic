@@ -1,5 +1,5 @@
 import type { APIContext } from "astro";
-import { put } from "@vercel/blob";
+import { put, del, list } from "@vercel/blob";
 import { db, Session, Usuario, eq } from "astro:db";
 
 
@@ -9,12 +9,16 @@ export async function POST(context: APIContext): Promise<Response> {
     const image = formData.get("file_image") as File;
     console.log(image);
 
-    //Subimos la imagen al servidor y obtenemos la URL
-    const { url } = await put("imagenesPerfil/" + image.name, image, { access: 'public' });
-
+    const lista = list()
+    console.log(lista);
+    
+    
     const idSession = context.cookies.get('auth_session').value
     const userId = (await db.select({userId: Session.userId}).from(Session).where(eq(Session.id, idSession)))[0].userId
     
+    //Subimos la imagen al servidor y obtenemos la URL
+    const { url } = await put("imagenesPerfil/" + userId + "/" + image.name, image, { access: 'public' });
+
     await db.update(Usuario)
     .set({
         imagenPerfil: url

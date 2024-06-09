@@ -11,7 +11,7 @@ const { infoUser } = Astro.props
     <div class="w-1/2">
         <h3 class="font-bold text-xl mb-2">Datos perfil</h3>
         <div class="flex items-end">
-            <img src={infoUser["imagenPerfil"]} class="w-28 mr-4">
+            <img src={infoUser["imagenPerfil"]} class="w-28 h-28 mr-4">
             <form id="formUpdateImage" method="POST" action="api/updateUserImage" enctype="multipart/form-data">
                 <label class="cursor-pointer" for="file_image">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
