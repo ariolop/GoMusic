@@ -16,9 +16,10 @@ export async function POST(context: APIContext): Promise<Response> {
 
     const { folders, blobs } = await list({ mode: 'folded', prefix: "/imagenesPerfil/" + userId });
 
-    const jsonLista = JSON.stringify(blobs)
+    const jsonblobs = JSON.stringify(blobs)
+    const jsonfolders = JSON.stringify(folders)
 
-    return new Response(jsonLista, { status: 400 })
+    return new Response(jsonfolders, { status: 400 })
 
 
     
