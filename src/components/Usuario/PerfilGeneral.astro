@@ -1,9 +1,17 @@
 ---
+import { list } from '@vercel/blob';
+
 interface Props {
     infoUser: object
 }
 
 const { infoUser } = Astro.props
+
+
+const lista = (await list()).blobs[0]
+
+console.log(lista);
+
 
 ---
 
