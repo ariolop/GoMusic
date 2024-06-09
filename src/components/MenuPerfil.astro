@@ -1,0 +1,52 @@
+---
+
+---
+
+<ul id="menu">
+    <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkGeneral">General</p></li>
+    <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkMusica">Tu música</p></li>
+    <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkSeguridad">Seguridad</p></li>
+    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkCerrarSesion" href="api/cerrarSesion">Cerrar sesión</a></li> <!-- TODO: crear la api para cerrar sesión -->
+</ul>
+
+<script>
+    document.getElementById("menu").addEventListener("click", (e) => {
+    
+        switch(e.target.id) { //Ignorar error
+            case "linkGeneral": 
+                document.getElementById("general").classList.add("opacity-100")
+                document.getElementById("general").classList.remove("opacity-0")
+                document.getElementById("general").classList.add("z-10")
+                document.getElementById("musica").classList.add("opacity-0")
+                document.getElementById("musica").classList.remove("opacity-100")
+                document.getElementById("musica").classList.remove("z-10")
+                document.getElementById("seguridad").classList.add("opacity-0")
+                document.getElementById("seguridad").classList.remove("opacity-100")
+                document.getElementById("seguridad").classList.remove("z-10")
+                break;
+            case "linkMusica": 
+                document.getElementById("general").classList.add("opacity-0")
+                document.getElementById("general").classList.remove("opacity-100")
+                document.getElementById("general").classList.remove("z-10")
+                document.getElementById("musica").classList.add("opacity-100")
+                document.getElementById("musica").classList.remove("opacity-0")
+                document.getElementById("musica").classList.add("z-10")
+                document.getElementById("seguridad").classList.add("opacity-0")
+                document.getElementById("seguridad").classList.remove("opacity-100")
+                document.getElementById("seguridad").classList.remove("z-10")
+                break;
+            case "linkSeguridad": 
+                document.getElementById("general").classList.add("opacity-0")
+                document.getElementById("general").classList.remove("opacity-100")
+                document.getElementById("general").classList.remove("z-10")
+                document.getElementById("musica").classList.add("opacity-0")
+                document.getElementById("musica").classList.remove("opacity-100")
+                document.getElementById("musica").classList.remove("z-10")
+                document.getElementById("seguridad").classList.add("opacity-100")
+                document.getElementById("seguridad").classList.remove("opacity-0")
+                document.getElementById("seguridad").classList.add("z-10")
+                break;
+        }
+    })
+    
+</script>
