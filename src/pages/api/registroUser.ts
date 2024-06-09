@@ -25,7 +25,7 @@ export async function POST(context: APIContext): Promise<Response> {
         !password.toString().match(/[A-Z]+/) || 
         !password.toString().match(/[a-z]+/) 
     ) {
-        return new Response(password.toString(), { status: 400 })
+        //return new Response(password.toString(), { status: 400 })
         //return context.redirect("/registro?contrasena=debil");
     }
 
@@ -34,7 +34,7 @@ export async function POST(context: APIContext): Promise<Response> {
     const hashedPassword = await new Argon2id().hash(password.toString());
 
     //Seleccionamos una imagen defult de forma aleatoria
-    const { blobs: listImageDefault } = await list({ prefix: "imagenesPerfil/default/" });
+    const { blobs: listImageDefault } = await list({ mode: 'folded' ,prefix: "imagenesPerfil/default/" });
     const randomPosition = Math.floor(Math.random() * listImageDefault.length) 
     const userImage = listImageDefault[randomPosition].url
 

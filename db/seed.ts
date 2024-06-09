@@ -10,7 +10,7 @@ export default async function seed() {
 		// 	nombre: "Gia",
 		// 	apellidos: "Woods",
 		// 	email: "gia_woods@business.com",
-		// 	contrasena: "woodMadera,,19"
+		// 	contrasena: "woodMadera$$19"
 		// },
 
 		// {
