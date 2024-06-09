@@ -53,7 +53,7 @@ const Audios = defineTable({
     estado: column.text(), //Rechazado, pendiente, aceptado
     subidoEn: column.date(),
     aceptadoEn: column.date({ optional: true }),
-    idAdministradorAcepta: column.text({ references: () => Administrador.columns.idAdministrador })
+    idAdministradorAcepta: column.text({ references: () => Administrador.columns.idAdministrador, optional: true })
   }
 })
 

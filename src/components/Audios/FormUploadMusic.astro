@@ -1,0 +1,108 @@
+---
+import { db, Album, eq, Artista } from "astro:db"
+import { getUserActivo } from "../Cookies/Cookies.astro"
+
+const cookies = Astro.request.headers.get('cookie')
+const userActivo = await getUserActivo(cookies)
+
+const idArtista = (await db.select({idArtista: Artista.idArtista}).from(Artista).where(eq(Artista.idUsuario, userActivo)))[0].idArtista
+
+const albumes = await db.select({nombreAlbum: Album.nombreAlbum}).from(Album).where(eq(Album.idArtista, idArtista))
+
+---
+
+<!-- Formulario básico para subida de canciones -->
+
+
+
+<div class="w-screen h-[88vh] flex justify-center items-center p-8">
+    <div class="w-4/4 sm:w-3/4 md:w-7/12 lg:w-5/12 rounded border border-black">
+        <h2 class="text-center text-3xl my-3 font-bold">Subir audio</h2>
+        <form method="POST" action="api/uploadMusic" id="upload-form" class="w-full flex justify-between flex-wrap bg-gray-300 p-8 rounded-b" enctype="multipart/form-data">
+            <div class="w-full flex flex-wrap">
+                <label class="w-full font-bold">Título del audio</label>
+                <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" name="nombreAudio" id="nombreAudio" required>
+            </div>
+            <div class="w-[30%] flex flex-wrap justify-center mt-2 items-center">
+                <label class="w-full mr-2 font-bold">Género</label>
+                <select name="genero" id="genero" class="w-full p-1 bg-gray-300 border-2 rounded border-black" required>
+                    <option value="" disabled selected>Géneros</option>
+                    <option value="Pop">Pop</option>
+                    <option value="Regueton">Reguetón</option>
+                    <option value="Trap">Trap</option>
+                    <option value="Electronica">Electrónica</option>
+                    <option value="K-pop">K-pop</option>
+                    <option value="Country">Country</option>
+                    <option value="Rap">Rap</option>
+                    <option value="Hip-hop">Hip-hop</option>
+                </select>
+            </div>
+            <div class="w-[30%] flex flex-wrap justify-center mt-2 items-center">
+                <label class="w-full mr-2 font-bold">Tipo</label>
+                <select name="tipo" id="tipo" class="w-full p-1 bg-gray-300 border-2 rounded border-black" required>
+                    <option value="" disabled selected>Tipos</option>
+                    <option value="cancion">Canción</option>
+                    <option value="podcast">Podcast</option>
+                </select>
+            </div>
+            <div class="w-[30%] flex flex-wrap justify-center mt-2 items-center">
+                <label class="w-full mr-2 font-bold">Albúm</label>
+                <select name="album" id="album" class="w-full p-1 bg-gray-300 border-2 rounded border-black" required>
+                    <option value="" disabled selected>Álbumes</option>
+                    {
+                        //Los options van a ser cada uno de los albumos del usuario
+                        albumes.map(({nombreAlbum}) => {
+                            return <option value={nombreAlbum}>{nombreAlbum}</option>
+                        })
+                    }
+                </select>
+            </div>
+            <div class="w-1/2 mt-2">
+                <p class="font-bold">Añadir audio</p>
+                <label for="audioFile" class="cursor-pointer block w-max">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+                    </svg>                  
+                </label>
+                <input class="hidden" type="file" id="audioFile" name="audioFile" required>
+                <p id="rutaAudio">
+                    
+                </p>
+            </div>
+            <div class="w-1/2 mt-2">
+                <p class="font-bold">Añadir portada</p>
+                <label for="imageFile" class="cursor-pointer block w-max">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+                    </svg>  
+                </label>
+                <input class="hidden" accept="image/*" type="file" id="imageFile" name="imageFile" required>
+                <img id="portadaAudio" class="w-24 h-24 mt-2 hidden" src="">
+            </div>
+            
+            <div class="w-full mt-8 flex justify-end">
+                <button class="bg-orange-300 rounded p-2 font-bold hover:bg-orange-400">Subir</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById("audioFile").addEventListener(("input"), () => {
+        const input = document.getElementById("audioFile")
+
+        const nombreArchivo = input.files[0].name
+
+        document.getElementById("rutaAudio").innerText = nombreArchivo
+    })
+
+    document.getElementById("imageFile").addEventListener(("input"), () => {
+        const input = document.getElementById("imageFile")
+
+        const nombreArchivo = input.files[0]
+
+        const preview = document.getElementById("portadaAudio")
+        preview.src = URL.createObjectURL(nombreArchivo)
+        preview.classList.remove("hidden")
+    })
+</script>
