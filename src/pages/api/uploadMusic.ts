@@ -4,6 +4,7 @@ import { db, Session, Usuario, Audios, eq, Album, Album_Audio } from "astro:db";
 import { generateId } from "lucia";
 
 export async function POST(context: APIContext): Promise<Response> {
+
     const form = await context.request.formData();
     const inputTitulo = form.get('nombreAudio');
     const inputAutoresSecundarios = form.get('autoresSecundarios');

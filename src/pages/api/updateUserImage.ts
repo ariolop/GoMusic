@@ -15,7 +15,8 @@ export async function POST(context: APIContext): Promise<Response> {
 
     //Borramos la imagen antigua del servidor
     const { blobs } = await list({ prefix: "imagenesPerfil/" + userId + "/" });
-    del(blobs[0].url)
+    if (blobs.length > 0)
+        del(blobs[0].url)
 
     //Subimos la imagen nueva al servidor y obtenemos la URL
     const { url } = await put("imagenesPerfil/" + userId + "/" + image.name, image, { access: 'public' });

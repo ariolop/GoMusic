@@ -114,4 +114,9 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
         preview.src = URL.createObjectURL(nombreArchivo)
         preview.classList.remove("hidden")
     })
+
+    fetch(
+        "/api/uploadMusic",
+        
+    )
 </script>
