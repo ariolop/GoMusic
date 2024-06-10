@@ -10,15 +10,16 @@ const { infoUser } = Astro.props
     <div class="w-1/2">
         <h3 class="font-bold text-xl mb-2">Datos perfil</h3>
         <div class="flex items-end">
-            <img src={infoUser["imagenPerfil"]} class="w-28 h-28 mr-4">
+            <img id="imagenPerfil" src={infoUser["imagenPerfil"]} class="w-28 h-28 mr-4">
             <form id="formUpdateImage" method="POST" enctype="multipart/form-data">
                 <label class="cursor-pointer" for="file_image">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                     </svg>                  
                 </label>
+                <span class="text-red-500 text-xs w-full block" id="mensaje"></span>
                 <input class="hidden" name="file_image" id="file_image" type="file">
-                <input type="submit">
+                <input class="bg-[#DBAC63] p-1 px-2 rounded-md text-white font-semibold cursor-pointer mt-2" type="submit" value="Guardar">
             </form>
         </div>
     </div>
@@ -39,17 +40,26 @@ const { infoUser } = Astro.props
 </div>
 
 <script>
+    document.getElementById("file_image").addEventListener("input", _ => {
+        //Modificar el preview de la imagen para que el usuario la pueda ver.
+        //No se guardan los cambios hasta que no pulsa Guardar
+        const nombreArchivo = document.getElementById("file_image").files[0]
+
+        document.getElementById("imagenPerfil").src = URL.createObjectURL(nombreArchivo)
+        document.getElementById("mensaje").innerText = "Cambios pendientes de guardar"
+    })
+
     document.getElementById("formUpdateImage").addEventListener("submit", async (e) => {
         e.preventDefault()
 
         console.log("Cambiamos la imagen");
-        const input = document.getElementById("file_image")
+        const inputImage = document.getElementById("file_image")
 
-        if(input.files.length == 0)
+        if(inputImage.files.length == 0)
             return false
 
         const body = new FormData()
-        body.append('file_image', input.files[0])
+        body.append('file_image', inputImage.files[0])
 
         try {
             const res = await fetch('/api/updateUserImage', {
