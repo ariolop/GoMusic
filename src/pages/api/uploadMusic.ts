@@ -1,6 +1,6 @@
 import { put } from "@vercel/blob";
 import type { APIContext } from "astro";
-import { db, Session, Usuario, Audios, eq, Album, Album_Cancion } from "astro:db";
+import { db, Session, Usuario, Audios, eq, Album, Album_Audio } from "astro:db";
 import { generateId } from "lucia";
 
 export async function POST(context: APIContext): Promise<Response> {
@@ -62,17 +62,17 @@ export async function POST(context: APIContext): Promise<Response> {
     ])
 
     //Obtenemos todas los campos de la tabla Album_Audio
-    // const idAlbumAudio = generateId(9)
-    // const idAlbum = inputAlbum.toString()
+    const idAlbumAudio = generateId(9)
+    const idAlbum = inputAlbum.toString()
 
-    // //Insertamos el registro en la tabla Album_Audio
-    // await db.insert(Album_Cancion).values([
-    //     {
-    //         idAlbumAudio,
-    //         idAlbum,
-    //         idAudio
-    //     }
-    // ])
+    //Insertamos el registro en la tabla Album_Audio
+    await db.insert(Album_Audio).values([
+        {
+            idAlbumAudio,
+            idAlbum,
+            idAudio
+        }
+    ])
 
     return context.redirect("/insertarAudio?insertar=correcto")
 }
