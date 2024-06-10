@@ -3,6 +3,10 @@ import { db, Usuario, eq } from "astro:db";
 import { Argon2id } from "oslo/password";
 import { lucia } from "../../auth";
 
+export async function GET(context: APIContext): Promise<Response>  {
+    return context.redirect("/")
+}
+
 export async function POST(context: APIContext): Promise<Response> {
     //Read the form data
     const formData = await context.request.formData();

@@ -3,6 +3,9 @@ import { put, del, list } from "@vercel/blob";
 import { db, Session, Usuario, eq } from "astro:db";
 import { date } from "astro/zod";
 
+export async function GET(context: APIContext): Promise<Response>  {
+    return context.redirect("/")
+}
 
 export async function POST(context: APIContext): Promise<Response> {
     //Read the form data

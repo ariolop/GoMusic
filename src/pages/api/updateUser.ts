@@ -3,6 +3,10 @@ import { db, Usuario, eq, Session } from "astro:db";
 import { getUserActivo } from "../../components/Cookies/Cookies.astro";
 import { lucia } from "../../auth";
 
+export async function GET(context: APIContext): Promise<Response>  {
+    return context.redirect("/")
+}
+
 export async function POST(context: APIContext): Promise<Response> {
     //Read the form data
     const formData = await context.request.formData();

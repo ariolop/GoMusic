@@ -2,6 +2,10 @@ import type { APIContext } from "astro";
 import { db, Session, Artista, Album, eq } from "astro:db";
 import { generateId } from "lucia";
 
+export async function GET(context: APIContext): Promise<Response>  {
+    return context.redirect("/")
+}
+
 export async function POST(context: APIContext): Promise<Response> {
 
     const formData = await context.request.formData()
