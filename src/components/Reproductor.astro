@@ -1,18 +1,16 @@
 ---
-import { Image } from 'astro:assets';
-import { Audios, Artista, Album, Usuario } from 'astro:db';
+import { Audios, Artista, Album, Usuario, Album_Audio } from 'astro:db';
 import { db, eq } from 'astro:db';
-import type { ImageMetadata } from 'astro';
 
 const { idAudio = 1 } = Astro.props; // Valor por defecto
 
 const audios = (
-    await db.select(
-
-    ).from(
+    await db.select().from(
         Audios
+    ).leftJoin(
+        Album_Audio, eq(Album_Audio.idAudio, Audios.idAudio)
     ).innerJoin(
-        Album, eq(Audios.album, Album.idAlbum)
+        Album, eq(Album_Audio.idAlbum, Album.idAlbum)
     ).innerJoin(
         Artista, eq(Album.idArtista, Artista.idArtista)
     ).innerJoin(
@@ -20,7 +18,11 @@ const audios = (
     )
 );
 
-const audio = audios.filter(audio => audio.Audios.idAudio == idAudio)[0];
+const posicioRandom = Math.random() * audios.length
+
+const audio = audios.at(posicioRandom)
+
+console.log(audio);
 
 ---
 
