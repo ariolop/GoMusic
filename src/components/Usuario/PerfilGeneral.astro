@@ -129,7 +129,7 @@ const { infoUser } = Astro.props
                 }
                 else
                 {
-                    window.location.replace(location.href + "?actualizacion=correcto");
+                    window.location.replace(location.href.split('?')[0] + "?actualizacion=correcto");
                 }
 
             } catch (error) {
@@ -163,7 +163,7 @@ const { infoUser } = Astro.props
             }
             else
             {
-                window.location.replace(location.href + "?guardado=correcto");
+                window.location.replace(location.href.split('?')[0] + "?guardado=correcto");
             }
 
         } catch (error) {
