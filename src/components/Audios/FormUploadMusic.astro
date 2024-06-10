@@ -1,6 +1,7 @@
 ---
 import { db, Album, eq, Artista } from "astro:db"
 import { getUserActivo } from "../Cookies/Cookies.astro"
+import AvisoAgregarAudio from "../Alerts/AvisoAgregarAudio.astro"
 
 const cookies = Astro.request.headers.get('cookie')
 const userActivo = await getUserActivo(cookies)
@@ -8,17 +9,14 @@ const userActivo = await getUserActivo(cookies)
 const idArtista = (await db.select({idArtista: Artista.idArtista}).from(Artista).where(eq(Artista.idUsuario, userActivo)))[0].idArtista
 
 const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.idAlbum}).from(Album).where(eq(Album.idArtista, idArtista))
-
 ---
 
 <!-- Formulario básico para subida de canciones -->
 
-
-
 <div class="w-screen h-[88vh] flex justify-center items-center p-8">
     <div class="w-4/4 sm:w-3/4 md:w-7/12 lg:w-5/12 rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Subir audio</h2>
-        <form method="POST" action="api/uploadMusic" id="upload-form" class="w-full flex justify-between flex-wrap bg-gray-300 p-8 rounded-b" enctype="multipart/form-data">
+        <form method="POST" id="uploadForm" class="w-full flex justify-between flex-wrap bg-gray-300 p-8 rounded-b" enctype="multipart/form-data">
             <div class="w-full flex flex-wrap">
                 <label class="w-full font-bold">Título del audio <span class="text-red-600">*</span></label>
                 <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" name="nombreAudio" id="nombreAudio" required>
@@ -69,7 +67,7 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
                         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
                     </svg>                  
                 </label>
-                <input class="hidden" type="file" id="audioFile" name="audioFile" required>
+                <input class="hidden" accept="audio/mp3" type="file" id="audioFile" name="audioFile" required>
                 <p id="rutaAudio">
                     
                 </p>
@@ -96,6 +94,8 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
     </div>
 </div>
 
+<AvisoAgregarAudio/>
+
 <script>
     document.getElementById("audioFile").addEventListener(("input"), () => {
         const input = document.getElementById("audioFile")
@@ -115,8 +115,45 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
         preview.classList.remove("hidden")
     })
 
-    fetch(
-        "/api/uploadMusic",
-        
-    )
+    document.getElementById("uploadForm").addEventListener(("submit"), async (e) => {
+        e.preventDefault()
+
+        const inputTitulo = document.getElementById("nombreAudio")
+        const inputAutoresSecundarios = document.getElementById("autoresSecundarios")
+        const inputGenero = document.getElementById("genero")
+        const inputTipo = document.getElementById("tipo")
+        const inputAlbum = document.getElementById("album")
+        const inputPortada = document.getElementById("imageFile")
+        const inputAudio = document.getElementById("audioFile")
+        const inputDescripcion = document.getElementById("descripcion")
+
+        const body = new FormData()
+        body.append('nombreAudio', inputTitulo.value)
+        body.append('autoresSecundarios', inputAutoresSecundarios ? inputAutoresSecundarios.value : "")
+        body.append('genero', inputGenero.value)
+        body.append('tipo', inputTipo.value)
+        body.append('album', inputAlbum.value)
+        body.append('imageFile', inputPortada.files[0])
+        body.append('audioFile', inputAudio.files[0])
+        body.append('descripcion', inputDescripcion ? inputDescripcion.value : "")
+
+        const res = await fetch('/api/uploadMusic', {
+            body,
+            method: 'POST'
+        }).then(
+            res => {
+                if(res.status == 400)
+                    throw new Error(res.statusText)
+                else
+                    document.getElementById("alertAddAudio").classList.add("flex")
+                    document.getElementById("alertAddAudio").classList.remove("hidden")
+                    inputTitulo.value = ""
+                    inputAutoresSecundarios.value = ""
+                    inputDescripcion.value = ""
+                
+            }
+        ).catch(
+            error => console.error('There was a problem with the fetch operation:', error)
+        );        
+    })
 </script>

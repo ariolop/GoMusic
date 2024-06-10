@@ -1,5 +1,5 @@
 ---
-
+import AvisoCrearAlbum from "../Alerts/AvisoCrearAlbum.astro"
 ---
 
 <!-- Formulario básico para la creación de albumes -->
@@ -7,15 +7,43 @@
 <div class="w-screen h-[88vh] flex justify-center items-center p-8">
     <div class="w-4/4 sm:w-3/4 md:w-7/12 lg:w-5/12 rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Crear álbum</h2>
-        <form method="POST" action="/api/createAlbum" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
+        <form id="formCreateAlbum" method="POST" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
             <div class="w-full sm:w-10/12 mt-2 flex justify-center flex-wrap">
                 <label class="w-full text-lg" for="nombreAlbum">Nombre<span class="text-red-600">*</span></label>
                 <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" id="nombreAlbum" name="nombreAlbum" type="text" required placeholder="Nuevo álbum">
             </div>
-
             <div class="w-full sm:w-10/12 mt-8 flex justify-end">
                 <input type="submit" class="bg-orange-300 rounded p-2 font-bold hover:bg-orange-400" value="Crear"></input>
             </div>
         </form>
     </div>
 </div>
+
+<AvisoCrearAlbum/>
+
+<script>
+    document.getElementById("formCreateAlbum").addEventListener("submit", async (e) => {
+        e.preventDefault()
+
+        const inputNombreAlbum = document.getElementById("nombreAlbum")
+
+        const body = new FormData()
+        body.append('nombreAlbum', inputNombreAlbum.value)
+
+        const res = await fetch('/api/createAlbum', {
+            body,
+            method: 'POST'
+        }).then(
+            res => {
+                if(res.status == 400)
+                    throw new Error(res.statusText)
+                else
+                    document.getElementById("alertCrearAlbum").classList.add("flex")
+                    document.getElementById("alertCrearAlbum").classList.remove("hidden")
+                    inputNombreAlbum.value = ""
+            }
+        ).catch(
+            error => console.error(error)
+        )
+    })
+</script>
