@@ -19,10 +19,7 @@ export async function POST(context: APIContext): Promise<Response> {
     {
         return context.redirect("/insertarAudio?datos=faltan")
     }
-
-    console.log("Empezamos el try");
     
-
     console.log("Obtenemos el userId y el nombre completo del artista");
     
     //Obtenemos el userId y el nombre completo del artista
@@ -94,13 +91,13 @@ export async function POST(context: APIContext): Promise<Response> {
     const idAlbum = inputAlbum.toString()
 
     //Insertamos el registro en la tabla Album_Audio
-    // await db.insert(Album_Audio).values([
-    //     {
-    //         idAlbumAudio,
-    //         idAlbum,
-    //         idAudio
-    //     }
-    // ])
+    await db.insert(Album_Audio).values([
+        {
+            idAlbumAudio,
+            idAlbum,
+            idAudio
+        }
+    ])
 
     return context.redirect("/insertarAudio?insertar=correcto")
 
