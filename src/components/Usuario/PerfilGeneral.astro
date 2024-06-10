@@ -1,7 +1,12 @@
 ---
+import AvisoGuardarPerfil from '../Alerts/AvisoGuardarPerfil.astro'
+import AvisoActualizarDatos from '../Alerts/AvisoActualizarDatos.astro'
+
 interface Props {
     infoUser: object
 }
+
+const url = Astro.request.url.split("?")[1]
 
 const { infoUser } = Astro.props
 ---
@@ -38,6 +43,12 @@ const { infoUser } = Astro.props
             <input class="bg-[#DBAC63] p-1 px-2 rounded-md text-white font-semibold cursor-pointer mt-2" type="submit" value="Actualizar">
         </form>
     </div>
+    {
+        url && url.includes("guardado=correcto") ? <AvisoGuardarPerfil/> : ""
+    }
+    {
+        url && url.includes("actualizacion=correcto") ? <AvisoActualizarDatos/> : ""
+    }
 </div>
 
 <script>
@@ -118,7 +129,7 @@ const { infoUser } = Astro.props
                 }
                 else
                 {
-                    window.location.reload()
+                    window.location.replace(location.href + "?actualizacion=correcto");
                 }
 
             } catch (error) {
@@ -152,7 +163,7 @@ const { infoUser } = Astro.props
             }
             else
             {
-                window.location.reload()
+                window.location.replace(location.href + "?guardado=correcto");
             }
 
         } catch (error) {
