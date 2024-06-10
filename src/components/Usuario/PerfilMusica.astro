@@ -17,9 +17,9 @@ const esArtista = await db.select().from(Artista).where(eq(Artista.idUsuario, in
         <h3 class="font-bold text-xl mb-2">Música</h3>
         <div class="flex flex-col">
             <a class="hover:bg-[#DBAC63] hover:text-white rounded-md w-1/4 mb-2 p-1 px-2" href="insertarAlbum">Añadir álbum</p>
-            <a class="hover:bg-[#DBAC63] hover:text-white rounded-md w-1/4 mb-2 p-1 px-2" href="">Administrar álbumes</p>
+            <a class="hover:bg-[#DBAC63] hover:text-white rounded-md w-1/4 mb-2 p-1 px-2" href="administrarAlbumes">Administrar álbumes</p>
             <a class="hover:bg-[#DBAC63] hover:text-white rounded-md w-1/4 mb-2 p-1 px-2" href="insertarAudio">Añadir canciones</p>
-            <a class="hover:bg-[#DBAC63] hover:text-white rounded-md w-1/4 mb-2 p-1 px-2" href="">Administrar canciones</p>
+            <a class="hover:bg-[#DBAC63] hover:text-white rounded-md w-1/4 mb-2 p-1 px-2" href="administrarCanciones">Administrar canciones</p>
         </div>
     </div> : 
     <div id="musica" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0 absolute">

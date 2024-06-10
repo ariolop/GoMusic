@@ -2,16 +2,15 @@
 
 ---
 
-<ul id="menu">
+<ul transition:persist id="menu">
     <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkGeneral">General</p></li>
     <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkMusica">Tu música</p></li>
     <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkSeguridad">Seguridad</p></li>
     <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkCerrarSesion" href="api/cerrarSesion">Cerrar sesión</a></li> <!-- TODO: crear la api para cerrar sesión -->
 </ul>
 
-<script>
-    document.getElementById("menu").addEventListener("click", (e) => {
-    
+<script is:inline>
+    function cambiarContenedor(e) {
         switch(e.target.id) { //Ignorar error
             case "linkGeneral": 
                 document.getElementById("general").classList.add("opacity-100")
@@ -47,6 +46,9 @@
                 document.getElementById("seguridad").classList.add("z-10")
                 break;
         }
-    })
+    }
+
+
+    document.getElementById("menu").addEventListener("click", cambiarContenedor)
     
 </script>

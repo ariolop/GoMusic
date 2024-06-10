@@ -26,7 +26,7 @@ export async function POST(context: APIContext): Promise<Response> {
         !password.toString().match(/[a-z]+/) 
     ) {
         //return new Response(password.toString(), { status: 400 })
-        //return context.redirect("/registro?contrasena=debil");
+        return context.redirect("/registro?contrasena=debil");
     }
 
     //Generamos el id y encriptamos la contraseña
