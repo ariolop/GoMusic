@@ -9,7 +9,7 @@ import ErrorPasswordDebil from './Alerts/ErrorPasswordDebil.astro'
 <div class="w-screen h-[88vh] flex justify-center items-center p-8">
     <div class="w-4/4 sm:w-10/12 md:w-8/12 lg:w-6/12 rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Registrate</h2>
-        <form method="POST" action="/api/registroUser" class="w-full flex justify-between items-center flex-wrap bg-gray-300 p-8 rounded-b">
+        <form id="formRegister" method="POST" class="w-full flex justify-between items-center flex-wrap bg-gray-300 p-8 rounded-b">
             <div class="w-full flex justify-center flex-wrap">
                 <label class="w-full text-lg" for="email">Nombre de usuario <span class="text-red-600">*</span></label>
                 <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" id="username" name="username" type="text" required placeholder="Introduce tu nombre de usuario">
@@ -38,7 +38,48 @@ import ErrorPasswordDebil from './Alerts/ErrorPasswordDebil.astro'
             </div>
         </form>
     </div>
-    {
-        url && url.includes("debil") ? <ErrorPasswordDebil /> : ""
-    }
+    <ErrorPasswordDebil />
 </div>
+
+<script>
+    document.getElementById("formRegister").addEventListener("submit", async (e) => {
+        e.preventDefault()
+
+        const inputUsername = document.getElementById("username")
+        const inputNombre = document.getElementById("name")
+        const inputApellidos = document.getElementById("surname")
+        const inputEmail = document.getElementById("email")
+        const inputPassword = document.getElementById("password")
+
+        const body = new FormData()        
+        body.append('username', inputUsername.value)
+        body.append('name', inputNombre.value)
+        body.append('surname', inputApellidos.value)
+        body.append('email', inputEmail.value)
+        body.append('password', inputPassword.value)
+
+        await fetch('api/registroUser', {
+            body,
+            method: 'POST'
+        }).then(
+            async res => {
+                const text = await res.text()
+
+                if(text == 'Contrasena invalida')
+                    throw new Error(text)
+                else if (res.status == 400)
+                    throw new Error(res.statusText)
+                else
+                    window.location.replace("/login?usuario=nuevo")
+            }
+        ).catch(
+            error => {
+                if (error.message == 'Contrasena invalida')
+                {
+                    document.getElementById("alertContrasenaDebil").classList.add("flex")
+                    document.getElementById("alertContrasenaDebil").classList.remove("hidden")
+                }
+            }
+        );
+    })
+</script>

@@ -11,7 +11,7 @@ import AvisoNuevoUsuario from '../components/Alerts/AvisoNuevoUsuario.astro'
 <div class="w-screen h-[88vh] flex justify-center items-center p-8">
     <div class="w-4/4 sm:w-3/4 md:w-7/12 lg:w-5/12 rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Iniciar sesión</h2>
-        <form method="POST" action="/api/loginUser" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
+        <form id="formLogin" method="POST" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
             <div class="w-full sm:w-10/12 mt-2 flex justify-center flex-wrap">
                 <label class="w-full text-lg" for="email">Correo electrónico <span class="text-red-600">*</span></label>
                 <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" id="email" name="email" type="email" required placeholder="Introduce tu correo">
@@ -32,10 +32,41 @@ import AvisoNuevoUsuario from '../components/Alerts/AvisoNuevoUsuario.astro'
             </div>
         </form>
     </div>
-    {
-        url && url.includes("fallido") ? <ErrorLogin /> : ""
-    }
+    <ErrorLogin />
     {
         url && url.includes("nuevo") ? <AvisoNuevoUsuario /> : ""
     }
 </div>
+
+<script>
+    document.getElementById("formLogin").addEventListener("submit", async (e) => {
+        e.preventDefault()
+
+        const inputEmail = document.getElementById("email")
+        const inputPassword = document.getElementById("password")
+        const inputSesionIniciada = document.getElementById("sesionIniciada")
+
+        const body = new FormData()
+        body.append('email', inputEmail.value)
+        body.append('password', inputPassword.value)
+        body.append('sesionIniciada', inputSesionIniciada.checked)
+
+        await fetch('api/loginUser', {
+            body,
+            method: 'POST'
+        }).then(
+            res => {
+                if (res.status == 400)
+                    throw new Error(res.statusText)
+                else
+                    window.location.replace("/login?usuario=nuevo")
+            }
+        ).catch(
+            error => {
+                document.getElementById("errorLogin").classList.add("flex")
+                document.getElementById("errorLogin").classList.remove("hidden")
+                console.error('Hay problemas con el fetch', error)
+            }
+        );
+    })
+</script>

@@ -12,7 +12,7 @@ export async function POST(context: APIContext): Promise<Response> {
 
     //Validate the form data (como los inputs son required no debería de entrar aquí nunca)
     if (!email ||!password) {
-        return context.redirect("/login?intento=fallido")
+        return new Response(undefined, {status: 400});
     }
 
     //Find the email
@@ -20,14 +20,14 @@ export async function POST(context: APIContext): Promise<Response> {
 
     if (!foundUser) {
         //return new Response('login', { status: 400 })
-        return context.redirect("/login?intento=fallido")
+        return new Response('Problemas login', {status: 400, statusText: 'problema login'});
     }
 
     //Validate the password
     const validPassword = await new Argon2id().verify(foundUser.contrasena, password)
 
     if (!validPassword) {
-        return context.redirect("/login?intento=fallido")
+        return new Response('Problemas login', {status: 400});
     }
     //Generate session
     const session = await lucia.createSession(foundUser.id, {});
@@ -43,5 +43,5 @@ export async function POST(context: APIContext): Promise<Response> {
         sessionCookie.attributes
     );
 
-    return context.redirect("/");
+    return new Response("ok", {status: 200});
 }

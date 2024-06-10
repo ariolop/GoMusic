@@ -135,20 +135,19 @@ const { infoUser } = Astro.props
         console.log("Cambiamos la imagen");
         const inputImage = document.getElementById("file_image")
 
-        if(inputImage.files.length == 0)
-            return false
+        if(inputImage.files.length != 0)
+        {
+            const body = new FormData()
+            body.append('file_image', inputImage.files[0])
 
-        const body = new FormData()
-        body.append('file_image', inputImage.files[0])
-
-        const res = await fetch('/api/updateUserImage', {
-            body,
-            method: 'POST'
-        }).then(
-            res => window.location.replace(location.href.split('?')[0] + "?guardado=correcto")
-        ).catch(
-            error => console.error('There was a problem with the fetch operation:', error)
-        );
-
+            const res = await fetch('/api/updateUserImage', {
+                body,
+                method: 'POST'
+            }).then(
+                res => window.location.replace(location.href.split('?')[0] + "?guardado=correcto")
+            ).catch(
+                error => console.error('There was a problem with the fetch operation:', error)
+            );
+        }
     })
 </script>
