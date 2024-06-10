@@ -92,7 +92,7 @@ const { infoUser } = Astro.props
 
     document.getElementById("formUpdateUser").addEventListener("submit", async (e) => {
         
-        if (comprobarCambios)
+        if (comprobarCambios())
         {
             const inputUsername = document.getElementById("username")
             const inputNombre = document.getElementById("nombre")
