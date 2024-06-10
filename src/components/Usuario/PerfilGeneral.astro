@@ -26,7 +26,7 @@ const { infoUser } = Astro.props
 
     <div class="w-1/2">
         <h3 class="font-bold text-xl mb-4">Datos personales</h3>
-        <form method="POST" action="api/updateUser" class="flex flex-wrap flex-row-reverse justify-between">
+        <form id="formUpdateUser" method="POST" class="flex flex-wrap flex-row-reverse justify-between">
             <label class="w-full font-semibold">Username</label>
             <input class="w-full mb-2 rounded-md p-1" type="text"  name="username" id="username" placeholder="Nombre de usuario" value={infoUser["username"]} required>
             <label class="w-[49%] font-semibold">Apellidos</label><label class="w-[49%] font-semibold">Nombre</label>
@@ -47,6 +47,41 @@ const { infoUser } = Astro.props
 
         document.getElementById("imagenPerfil").src = URL.createObjectURL(nombreArchivo)
         document.getElementById("mensaje").innerText = "Cambios pendientes de guardar"
+    })
+
+    document.getElementById("formUpdateUser").addEventListener("submit", async (e) => {
+        
+        const inputUsername = document.getElementById("username")
+        const inputNombre = document.getElementById("nombre")
+        const inputApellidos = document.getElementById("apellidos")
+        const inputEmail = document.getElementById("email")
+
+
+        const body = new FormData()
+        body.append('username', inputUsername.value)
+        body.append('nombre', inputNombre.value)
+        body.append('apellidos', inputApellidos.value)
+        body.append('email', inputEmail.value)
+
+        try {
+            const res = await fetch('api/updateUser', {
+                body,
+                method: 'POST'
+            });
+
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+            else
+            {
+                window.location.reload()
+            }
+
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        } finally {
+            console.log(".....");
+        }
     })
 
     document.getElementById("formUpdateImage").addEventListener("submit", async (e) => {
