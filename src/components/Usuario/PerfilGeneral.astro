@@ -118,25 +118,14 @@ const { infoUser } = Astro.props
             body.append('apellidos', inputApellidos.value)
             body.append('email', inputEmail.value)
 
-            try {
-                const res = await fetch('api/updateUser', {
-                    body,
-                    method: 'POST'
-                });
-
-                if (!res.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                else
-                {
-                    window.location.replace(location.href.split('?')[0] + "?actualizacion=correcto");
-                }
-
-            } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
-            } finally {
-                console.log(".....");
-            }
+            await fetch('api/updateUser', {
+                body,
+                method: 'POST'
+            }).then(
+                _ => window.location.replace(location.href.split('?')[0] + "?actualizacion=correcto")
+            ).catch(
+                error => console.error('Hay problemas con el fetch', error)
+            );
         }
     })
 
@@ -152,25 +141,14 @@ const { infoUser } = Astro.props
         const body = new FormData()
         body.append('file_image', inputImage.files[0])
 
-        try {
-            const res = await fetch('/api/updateUserImage', {
-                body,
-                method: 'POST'
-            });
-
-            if (!res.ok) {
-                throw new Error('Network response was not ok');
-            }
-            else
-            {
-                window.location.replace(location.href.split('?')[0] + "?guardado=correcto");
-            }
-
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-        } finally {
-            console.log(".....");
-        }
+        const res = await fetch('/api/updateUserImage', {
+            body,
+            method: 'POST'
+        }).then(
+            res => window.location.replace(location.href.split('?')[0] + "?guardado=correcto")
+        ).catch(
+            error => console.error('There was a problem with the fetch operation:', error)
+        );
 
     })
 </script>
