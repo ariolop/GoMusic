@@ -51,6 +51,9 @@ const { infoUser } = Astro.props
             const res = await fetch('/api/updateUserImage', {
                 body,
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
             });
 
             if (!res.ok) {
