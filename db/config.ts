@@ -45,19 +45,17 @@ const Audios = defineTable({
   columns: {
     idAudio: column.text({ primaryKey: true }),
     nombreAudio: column.text(),
-    album: column.text({ references: () => Album.columns.idAlbum }),
+    descripcion: column.text({ optional: true }),
     genero: column.text(),
     tipo: column.text(),
     rutaImagen: column.text(),
     rutaSonido: column.text(),
-    estado: column.text(), //Rechazado, pendiente, aceptado
     subidoEn: column.date(),
-    aceptadoEn: column.date({ optional: true }),
-    idAdministradorAcepta: column.text({ references: () => Administrador.columns.idAdministrador, optional: true })
+    autores_secundarios: column.text({ optional: true })
   }
 })
 
-const Album_Cancion = defineTable({
+const Album_Audio = defineTable({
   columns: {
     idAlbumAudio: column.text({ primaryKey: true }),
     idAlbum: column.text({ references: () => Album.columns.idAlbum }),
@@ -130,6 +128,6 @@ export default defineDb({
     Playlist,
     Playlist_Audio,
     Session,
-    Album_Cancion
+    Album_Audio
   }
 });
