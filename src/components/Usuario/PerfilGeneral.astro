@@ -43,9 +43,13 @@ const { infoUser } = Astro.props
         e.preventDefault()
 
         console.log("Cambiamos la imagen");
+        const input = document.getElementById("file_image")
+
+        if(input.files.length == 0)
+            return false
 
         const body = new FormData()
-        body.append('file_image', document.getElementById("file_image").files[0])
+        body.append('file_image', input.files[0])
 
         try {
             const res = await fetch('/api/updateUserImage', {
