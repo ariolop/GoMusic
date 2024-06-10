@@ -57,8 +57,6 @@ const { infoUser } = Astro.props
                 throw new Error('Network response was not ok');
             }
 
-            const data = await res.json();
-            console.log(data);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         } finally {

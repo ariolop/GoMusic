@@ -30,5 +30,5 @@ export async function POST(context: APIContext): Promise<Response> {
         eq(Usuario.id, userId)
     );
 
-    return context.redirect("/perfil?imagen=correcta");
+    return new Response("Todo OK", {status: 200});
 }
