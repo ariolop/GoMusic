@@ -6,11 +6,11 @@
     <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkGeneral">General</p></li>
     <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkMusica">Tu música</p></li>
     <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkSeguridad">Seguridad</p></li>
-    <li class="mt-2"><a class="hover:bg-[#DBAC63] hover:text-white p-1 rounded" id="linkCerrarSesion" href="api/cerrarSesion">Cerrar sesión</a></li> <!-- TODO: crear la api para cerrar sesión -->
+    <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkCerrarSesion">Cerrar sesión</a></li> <!-- TODO: crear la api para cerrar sesión -->
 </ul>
 
 <script is:inline>
-    function cambiarContenedor(e) {
+    async function cambiarContenedor(e) {
         switch(e.target.id) { //Ignorar error
             case "linkGeneral": 
                 document.getElementById("general").classList.add("opacity-100")
@@ -45,9 +45,14 @@
                 document.getElementById("seguridad").classList.remove("opacity-0")
                 document.getElementById("seguridad").classList.add("z-10")
                 break;
+            case "linkCerrarSesion":
+                await fetch('api/closeSession', {
+                    method: 'POST'
+                }).then(
+                    _ => window.location.reload()
+                );
         }
     }
-
 
     document.getElementById("menu").addEventListener("click", cambiarContenedor)
     
