@@ -91,6 +91,7 @@ const { infoUser } = Astro.props
     })
 
     document.getElementById("formUpdateUser").addEventListener("submit", async (e) => {
+        e.preventDefault()
         
         if (comprobarCambios())
         {
