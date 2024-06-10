@@ -1,6 +1,6 @@
 import { put } from "@vercel/blob";
 import type { APIContext } from "astro";
-import { db, Session, Usuario, Audios, eq, Album, Album_Audio } from "astro:db";
+import { db, Session, Usuario, Audios, eq, Artista, Album_Audio } from "astro:db";
 import { generateId } from "lucia";
 
 export async function GET(context: APIContext): Promise<Response>  {
@@ -33,13 +33,12 @@ export async function POST(context: APIContext): Promise<Response> {
                             .from(Session)
                             .where(eq(Session.id, sessionId)))[0].userId
 
-    const nombreCompletoArtista = (await db.select({nombre: Usuario.nombre, apellidos: Usuario.apellidos})
-                                            .from(Usuario)  
-                                            .where(eq(Usuario.id, userId)))[0]
+    const idArtista = (await db.select({idArtista: Artista.idArtista})
+                                            .from(Artista)  
+                                            .where(eq(Artista.idUsuario, userId)))[0].idArtista
 
-    const nombreArtista = nombreCompletoArtista.nombre + "_" + nombreCompletoArtista.apellidos                                        
 
-    const nombreAlbum = (await db.select({nombreAlbum: Album.nombreAlbum}).from(Album).where(eq(Album.idAlbum, inputAlbum.toString())))[0].nombreAlbum
+    const idAlbum = inputAlbum.toString()
     const hoy = Date.now()
 
     console.log("Obtenemos todos los campos de la tabla Audios");
@@ -61,10 +60,10 @@ export async function POST(context: APIContext): Promise<Response> {
     console.log(tipo);
 
 
-    const { url: urlImage } = await put("portadas/" + nombreArtista + "/" + nombreAlbum + "/" + inputPortada.name, inputPortada, { access: 'public' });
+    const { url: urlImage } = await put("portadas/" + idArtista + "/" + idAlbum + "/" + inputPortada.name, inputPortada, { access: 'public' });
     console.log(urlImage);
     
-    const { url: urlAudio } = await put("audios/" + nombreArtista + "/" + nombreAlbum + "/" + inputAudio.name, inputAudio, { access: 'public' });
+    const { url: urlAudio } = await put("audios/" + idArtista + "/" + idAlbum + "/" + inputAudio.name, inputAudio, { access: 'public' });
     console.log(urlAudio);
 
     const subidoEn = new Date(hoy)
@@ -93,7 +92,6 @@ export async function POST(context: APIContext): Promise<Response> {
 
     //Obtenemos todas los campos de la tabla Album_Audio
     const idAlbumAudio = generateId(9)
-    const idAlbum = inputAlbum.toString()
 
     //Insertamos el registro en la tabla Album_Audio
     await db.insert(Album_Audio).values([
