@@ -62,17 +62,17 @@ export async function POST(context: APIContext): Promise<Response> {
     ])
 
     //Obtenemos todas los campos de la tabla Album_Audio
-    const idAlbumAudio = generateId(9)
-    const idAlbum = inputAlbum.toString()
+    // const idAlbumAudio = generateId(9)
+    // const idAlbum = inputAlbum.toString()
 
-    //Insertamos el registro en la tabla Album_Audio
-    await db.insert(Album_Cancion).values([
-        {
-            idAlbumAudio,
-            idAlbum,
-            idAudio
-        }
-    ])
+    // //Insertamos el registro en la tabla Album_Audio
+    // await db.insert(Album_Cancion).values([
+    //     {
+    //         idAlbumAudio,
+    //         idAlbum,
+    //         idAudio
+    //     }
+    // ])
 
     return context.redirect("/insertarAudio?insertar=correcto")
 }
