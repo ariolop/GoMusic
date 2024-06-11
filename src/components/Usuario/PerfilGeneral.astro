@@ -51,7 +51,7 @@ const { infoUser } = Astro.props
     }
 </div>
 
-<script>
+<script is:inline>
     function comprobarCambios() {
         const originalValueUsername = document.getElementById("username").dataset.original
         const newValueUsername = document.getElementById("username").value

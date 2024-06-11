@@ -1,7 +1,7 @@
 ---
 import { Album_Audio, Audios, isNotNull, and } from 'astro:db'
 import { db, Album, eq } from 'astro:db'
-import ModalBorradoAlbum from './ModalBorradoAlbum.astro';
+import ModalBorradoAudio from './ModalBorradoAudio.astro';
 
 const { idArtista } = Astro.props
 
@@ -69,7 +69,7 @@ console.log(canciones);
             {
                 canciones.length == 0 ? <div><p class="text-lg">Aún no has añadido ninguna canción. ¿A qué esperas para hacerlo?</p></div> : ""
             }
-            <ModalBorradoAlbum/>
+            <ModalBorradoAudio/>
         </div>
     </div>
 </div>
