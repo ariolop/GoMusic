@@ -2,9 +2,12 @@
 import './../css/output.css'
 import ListasIndex from "../components/ListasIndex.astro";
 import CancionesIndex from "../components/CancionesIndex.astro";
+
+const { audios } = Astro.props
+
 ---
 
-<div class="flex flex-wrap justify-center"> <!-- max-w-screen-2xl -->
+<div class="min-h-[80vh] h-[80vh] flex flex-wrap justify-center basis-auto">
     <ListasIndex/>
-    <CancionesIndex/>
+    <CancionesIndex audios={audios}/>
 </div>

@@ -2,8 +2,6 @@
 import { Audios, Artista, Album, Usuario, Album_Audio } from 'astro:db';
 import { db, eq } from 'astro:db';
 
-const { idAudio = 1 } = Astro.props; // Valor por defecto
-
 const audios = (
     await db.select().from(
         Audios
@@ -18,234 +16,236 @@ const audios = (
     )
 );
 
-const posicioRandom = Math.random() * audios.length
+let audio = undefined
+let posicionRandom = undefined
 
-const audio = audios.at(posicioRandom)
-
+if (audios) {
+    posicionRandom = Math.floor(Math.random() * audios.length)
+    audio = audios.at(posicionRandom)
+}
+    
 ---
 
-{
-    audio ?
-    <div transition:persist id="container" class="w-[95%] sm:w-full bg-orange-200 sticky bottom-1 mx-auto sm:bottom-0 rounded-lg sm:rounded-none">
-        <div id="tarjeta" class="flex justify-between flex-wrap w-11/12 md:w-11/12 mx-auto py-2">
-            <div class="info flex order-1 md:order-1 w-2/4 md:w-1/3 items-center">
-                <div class="imagen w-12 sm:w-14 lg:w-16">
-                    <img id="imagen" class="w-12 sm:w-14 lg:w-16" src={audio.Audios.rutaImagen} alt="Imagen">
-                </div>
-                <div class="info w-8/12 ml-2">
-                    <p class="font-bold text-sm md:text-base" id="nombre">{audio.Audios.nombreAudio}</p>
-                    <p class="text-xs md:text-sm" id="artista">{audio.Usuario.nombre} {audio.Usuario.apellidos}</p>
-                </div>
+<div transition:persist id="container" class="w-[95%] min-h-[10vh] sm:w-full bg-orange-200 sticky bottom-1 mx-auto sm:bottom-0 rounded-lg sm:rounded-none">
+    <div id="tarjeta" class="flex justify-between flex-wrap w-11/12 md:w-11/12 mx-auto py-2">
+        <div class="info flex order-1 md:order-1 w-2/4 md:w-1/3 items-center">
+            <div class="imagen w-12 sm:w-14 lg:w-16">
+                <img id="imagen" class="w-12 sm:w-14 lg:w-16" src={audio.Audios.rutaImagen} alt="Imagen">
             </div>
-            <div class="reproductor mt-2 order-3 md:order-2 w-full md:w-1/3 flex justify-between"> 
-                <div class="w-full flex justify-between items-center">
-                    <span id="nowTimeMusic" class="w-2/12 hidden sm:inline text-right mr-2">00:00</span>
-                    <div id="containerPointer" class="w-full sm:w-8/12 h-2 flex items-center relative">
-                        <progress id="musicProgress" class="w-full h-full relative" value="0" max="0"></progress>
-                        <div id="pointTimeMusic" class="w-3 h-3 rounded-full bg-red-500 absolute -left-0.5 hover:transform hover:scale-125 cursor-pointer" draggable="true"></div>
-                    </div>
-                    <span id="endTimeMusic" class="w-2/12 hidden sm:inline ml-2">00:00</span>
-                </div>
+            <div class="info w-8/12 ml-2">
+                <p class="font-bold text-sm md:text-base" id="nombre">{audio.Audios.nombreAudio}</p>
+                <p class="text-xs md:text-sm" id="artista">{audio.Usuario.nombre} {audio.Usuario.apellidos}</p>
             </div>
-            <div class="controles order-2 md:order-3 w-1/3 flex justify-end items-center">
-                <button id="previousSong">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>                      
-                </button>
-                <button id="playSong">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                    </svg>                                           
-                </button>
-                <button id="pauseSong" class="hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>                                                                 
-                </button>
-                <button id="nextSong">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                </button>
-            </div>
-            <audio id="audio" src={audio.Audios.rutaSonido} data-idaudio={audio.Audios.idAudio}></audio>
         </div>
+        <div class="reproductor mt-2 order-3 md:order-2 w-full md:w-1/3 flex justify-between"> 
+            <div class="w-full flex justify-between items-center">
+                <span id="nowTimeMusic" class="w-2/12 hidden sm:inline text-right mr-2">00:00</span>
+                <div id="containerPointer" class="w-full sm:w-8/12 h-2 flex items-center relative">
+                    <progress id="musicProgress" class="w-full h-full relative" value="0" max="0"></progress>
+                    <div id="pointTimeMusic" class="w-3 h-3 rounded-full bg-red-500 absolute -left-0.5 hover:transform hover:scale-125 cursor-pointer" draggable="true"></div>
+                </div>
+                <span id="endTimeMusic" class="w-2/12 hidden sm:inline ml-2">00:00</span>
+            </div>
+        </div>
+        <div class="controles order-2 md:order-3 w-1/3 flex justify-end items-center">
+            <button id="previousSong">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>                      
+            </button>
+            <button id="playSong">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
+                </svg>                                           
+            </button>
+            <button id="pauseSong" class="hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>                                                                 
+            </button>
+            <button id="nextSong">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </button>
+        </div>
+        <audio id="audio" src={audio.Audios.rutaSonido} data-idaudio={posicionRandom}></audio>
+    </div>
 
-        <script is:inline define:vars={{audios}}>
-            const audiosScript = audios
-            //const progressElement = document.getElementById('musicProgress')
-        
-            function convertSecToMinSec(sec) {
-                const minutes = Math.trunc(sec / 60).toString().padStart(2, 0);
-                const seconds = Math.trunc(sec % 60).toString().padStart(2, 0);
-        
-                return [minutes, seconds]
-            }
-        
-            document.getElementById('audio').addEventListener('loadedmetadata', (e) => {
-                console.log(e.target.duration);
-        
-                const timeAudio = convertSecToMinSec(e.target.duration);
-        
-                const musicProgress = document.getElementById('musicProgress')
-                musicProgress.max = e.target.duration
-        
-                const timeEndMusic = document.getElementById('endTimeMusic')
-                timeEndMusic.innerHTML = `${timeAudio[0]}:${timeAudio[1]}`
-            });
-        
-            document.getElementById('audio').addEventListener('timeupdate', (e) => {
-                const timeAudio = convertSecToMinSec(e.target.currentTime);
-        
-                const musicProgress = document.getElementById('musicProgress')
-                musicProgress.value = e.target.currentTime
-                
-                const timeNowMusic = document.getElementById('nowTimeMusic') 
-                timeNowMusic.innerHTML = `${timeAudio[0]}:${timeAudio[1]}`
-        
-                const px = (musicProgress.offsetWidth * e.target.currentTime) / musicProgress.max
-                const pointer = document.getElementById('pointTimeMusic')
-        
-                pointer.style.left = (px - 2) + 'px'; //Restar 3 pixeles estaría mejor
-            });
-        
-            document.getElementById('nextSong').addEventListener('click', () => {
-                console.log('Next song');
-        
-                // Modificar la tarjeta para que aparezca la nueva imagen
-                const nombreElement = document.getElementById('nombre')
-                const artistaElement = document.getElementById('artista')
-                const imagenElement = document.getElementById('imagen')
-                const audioElement = document.getElementById('audio')
-        
-                let idAudioSiguiente = +(audioElement.dataset.idaudio) + 1
-                idAudioSiguiente = idAudioSiguiente > audiosScript.length ? 1 : idAudioSiguiente
-                const audio = audiosScript.filter(audio => audio.Audios.idAudio == idAudioSiguiente)[0];
-                console.log(audio)
-        
-                nombreElement.innerHTML = audio.Audios.nombreAudio
-                artistaElement.innerHTML = audio.Usuario.username
-                imagenElement.setAttribute("src", audio.Audios.rutaImagen)
-                audioElement.setAttribute("src", audio.Audios.rutaSonido)
-                audioElement.dataset.idaudio = `${audio.Audios.idAudio}`
-                audioElement.play()
-        
-                if(document.getElementById('pauseSong').classList.contains('hidden'))
-                {
-                    document.getElementById('playSong').classList.toggle('hidden')
-                    document.getElementById('pauseSong').classList.toggle('hidden')
-                }
-            });
-        
-            document.getElementById('previousSong').addEventListener('click', () => {
-                console.log('Previous song');
-                console.log(audiosScript);
-        
-                // Modificar la tarjeta para que aparezca la nueva imagen
-                const nombreElement = document.getElementById('nombre')
-                const artistaElement = document.getElementById('artista')
-                const imagenElement = document.getElementById('imagen')
-                const audioElement = document.getElementById('audio')
+    <script is:inline define:vars={{audios}}>
+        const audiosScript = audios
+        console.log(audiosScript)
+        //const progressElement = document.getElementById('musicProgress')
+    
+        function convertSecToMinSec(sec) {
+            const minutes = Math.trunc(sec / 60).toString().padStart(2, 0);
+            const seconds = Math.trunc(sec % 60).toString().padStart(2, 0);
+    
+            return [minutes, seconds]
+        }
+    
+        document.getElementById('audio').addEventListener('loadedmetadata', (e) => {
+            console.log(e.target.duration);
+    
+            const timeAudio = convertSecToMinSec(e.target.duration);
+    
+            const musicProgress = document.getElementById('musicProgress')
+            musicProgress.max = e.target.duration
+    
+            const timeEndMusic = document.getElementById('endTimeMusic')
+            timeEndMusic.innerHTML = `${timeAudio[0]}:${timeAudio[1]}`
+        });
+    
+        document.getElementById('audio').addEventListener('timeupdate', (e) => {
+            const timeAudio = convertSecToMinSec(e.target.currentTime);
+    
+            const musicProgress = document.getElementById('musicProgress')
+            musicProgress.value = e.target.currentTime
             
-                let idAudioSiguiente = parseInt(audioElement.dataset.idaudio) - 1
-                idAudioSiguiente = idAudioSiguiente == 0 ? audiosScript.length : idAudioSiguiente
-                const audio = audiosScript.filter(audio => audio.Audios.idAudio == idAudioSiguiente)[0];
-        
-                nombreElement.innerHTML = audio.Audios.nombreAudio
-                artistaElement.innerHTML = audio.Usuario.username
-                imagenElement.setAttribute("src", audio.Audios.rutaImagen)
-                audioElement.setAttribute("src", audio.Audios.rutaSonido)
-                audioElement.dataset.idaudio = `${audio.Audios.idAudio}`
-                audioElement.play()  
-        
-                if(document.getElementById('pauseSong').classList.contains('hidden'))
-                {
-                    document.getElementById('playSong').classList.toggle('hidden')
-                    document.getElementById('pauseSong').classList.toggle('hidden')
-                }
-            });
-        
-            document.getElementById('playSong').addEventListener('click', () => {
-                console.log('Play song');
-        
-                const audio = document.getElementById('audio')
-                audio.play()
+            const timeNowMusic = document.getElementById('nowTimeMusic') 
+            timeNowMusic.innerHTML = `${timeAudio[0]}:${timeAudio[1]}`
+    
+            const px = (musicProgress.offsetWidth * e.target.currentTime) / musicProgress.max
+            const pointer = document.getElementById('pointTimeMusic')
+    
+            pointer.style.left = (px - 2) + 'px'; //Restar 3 pixeles estaría mejor
+        });
+    
+        document.getElementById('nextSong').addEventListener('click', () => {
+            console.log('Next song');
+    
+            // Modificar la tarjeta para que aparezca la nueva imagen
+            const nombreElement = document.getElementById('nombre')
+            const artistaElement = document.getElementById('artista')
+            const imagenElement = document.getElementById('imagen')
+            const audioElement = document.getElementById('audio')
+    
+            let idAudioSiguiente = +(audioElement.dataset.idaudio) + 1
+            idAudioSiguiente = idAudioSiguiente == audiosScript.length ? 0 : idAudioSiguiente
+            const audio = audiosScript[idAudioSiguiente];
+            console.log(audio)
+    
+            nombreElement.innerHTML = audio.Audios.nombreAudio
+            artistaElement.innerHTML = audio.Usuario.username
+            imagenElement.setAttribute("src", audio.Audios.rutaImagen)
+            audioElement.setAttribute("src", audio.Audios.rutaSonido)
+            audioElement.dataset.idaudio = `${idAudioSiguiente}`
+            audioElement.play()
+    
+            if(document.getElementById('pauseSong').classList.contains('hidden'))
+            {
                 document.getElementById('playSong').classList.toggle('hidden')
                 document.getElementById('pauseSong').classList.toggle('hidden')
-            });
+            }
+        });
+    
+        document.getElementById('previousSong').addEventListener('click', () => {
+            console.log('Previous song');
+            console.log(audiosScript);
+    
+            // Modificar la tarjeta para que aparezca la nueva imagen
+            const nombreElement = document.getElementById('nombre')
+            const artistaElement = document.getElementById('artista')
+            const imagenElement = document.getElementById('imagen')
+            const audioElement = document.getElementById('audio')
         
-            document.getElementById('pauseSong').addEventListener('click', () => {
-                console.log('Pause song');
-        
-                const audio = document.getElementById('audio')
-                audio.pause()
+            let idAudioAnterior = +(audioElement.dataset.idaudio) - 1
+            idAudioAnterior = idAudioAnterior == -1 ? audiosScript.length-1 : idAudioAnterior
+            const audio = audiosScript[idAudioAnterior];
+    
+            nombreElement.innerHTML = audio.Audios.nombreAudio
+            artistaElement.innerHTML = audio.Usuario.username
+            imagenElement.setAttribute("src", audio.Audios.rutaImagen)
+            audioElement.setAttribute("src", audio.Audios.rutaSonido)
+            audioElement.dataset.idaudio = `${idAudioAnterior}`
+            audioElement.play()  
+    
+            if(document.getElementById('pauseSong').classList.contains('hidden'))
+            {
+                document.getElementById('playSong').classList.toggle('hidden')
                 document.getElementById('pauseSong').classList.toggle('hidden')
-                document.getElementById('playSong').classList.toggle('hidden')        
-            });
-        
-            document.getElementById('pointTimeMusic').addEventListener('dragstart', (e) => {
-                e.preventDefault();
-            });
-        
-            document.getElementById('pointTimeMusic').addEventListener('mousedown', (e) => {
-                console.log('Mouse down');
-                e.preventDefault();
+            }
+        });
+    
+        document.getElementById('playSong').addEventListener('click', () => {
+            console.log('Play song');
+    
+            const audio = document.getElementById('audio')
+            audio.play()
+            document.getElementById('playSong').classList.toggle('hidden')
+            document.getElementById('pauseSong').classList.toggle('hidden')
+        });
+    
+        document.getElementById('pauseSong').addEventListener('click', () => {
+            console.log('Pause song');
+    
+            const audio = document.getElementById('audio')
+            audio.pause()
+            document.getElementById('pauseSong').classList.toggle('hidden')
+            document.getElementById('playSong').classList.toggle('hidden')        
+        });
+    
+        document.getElementById('pointTimeMusic').addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+    
+        document.getElementById('pointTimeMusic').addEventListener('mousedown', (e) => {
+            console.log('Mouse down');
+            e.preventDefault();
 
-                if (!document.getElementById('audio').paused)
-                {
-                    document.getElementById('playSong').classList.toggle('hidden')
-                    document.getElementById('pauseSong').classList.toggle('hidden')
-                }
+            if (!document.getElementById('audio').paused)
+            {
+                document.getElementById('playSong').classList.toggle('hidden')
+                document.getElementById('pauseSong').classList.toggle('hidden')
+            }
 
-                document.getElementById('audio').pause()
-        
-                const container = document.getElementById('containerPointer')
-                const pointer = document.getElementById('pointTimeMusic')
-        
-                const shiftX = e.clientX - pointer.getBoundingClientRect().left;
-        
-                function moveOn(e) {
-                    let newLeft = e.clientX - shiftX - container.getBoundingClientRect().left;
-        
-                    // the pointer is out of slider => lock the thumb within the bounaries
-                    if (newLeft < 0) {
-                    newLeft = 0;
-                    }
-                    const rightEdge = container.offsetWidth - pointer.offsetWidth;
-                    if (newLeft > rightEdge) {
-                    newLeft = rightEdge;
-                    }
-        
-                    pointer.style.left = newLeft + 'px';
-        
-                    const musicProgress = document.getElementById('musicProgress')
-                    const seg = (newLeft * musicProgress.max) / musicProgress.offsetWidth
-        
-                    musicProgress.value = seg
-                    document.getElementById('audio').currentTime = seg
+            document.getElementById('audio').pause()
+    
+            const container = document.getElementById('containerPointer')
+            const pointer = document.getElementById('pointTimeMusic')
+    
+            const shiftX = e.clientX - pointer.getBoundingClientRect().left;
+    
+            function moveOn(e) {
+                let newLeft = e.clientX - shiftX - container.getBoundingClientRect().left;
+    
+                // the pointer is out of slider => lock the thumb within the bounaries
+                if (newLeft < 0) {
+                newLeft = 0;
                 }
-        
-                function onMouseMove(e) {
-                    console.log('Mouse move');
-        
-                    moveOn(e);
+                const rightEdge = container.offsetWidth - pointer.offsetWidth;
+                if (newLeft > rightEdge) {
+                newLeft = rightEdge;
                 }
-        
-                function onMouseUp() {
-                    console.log('Mouse up');
-        
-                    document.removeEventListener('mousemove', onMouseMove);
-                    document.removeEventListener('mouseup', onMouseUp);
-                    document.getElementById('audio').play()
-                    document.getElementById('playSong').classList.toggle('hidden')
-                    document.getElementById('pauseSong').classList.toggle('hidden')
-                }
-        
-                document.addEventListener('mousemove', onMouseMove);
-                document.addEventListener('mouseup', onMouseUp);
-            });
-        </script>
-    </div> : ""
-}
+    
+                pointer.style.left = newLeft + 'px';
+    
+                const musicProgress = document.getElementById('musicProgress')
+                const seg = (newLeft * musicProgress.max) / musicProgress.offsetWidth
+    
+                musicProgress.value = seg
+                document.getElementById('audio').currentTime = seg
+            }
+    
+            function onMouseMove(e) {
+                console.log('Mouse move');
+    
+                moveOn(e);
+            }
+    
+            function onMouseUp() {
+                console.log('Mouse up');
+    
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                document.getElementById('audio').play()
+                document.getElementById('playSong').classList.toggle('hidden')
+                document.getElementById('pauseSong').classList.toggle('hidden')
+            }
+    
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+    </script>
+</div>

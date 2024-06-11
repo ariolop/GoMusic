@@ -1,0 +1,18 @@
+---
+import './../css/output.css'
+import Reproductor from '../components/Reproductor.astro';
+import { ViewTransitions } from 'astro:transitions';
+import Layout from '../layouts/Layout.astro';
+import HeaderIndex from '../components/HeaderIndex.astro';
+import MainAudio from '../layouts/MainAudio.astro'
+
+const { idAudio } = Astro.props
+
+---
+
+<Layout>
+    <ViewTransitions/>
+    <HeaderIndex/>
+    <MainAudio/>
+    <Reproductor/>
+</Layout>

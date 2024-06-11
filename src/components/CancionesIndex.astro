@@ -1,10 +1,38 @@
 ---
 import './../css/output.css'
+import { Audios, Artista, Album, Usuario, Album_Audio } from 'astro:db';
+import { db, eq } from 'astro:db';
+
+const audios = (
+    await db.select().from(
+        Audios
+    ).leftJoin(
+        Album_Audio, eq(Album_Audio.idAudio, Audios.idAudio)
+    ).innerJoin(
+        Album, eq(Album_Audio.idAlbum, Album.idAlbum)
+    ).innerJoin(
+        Artista, eq(Album.idArtista, Artista.idArtista)
+    ).innerJoin(
+        Usuario, eq(Artista.idUsuario, Usuario.id)
+    )
+);
+
+const randomPositions = []
+
+const cantidadAudios = audios.length
+
+while(randomPositions.length != 6)
+{
+    const numAlea = Math.floor(Math.random() * cantidadAudios)
+    if (!randomPositions.includes(numAlea))
+        randomPositions.push(numAlea) 
+}
+
 ---
 
-<div class="flex justify-center w-full sm:w-3/4 order-1 flex-wrap p-4 px-4 md:px-12">
+<div transition:persist class="flex h-full w-full sm:w-3/4 order-1 flex-wrap flex-col items-center p-4 px-4 md:px-12">
     <!-- 3 Botones para filtrar por Canciones, Podcast o Todo -->
-    <div class="flex justify-evenly w-full lg:w-3/4 items-center">
+    <div class="flex justify-evenly w-full lg:w-3/4 items-center h-10">
         <button class="bg-gray-200 hover:bg-gray-400 hover:text-white hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Todos</button>
         <button class="bg-gray-200 hover:bg-gray-400 hover:text-white hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Canciones</button>
         <button class="bg-gray-200 hover:bg-gray-400 hover:text-white hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Podcasts</button>
@@ -12,30 +40,30 @@ import './../css/output.css'
     
     <!-- Últimas canciones escuchadas, si no tiene, poder canciones o álbumes randoms -->
     <div class="grid grid-rows-3 grid-cols-2 md:grid-rows-2 md:grid-cols-3 w-full gap-4 mt-4 ">
-        <div class="flex bg-gray-200 items-center rounded">
-            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/happy_day-5fTsYgd3tQ1fi4U5mNkoBFr0DVVRYl.webp" alt="">
-            <p class="ml-3 text-sm lg:text-base font-bold mr-1">Nombre de la cancion</p>
-        </div>
-        <div class="flex bg-gray-200 items-center rounded">
-            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/happy_day-5fTsYgd3tQ1fi4U5mNkoBFr0DVVRYl.webp" alt="">
-            <p class="ml-3 text-sm lg:text-base font-bold mr-1">Nombre de la cancion</p>
-        </div>
-        <div class="flex bg-gray-200 items-center rounded">
-            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/happy_day-5fTsYgd3tQ1fi4U5mNkoBFr0DVVRYl.webp" alt="">
-            <p class="ml-3 text-sm lg:text-base font-bold mr-1">Nombre de la cancion</p>
-        </div>
-        <div class="flex bg-gray-200 items-center rounded">
-            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/happy_day-5fTsYgd3tQ1fi4U5mNkoBFr0DVVRYl.webp" alt="">
-            <p class="ml-3 text-sm lg:text-base font-bold mr-1">Nombre de la cancion</p>
-        </div>
-        <div class="flex bg-gray-200 items-center rounded">
-            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/happy_day-5fTsYgd3tQ1fi4U5mNkoBFr0DVVRYl.webp" alt="">
-            <p class="ml-3 text-sm lg:text-base font-bold mr-1">Nombre de la cancion</p>
-        </div>
-        <div class="flex bg-gray-200 items-center rounded">
-            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/happy_day-5fTsYgd3tQ1fi4U5mNkoBFr0DVVRYl.webp" alt="">
-            <p class="ml-3 text-sm lg:text-base font-bold mr-1">Nombre de la cancion</p>
-        </div>
+        <a class="flex bg-gray-200 items-center rounded" href={"audio?id=" + audios[randomPositions[0]].Audios.idAudio}>
+            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src={audios[randomPositions[0]].Audios.rutaImagen} alt="">
+            <p class="ml-3 text-sm lg:text-base font-bold mr-1">{audios[randomPositions[0]].Audios.nombreAudio}</p>
+        </a>
+        <a class="flex bg-gray-200 items-center rounded" href={"audio?id=" + audios[randomPositions[1]].Audios.idAudio}>
+            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src={audios[randomPositions[1]].Audios.rutaImagen} alt="">
+            <p class="ml-3 text-sm lg:text-base font-bold mr-1">{audios[randomPositions[1]].Audios.nombreAudio}</p>
+        </a>
+        <a class="flex bg-gray-200 items-center rounded" href={"audio?id=" + audios[randomPositions[2]].Audios.idAudio}>
+            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src={audios[randomPositions[2]].Audios.rutaImagen} alt="">
+            <p class="ml-3 text-sm lg:text-base font-bold mr-1">{audios[randomPositions[2]].Audios.nombreAudio}</p>
+        </a>
+        <a class="flex bg-gray-200 items-center rounded" href={"audio?id=" + audios[randomPositions[3]].Audios.idAudio}>
+            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src={audios[randomPositions[3]].Audios.rutaImagen} alt="">
+            <p class="ml-3 text-sm lg:text-base font-bold mr-1">{audios[randomPositions[3]].Audios.nombreAudio}</p>
+        </a>
+        <a class="flex bg-gray-200 items-center rounded" href={"audio?id=" + audios[randomPositions[4]].Audios.idAudio}>
+            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src={audios[randomPositions[4]].Audios.rutaImagen} alt="">
+            <p class="ml-3 text-sm lg:text-base font-bold mr-1">{audios[randomPositions[4]].Audios.nombreAudio}</p>
+        </a>
+        <a class="flex bg-gray-200 items-center rounded" href={"audio?id=" + audios[randomPositions[5]].Audios.idAudio}>
+            <img class="rounded-tl rounded-bl w-12 h-12 lg:w-14 lg:h-14" src={audios[randomPositions[5]].Audios.rutaImagen} alt="">
+            <p class="ml-3 text-sm lg:text-base font-bold mr-1">{audios[randomPositions[5]].Audios.nombreAudio}</p>
+        </a>
     </div>
 
 

@@ -1,0 +1,44 @@
+---
+import ListasIndex from '../components/ListasIndex.astro';
+import { db, Audios, Album_Audio, eq, Album, Artista, Usuario } from "astro:db";
+
+const idAudio = Astro.request.url.split("?")[1].split("=")[1]
+
+const infoAudio = (
+    await db.select().from(
+        Audios
+    ).where(
+        eq(Audios.idAudio, idAudio)
+    ).leftJoin(
+        Album_Audio, eq(Album_Audio.idAudio, Audios.idAudio)
+    ).innerJoin(
+        Album, eq(Album_Audio.idAlbum, Album.idAlbum)
+    ).innerJoin(
+        Artista, eq(Album.idArtista, Artista.idArtista)
+    ).innerJoin(
+        Usuario, eq(Artista.idUsuario, Usuario.id)
+    )
+)[0];
+
+console.log(infoAudio);
+
+
+---
+<div class="flex flex-wrap justify-center">
+    <ListasIndex/>
+    <div class="flex w-full sm:w-3/4 order-1 justify-center sm:justify-normal flex-wrap p-4 px-4 md:px-12">
+        <div class="w-full max-w-[300px] sm:max-w-none sm:w-1/3">
+            <img class="h-full" src={infoAudio.Audios.rutaImagen}>
+        </div>
+        <div class="w-full max-w-[300px] sm:max-w-none sm:w-1/3 ml-2 flex justify-end flex-col">
+            <h2 class="w-full text-3xl font-bold">{infoAudio.Audios.nombreAudio}</h2>
+            <h2 class="w-full text-xl font-semibold mb-2">{infoAudio.Usuario.nombre + " " + infoAudio.Usuario.apellidos}</h2>
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-11">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
+                </svg>                  
+            </button>
+        </div>
+    </div>
+</div>
