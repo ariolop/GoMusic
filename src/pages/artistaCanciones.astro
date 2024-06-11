@@ -8,7 +8,7 @@ if(!estaLogueado(cookies))
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/HeaderIndex.astro';
 import { ViewTransitions } from 'astro:transitions';
-import ListaCaciones from '../components/AdministrarMusica/ListaCancionesArtista.astro';
+import ListaAudios from '../components/AdministrarMusica/ListaAudiosArtista.astro';
 import { db, Artista, eq } from 'astro:db';
 
 const userId = await getUserActivo(cookies)
@@ -19,5 +19,5 @@ console.log(artistaId);
 <Layout>
     <Header/>
     <ViewTransitions/>
-    <ListaCaciones idArtista={artistaId}/>
+    <ListaAudios idArtista={artistaId}/>
 </Layout>
