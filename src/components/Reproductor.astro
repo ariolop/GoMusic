@@ -107,6 +107,7 @@ if (audios) {
             const audioElement = document.getElementById('audio')
             if( rutaSonido != audioElement.src)
             {
+                const idAudio = document.location.href.split("?")[1].split("=")[1]
                 const nombreElement = document.getElementById('nombre')
                 const artistaElement = document.getElementById('artista')
                 const imagenElement = document.getElementById('imagen')
@@ -116,6 +117,7 @@ if (audios) {
                 imagenElement.setAttribute("src", rutaImagen)
                 audioElement.setAttribute("src", rutaSonido)
                 audioElement.dataset.posicioncola = 0
+                audioElement.dataset.idaudio = idAudio
             }
             
             audioElement.play()
@@ -138,7 +140,7 @@ if (audios) {
 
         console.log(idAudioURL);            
         console.log(idAudioReproductor);        
-        
+
         return idAudioURL == idAudioReproductor
     }
 
