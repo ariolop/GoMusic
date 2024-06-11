@@ -70,12 +70,11 @@ if (audios) {
                 </svg>
             </button>
         </div>
-        <audio id="audio" src={audio.Audios.rutaSonido} data-idaudio={posicionRandom}></audio>
+        <audio id="audio" src={audio.Audios.rutaSonido} data-timeReproduced="0" data-timeLastPaused="0" data-reproducido="false" data-idaudio={audio.Audios.idAudio} data-posicioncola={posicionRandom}></audio>
     </div>
 
     <script is:inline define:vars={{audios}}>
         const audiosScript = audios
-        console.log(audiosScript)
         //const progressElement = document.getElementById('musicProgress')
     
         function convertSecToMinSec(sec) {
@@ -96,8 +95,19 @@ if (audios) {
             const timeEndMusic = document.getElementById('endTimeMusic')
             timeEndMusic.innerHTML = `${timeAudio[0]}:${timeAudio[1]}`
         });
+
+        document.getElementById('audio').addEventListener('ended', (e) => {
+            e.target.dataset.reproducido = "false"
+            siguienteCancion(audiosScript)
+        });
     
         document.getElementById('audio').addEventListener('timeupdate', (e) => {
+
+            if (+(e.target.dataset.reproducido) > 10 && e.target.dataset.reproducido == "false" && !e.target.paused) {
+                e.target.dataset.reproducido = "true"
+                añadirRegistroEscucha(e)
+            }
+                
             const timeAudio = convertSecToMinSec(e.target.currentTime);
     
             const musicProgress = document.getElementById('musicProgress')
@@ -112,60 +122,18 @@ if (audios) {
             pointer.style.left = (px - 2) + 'px'; //Restar 3 pixeles estaría mejor
         });
     
-        document.getElementById('nextSong').addEventListener('click', () => {
+        document.getElementById('nextSong').addEventListener('click', (e) => {
             console.log('Next song');
     
-            // Modificar la tarjeta para que aparezca la nueva imagen
-            const nombreElement = document.getElementById('nombre')
-            const artistaElement = document.getElementById('artista')
-            const imagenElement = document.getElementById('imagen')
-            const audioElement = document.getElementById('audio')
-    
-            let idAudioSiguiente = +(audioElement.dataset.idaudio) + 1
-            idAudioSiguiente = idAudioSiguiente == audiosScript.length ? 0 : idAudioSiguiente
-            const audio = audiosScript[idAudioSiguiente];
-            console.log(audio)
-    
-            nombreElement.innerHTML = audio.Audios.nombreAudio
-            artistaElement.innerHTML = audio.Usuario.username
-            imagenElement.setAttribute("src", audio.Audios.rutaImagen)
-            audioElement.setAttribute("src", audio.Audios.rutaSonido)
-            audioElement.dataset.idaudio = `${idAudioSiguiente}`
-            audioElement.play()
-    
-            if(document.getElementById('pauseSong').classList.contains('hidden'))
-            {
-                document.getElementById('playSong').classList.toggle('hidden')
-                document.getElementById('pauseSong').classList.toggle('hidden')
-            }
+            e.target.dataset.reproducido = "false"
+            siguienteCancion(audiosScript)
         });
     
-        document.getElementById('previousSong').addEventListener('click', () => {
+        document.getElementById('previousSong').addEventListener('click', (e) => {
             console.log('Previous song');
-            console.log(audiosScript);
-    
-            // Modificar la tarjeta para que aparezca la nueva imagen
-            const nombreElement = document.getElementById('nombre')
-            const artistaElement = document.getElementById('artista')
-            const imagenElement = document.getElementById('imagen')
-            const audioElement = document.getElementById('audio')
-        
-            let idAudioAnterior = +(audioElement.dataset.idaudio) - 1
-            idAudioAnterior = idAudioAnterior == -1 ? audiosScript.length-1 : idAudioAnterior
-            const audio = audiosScript[idAudioAnterior];
-    
-            nombreElement.innerHTML = audio.Audios.nombreAudio
-            artistaElement.innerHTML = audio.Usuario.username
-            imagenElement.setAttribute("src", audio.Audios.rutaImagen)
-            audioElement.setAttribute("src", audio.Audios.rutaSonido)
-            audioElement.dataset.idaudio = `${idAudioAnterior}`
-            audioElement.play()  
-    
-            if(document.getElementById('pauseSong').classList.contains('hidden'))
-            {
-                document.getElementById('playSong').classList.toggle('hidden')
-                document.getElementById('pauseSong').classList.toggle('hidden')
-            }
+            
+            e.target.dataset.reproducido = "false"
+            anteriorCancion(audiosScript)
         });
     
         document.getElementById('playSong').addEventListener('click', () => {
@@ -191,7 +159,6 @@ if (audios) {
         });
     
         document.getElementById('pointTimeMusic').addEventListener('mousedown', (e) => {
-            console.log('Mouse down');
             e.preventDefault();
 
             if (!document.getElementById('audio').paused)
@@ -229,14 +196,10 @@ if (audios) {
             }
     
             function onMouseMove(e) {
-                console.log('Mouse move');
-    
                 moveOn(e);
             }
     
-            function onMouseUp() {
-                console.log('Mouse up');
-    
+            function onMouseUp() {   
                 document.removeEventListener('mousemove', onMouseMove);
                 document.removeEventListener('mouseup', onMouseUp);
                 document.getElementById('audio').play()
@@ -247,5 +210,59 @@ if (audios) {
             document.addEventListener('mousemove', onMouseMove);
             document.addEventListener('mouseup', onMouseUp);
         });
+
+        function anteriorCancion() {
+            // Modificar la tarjeta para que aparezca la nueva imagen
+            const nombreElement = document.getElementById('nombre')
+            const artistaElement = document.getElementById('artista')
+            const imagenElement = document.getElementById('imagen')
+            const audioElement = document.getElementById('audio')
+        
+            let posicionColaAnterior = +(audioElement.dataset.posicioncola) - 1
+            posicionColaAnterior = posicionColaAnterior == -1 ? audiosScript.length-1 : posicionColaAnterior
+            const audio = audiosScript[posicionColaAnterior];
+    
+            nombreElement.innerHTML = audio.Audios.nombreAudio
+            artistaElement.innerHTML = audio.Usuario.username
+            imagenElement.setAttribute("src", audio.Audios.rutaImagen)
+            audioElement.setAttribute("src", audio.Audios.rutaSonido)
+            audioElement.dataset.posicioncola = `${posicionColaAnterior}`
+            audioElement.play()  
+    
+            if(document.getElementById('pauseSong').classList.contains('hidden'))
+            {
+                document.getElementById('playSong').classList.toggle('hidden')
+                document.getElementById('pauseSong').classList.toggle('hidden')
+            }
+        }
+
+        function siguienteCancion() {
+            // Modificar la tarjeta para que aparezca la nueva imagen
+            const nombreElement = document.getElementById('nombre')
+            const artistaElement = document.getElementById('artista')
+            const imagenElement = document.getElementById('imagen')
+            const audioElement = document.getElementById('audio')
+    
+            let posicionColaSiguiente = +(audioElement.dataset.posicioncola) + 1
+            posicionColaSiguiente = posicionColaSiguiente == audiosScript.length ? 0 : posicionColaSiguiente
+            const audio = audiosScript[posicionColaSiguiente];
+    
+            nombreElement.innerHTML = audio.Audios.nombreAudio
+            artistaElement.innerHTML = audio.Usuario.username
+            imagenElement.setAttribute("src", audio.Audios.rutaImagen)
+            audioElement.setAttribute("src", audio.Audios.rutaSonido)
+            audioElement.dataset.posicioncola = `${posicionColaSiguiente}`
+            audioElement.play()
+    
+            if(document.getElementById('pauseSong').classList.contains('hidden'))
+            {
+                document.getElementById('playSong').classList.toggle('hidden')
+                document.getElementById('pauseSong').classList.toggle('hidden')
+            }
+        }
+
+        function añadirRegistroEscucha(e) {
+            console.log("Contar como reproducido");
+        }
     </script>
 </div>
