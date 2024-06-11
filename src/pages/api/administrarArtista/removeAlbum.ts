@@ -29,7 +29,7 @@ export async function POST(context: APIContext): Promise<Response> {
         del(rutasImagen)
 
         //Borramos los registros de la BD
-        await db.delete(Album_Audio).where(eq(Album_Audio.idAudio, idAlbum));
+        await db.delete(Album_Audio).where(eq(Album_Audio.idAlbum, idAlbum));
         await db.delete(Audios).where(inArray(Audios.idAudio, idsAudio));
     }
     
