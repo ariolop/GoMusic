@@ -850,6 +850,14 @@ progress::-webkit-progress-value {
   height: 100%;
 }
 
+.h-\[min-88vh\] {
+  height: min-88vh;
+}
+
+.min-h-\[88vh\] {
+  min-height: 88vh;
+}
+
 .w-1\/2 {
   width: 50%;
 }
