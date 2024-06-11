@@ -72,197 +72,274 @@ if (audios) {
         </div>
         <audio id="audio" src={audio.Audios.rutaSonido} data-timeReproduced="0" data-timeLastPaused="0" data-reproducido="false" data-idaudio={audio.Audios.idAudio} data-posicioncola={posicionRandom}></audio>
     </div>
+</div>
 
-    <script is:inline define:vars={{audios}}>
-        const audiosScript = audios
-        //const progressElement = document.getElementById('musicProgress')
-    
-        function convertSecToMinSec(sec) {
-            const minutes = Math.trunc(sec / 60).toString().padStart(2, 0);
-            const seconds = Math.trunc(sec % 60).toString().padStart(2, 0);
-    
-            return [minutes, seconds]
-        }
-    
-        document.getElementById('audio').addEventListener('loadedmetadata', (e) => {
-            console.log(e.target.duration);
-    
-            const timeAudio = convertSecToMinSec(e.target.duration);
-    
-            const musicProgress = document.getElementById('musicProgress')
-            musicProgress.max = e.target.duration
-    
-            const timeEndMusic = document.getElementById('endTimeMusic')
-            timeEndMusic.innerHTML = `${timeAudio[0]}:${timeAudio[1]}`
-        });
-
-        document.getElementById('audio').addEventListener('ended', (e) => {
-            e.target.dataset.reproducido = "false"
-            siguienteCancion(audiosScript)
-        });
-    
-        document.getElementById('audio').addEventListener('timeupdate', (e) => {
-
-            if (+(e.target.dataset.reproducido) > 10 && e.target.dataset.reproducido == "false" && !e.target.paused) {
-                e.target.dataset.reproducido = "true"
-                añadirRegistroEscucha(e)
+<script is:inline data-astro-rerun>
+    if( document.getElementById("playAudio") )
+    {
+        const same = mismaCancion()
+        console.log(same);
+        if (same) {
+            if(!document.getElementById("audio").paused)
+            {
+                document.getElementById("playAudio").classList.toggle("hidden")
+                document.getElementById("pauseAudio").classList.toggle("hidden") 
             }
-                
-            const timeAudio = convertSecToMinSec(e.target.currentTime);
-    
-            const musicProgress = document.getElementById('musicProgress')
-            musicProgress.value = e.target.currentTime
+        }
+
+        document.getElementById("playAudio").addEventListener("click", (e) => {
+            //audiosScript = eliminarCola()
+            document.getElementById('playSong').classList.add('hidden')
+            document.getElementById('pauseSong').classList.remove('hidden')
+            document.getElementById('playAudio').classList.add('hidden')
+            document.getElementById('pauseAudio').classList.remove('hidden')
+
+            const rutaImagen = document.getElementById('imagenPortada').src
+            const rutaSonido = document.getElementById("playAudio").dataset.rutasonido
+            const tituloCancion = document.getElementById('tituloCancion').innerText
+            const artistaCancion = document.getElementById('artistaCancion').innerText
+
+            console.log(rutaImagen)
+            console.log(rutaSonido)
+            console.log(tituloCancion)
+            console.log(artistaCancion)
+
+            const audioElement = document.getElementById('audio')
+            if( rutaSonido != audioElement.src)
+            {
+                const nombreElement = document.getElementById('nombre')
+                const artistaElement = document.getElementById('artista')
+                const imagenElement = document.getElementById('imagen')
+
+                nombreElement.innerHTML = tituloCancion
+                artistaElement.innerHTML = artistaCancion
+                imagenElement.setAttribute("src", rutaImagen)
+                audioElement.setAttribute("src", rutaSonido)
+                audioElement.dataset.posicioncola = 0
+            }
             
-            const timeNowMusic = document.getElementById('nowTimeMusic') 
-            timeNowMusic.innerHTML = `${timeAudio[0]}:${timeAudio[1]}`
-    
-            const px = (musicProgress.offsetWidth * e.target.currentTime) / musicProgress.max
-            const pointer = document.getElementById('pointTimeMusic')
-    
-            pointer.style.left = (px - 2) + 'px'; //Restar 3 pixeles estaría mejor
-        });
-    
-        document.getElementById('nextSong').addEventListener('click', (e) => {
-            console.log('Next song');
-    
-            e.target.dataset.reproducido = "false"
-            siguienteCancion(audiosScript)
-        });
-    
-        document.getElementById('previousSong').addEventListener('click', (e) => {
-            console.log('Previous song');
+            audioElement.play()
+        })
+
+        document.getElementById("pauseAudio").addEventListener("click", (e) => {
+            const audioElement = document.getElementById('audio')
+            audioElement.pause()
+
+            document.getElementById('playSong').classList.remove('hidden')
+            document.getElementById('pauseSong').classList.add('hidden')
+            document.getElementById('playAudio').classList.remove('hidden')
+            document.getElementById('pauseAudio').classList.add('hidden')
+        })
+    }
+
+    function mismaCancion() {
+        const idAudioURL = document.location.href.split('?')[1].split('=')[1]
+        const idAudioReproductor = document.getElementById("audio").dataset.idaudio
+
+        return idAudioURL == idAudioReproductor
+    }
+
+    function eliminarCola() {
+        return audiosScript.splice(0,0)
+    }
+</script>
+
+<script is:inline>
+    //let audiosScript = audios
+    //const progressElement = document.getElementById('musicProgress')
+
+    function convertSecToMinSec(sec) {
+        const minutes = Math.trunc(sec / 60).toString().padStart(2, 0);
+        const seconds = Math.trunc(sec % 60).toString().padStart(2, 0);
+
+        return [minutes, seconds]
+    }
+
+    document.getElementById('audio').addEventListener('loadedmetadata', (e) => {
+        console.log(e.target.duration);
+
+        const timeAudio = convertSecToMinSec(e.target.duration);
+
+        const musicProgress = document.getElementById('musicProgress')
+        musicProgress.max = e.target.duration
+
+        const timeEndMusic = document.getElementById('endTimeMusic')
+        timeEndMusic.innerHTML = `${timeAudio[0]}:${timeAudio[1]}`
+    });
+
+    document.getElementById('audio').addEventListener('ended', (e) => {
+        e.target.dataset.reproducido = "false"
+        siguienteCancion(audiosScript)
+    });
+
+    document.getElementById('audio').addEventListener('timeupdate', (e) => {
+
+        if (+(e.target.dataset.reproducido) > 10 && e.target.dataset.reproducido == "false" && !e.target.paused) {
+            e.target.dataset.reproducido = "true"
+            añadirRegistroEscucha(e)
+        }
             
-            e.target.dataset.reproducido = "false"
-            anteriorCancion(audiosScript)
-        });
-    
-        document.getElementById('playSong').addEventListener('click', () => {
-            console.log('Play song');
-    
-            const audio = document.getElementById('audio')
-            audio.play()
+        const timeAudio = convertSecToMinSec(e.target.currentTime);
+
+        const musicProgress = document.getElementById('musicProgress')
+        musicProgress.value = e.target.currentTime
+        
+        const timeNowMusic = document.getElementById('nowTimeMusic') 
+        timeNowMusic.innerHTML = `${timeAudio[0]}:${timeAudio[1]}`
+
+        const px = (musicProgress.offsetWidth * e.target.currentTime) / musicProgress.max
+        const pointer = document.getElementById('pointTimeMusic')
+
+        pointer.style.left = (px - 2) + 'px'; //Restar 3 pixeles estaría mejor
+    });
+
+    document.getElementById('nextSong').addEventListener('click', (e) => {
+        console.log('Next song');
+
+        e.target.dataset.reproducido = "false"
+        siguienteCancion(audiosScript)
+    });
+
+    document.getElementById('previousSong').addEventListener('click', (e) => {
+        console.log('Previous song');
+        
+        e.target.dataset.reproducido = "false"
+        anteriorCancion(audiosScript)
+    });
+
+    document.getElementById('playSong').addEventListener('click', () => {
+        console.log('Play song');
+
+        const audio = document.getElementById('audio')
+        audio.play()
+        document.getElementById('playSong').classList.add('hidden')
+        document.getElementById('pauseSong').classList.remove('hidden')
+
+        if( document.getElementById("playAudio") )
+        {
+            document.getElementById('playAudio').classList.add('hidden')
+            document.getElementById('pauseAudio').classList.remove('hidden')
+        }
+    });
+
+    document.getElementById('pauseSong').addEventListener('click', () => {
+        console.log('Pause song');
+
+        const audio = document.getElementById('audio')
+        audio.pause()
+        document.getElementById('pauseSong').classList.add('hidden')
+        document.getElementById('playSong').classList.remove('hidden')        
+
+        if( document.getElementById("playAudio") )
+        {
+            document.getElementById('playAudio').classList.remove('hidden')
+            document.getElementById('pauseAudio').classList.add('hidden')
+        }
+    });
+
+    document.getElementById('pointTimeMusic').addEventListener('dragstart', (e) => {
+        e.preventDefault();
+    });
+
+    document.getElementById('pointTimeMusic').addEventListener('mousedown', (e) => {
+        e.preventDefault();
+
+        if (!document.getElementById('audio').paused)
+        {
             document.getElementById('playSong').classList.toggle('hidden')
             document.getElementById('pauseSong').classList.toggle('hidden')
-        });
-    
-        document.getElementById('pauseSong').addEventListener('click', () => {
-            console.log('Pause song');
-    
-            const audio = document.getElementById('audio')
-            audio.pause()
+        }
+
+        document.getElementById('audio').pause()
+
+        const container = document.getElementById('containerPointer')
+        const pointer = document.getElementById('pointTimeMusic')
+
+        const shiftX = e.clientX - pointer.getBoundingClientRect().left;
+
+        function moveOn(e) {
+            let newLeft = e.clientX - shiftX - container.getBoundingClientRect().left;
+
+            // the pointer is out of slider => lock the thumb within the bounaries
+            if (newLeft < 0) {
+            newLeft = 0;
+            }
+            const rightEdge = container.offsetWidth - pointer.offsetWidth;
+            if (newLeft > rightEdge) {
+            newLeft = rightEdge;
+            }
+
+            pointer.style.left = newLeft + 'px';
+
+            const musicProgress = document.getElementById('musicProgress')
+            const seg = (newLeft * musicProgress.max) / musicProgress.offsetWidth
+
+            musicProgress.value = seg
+            document.getElementById('audio').currentTime = seg
+        }
+
+        function onMouseMove(e) {
+            moveOn(e);
+        }
+
+        function onMouseUp() {   
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+            document.getElementById('audio').play()
+            document.getElementById('playSong').classList.toggle('hidden')
             document.getElementById('pauseSong').classList.toggle('hidden')
-            document.getElementById('playSong').classList.toggle('hidden')        
-        });
-    
-        document.getElementById('pointTimeMusic').addEventListener('dragstart', (e) => {
-            e.preventDefault();
-        });
-    
-        document.getElementById('pointTimeMusic').addEventListener('mousedown', (e) => {
-            e.preventDefault();
-
-            if (!document.getElementById('audio').paused)
-            {
-                document.getElementById('playSong').classList.toggle('hidden')
-                document.getElementById('pauseSong').classList.toggle('hidden')
-            }
-
-            document.getElementById('audio').pause()
-    
-            const container = document.getElementById('containerPointer')
-            const pointer = document.getElementById('pointTimeMusic')
-    
-            const shiftX = e.clientX - pointer.getBoundingClientRect().left;
-    
-            function moveOn(e) {
-                let newLeft = e.clientX - shiftX - container.getBoundingClientRect().left;
-    
-                // the pointer is out of slider => lock the thumb within the bounaries
-                if (newLeft < 0) {
-                newLeft = 0;
-                }
-                const rightEdge = container.offsetWidth - pointer.offsetWidth;
-                if (newLeft > rightEdge) {
-                newLeft = rightEdge;
-                }
-    
-                pointer.style.left = newLeft + 'px';
-    
-                const musicProgress = document.getElementById('musicProgress')
-                const seg = (newLeft * musicProgress.max) / musicProgress.offsetWidth
-    
-                musicProgress.value = seg
-                document.getElementById('audio').currentTime = seg
-            }
-    
-            function onMouseMove(e) {
-                moveOn(e);
-            }
-    
-            function onMouseUp() {   
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
-                document.getElementById('audio').play()
-                document.getElementById('playSong').classList.toggle('hidden')
-                document.getElementById('pauseSong').classList.toggle('hidden')
-            }
-    
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-        });
-
-        function anteriorCancion() {
-            // Modificar la tarjeta para que aparezca la nueva imagen
-            const nombreElement = document.getElementById('nombre')
-            const artistaElement = document.getElementById('artista')
-            const imagenElement = document.getElementById('imagen')
-            const audioElement = document.getElementById('audio')
-        
-            let posicionColaAnterior = +(audioElement.dataset.posicioncola) - 1
-            posicionColaAnterior = posicionColaAnterior == -1 ? audiosScript.length-1 : posicionColaAnterior
-            const audio = audiosScript[posicionColaAnterior];
-    
-            nombreElement.innerHTML = audio.Audios.nombreAudio
-            artistaElement.innerHTML = audio.Usuario.username
-            imagenElement.setAttribute("src", audio.Audios.rutaImagen)
-            audioElement.setAttribute("src", audio.Audios.rutaSonido)
-            audioElement.dataset.posicioncola = `${posicionColaAnterior}`
-            audioElement.play()  
-    
-            if(document.getElementById('pauseSong').classList.contains('hidden'))
-            {
-                document.getElementById('playSong').classList.toggle('hidden')
-                document.getElementById('pauseSong').classList.toggle('hidden')
-            }
         }
 
-        function siguienteCancion() {
-            // Modificar la tarjeta para que aparezca la nueva imagen
-            const nombreElement = document.getElementById('nombre')
-            const artistaElement = document.getElementById('artista')
-            const imagenElement = document.getElementById('imagen')
-            const audioElement = document.getElementById('audio')
-    
-            let posicionColaSiguiente = +(audioElement.dataset.posicioncola) + 1
-            posicionColaSiguiente = posicionColaSiguiente == audiosScript.length ? 0 : posicionColaSiguiente
-            const audio = audiosScript[posicionColaSiguiente];
-    
-            nombreElement.innerHTML = audio.Audios.nombreAudio
-            artistaElement.innerHTML = audio.Usuario.username
-            imagenElement.setAttribute("src", audio.Audios.rutaImagen)
-            audioElement.setAttribute("src", audio.Audios.rutaSonido)
-            audioElement.dataset.posicioncola = `${posicionColaSiguiente}`
-            audioElement.play()
-    
-            if(document.getElementById('pauseSong').classList.contains('hidden'))
-            {
-                document.getElementById('playSong').classList.toggle('hidden')
-                document.getElementById('pauseSong').classList.toggle('hidden')
-            }
-        }
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    });
 
-        function añadirRegistroEscucha(e) {
-            console.log("Contar como reproducido");
-        }
-    </script>
-</div>
+    function anteriorCancion() {
+        // Modificar la tarjeta para que aparezca la nueva imagen
+        const nombreElement = document.getElementById('nombre')
+        const artistaElement = document.getElementById('artista')
+        const imagenElement = document.getElementById('imagen')
+        const audioElement = document.getElementById('audio')
+    
+        let posicionColaAnterior = +(audioElement.dataset.posicioncola) - 1
+        posicionColaAnterior = posicionColaAnterior == -1 ? audiosScript.length-1 : posicionColaAnterior
+        const audio = audiosScript[posicionColaAnterior];
+
+        nombreElement.innerHTML = audio.Audios.nombreAudio
+        artistaElement.innerHTML = audio.Usuario.username
+        imagenElement.setAttribute("src", audio.Audios.rutaImagen)
+        audioElement.setAttribute("src", audio.Audios.rutaSonido)
+        audioElement.dataset.posicioncola = `${posicionColaAnterior}`
+        audioElement.play()  
+
+        document.getElementById('pauseSong').classList.add('hidden')
+        document.getElementById('playSong').classList.remove('hidden')
+    }
+
+    function siguienteCancion() {
+        // Modificar la tarjeta para que aparezca la nueva imagen
+        const nombreElement = document.getElementById('nombre')
+        const artistaElement = document.getElementById('artista')
+        const imagenElement = document.getElementById('imagen')
+        const audioElement = document.getElementById('audio')
+
+        let posicionColaSiguiente = +(audioElement.dataset.posicioncola) + 1
+        posicionColaSiguiente = posicionColaSiguiente == audiosScript.length ? 0 : posicionColaSiguiente
+        const audio = audiosScript[posicionColaSiguiente];
+
+        nombreElement.innerHTML = audio.Audios.nombreAudio
+        artistaElement.innerHTML = audio.Usuario.username
+        imagenElement.setAttribute("src", audio.Audios.rutaImagen)
+        audioElement.setAttribute("src", audio.Audios.rutaSonido)
+        audioElement.dataset.posicioncola = `${posicionColaSiguiente}`
+        audioElement.play()
+
+        document.getElementById('pauseSong').classList.add('hidden')
+        document.getElementById('playSong').classList.remove('hidden')
+    }
+
+    function añadirRegistroEscucha(e) {
+        console.log("Contar como reproducido");
+    }
+
+</script>
