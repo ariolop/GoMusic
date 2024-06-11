@@ -37,8 +37,9 @@ export async function POST(context: APIContext): Promise<Response> {
     const hashedPassword = await new Argon2id().hash(password.toString());
 
     //Seleccionamos una imagen defult de forma aleatoria
-    const { blobs: listImageDefault } = await list({ mode: 'folded' ,prefix: "imagenesPerfil/default/" });
-    console.log(listImageDefault)
+    let { blobs: listImageDefault } = await list({ mode: 'folded' ,prefix: "imagenesPerfil/default/" });
+    listImageDefault = listImageDefault.filter((row) => row.size > 0)
+
     const randomPosition = Math.floor(Math.random() * listImageDefault.length) 
     const userImage = listImageDefault[randomPosition].url
 
