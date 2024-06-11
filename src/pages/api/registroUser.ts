@@ -38,6 +38,7 @@ export async function POST(context: APIContext): Promise<Response> {
 
     //Seleccionamos una imagen defult de forma aleatoria
     const { blobs: listImageDefault } = await list({ mode: 'folded' ,prefix: "imagenesPerfil/default/" });
+    console.log(listImageDefault)
     const randomPosition = Math.floor(Math.random() * listImageDefault.length) 
     const userImage = listImageDefault[randomPosition].url
 
@@ -55,5 +56,5 @@ export async function POST(context: APIContext): Promise<Response> {
     ])
 
     //Redirect to login para que inicie sesión
-    return new Response('ok', { status: 200 }); 
+    return new Response(JSON.stringify(listImageDefault), { status: 200 }); 
 }

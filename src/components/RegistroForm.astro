@@ -64,6 +64,7 @@ import ErrorPasswordDebil from './Alerts/ErrorPasswordDebil.astro'
         }).then(
             async res => {
                 const text = await res.text()
+                console.log(text);
 
                 if(text == 'Contrasena invalida')
                     throw new Error(text)
