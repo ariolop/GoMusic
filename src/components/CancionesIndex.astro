@@ -33,84 +33,48 @@ while(randomPositions.length != 6)
 <div transition:persist class="flex h-full w-full sm:w-3/4 order-1 flex-wrap flex-col items-center p-4 px-4 md:px-12">
     <!-- 3 Botones para filtrar por Canciones, Podcast o Todo -->
     <div class="flex justify-evenly w-full lg:w-3/4 items-center h-10">
-        <button class="bg-gray-200 hover:bg-gray-400 hover:text-white hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Todos</button>
-        <button class="bg-gray-200 hover:bg-gray-400 hover:text-white hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Canciones</button>
-        <button class="bg-gray-200 hover:bg-gray-400 hover:text-white hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Podcasts</button>
+        <button class="bg-gray-200 hover:bg-gray-400 hover:text-white text-sm sm:text-base md:text-lg hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Todos</button>
+        <button class="bg-gray-200 hover:bg-gray-400 hover:text-white text-sm sm:text-base md:text-lg hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Canciones</button>
+        <button class="bg-gray-200 hover:bg-gray-400 hover:text-white text-sm sm:text-base md:text-lg hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Podcasts</button>
     </div>
     
     <!-- Últimas canciones escuchadas, si no tiene, poder canciones o álbumes randoms -->
     <div id="cartas" class="grid grid-rows-3 grid-cols-2 lg:grid-rows-2 lg:grid-cols-3 w-full gap-4 mt-4 ">
         <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[0]].Audios.idAudio}>
-            <div class="w-3/4 flex items-center">
-                <img class="rounded-tl rounded-bl w-8 h-8 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[0]].Audios.rutaImagen} alt="">
-                <p class="ml-3 text-xs sm:text-sm lg:text-base font-bold mr-1 text-balance" data-original={audios[randomPositions[0]].Audios.nombreAudio}>{audios[randomPositions[0]].Audios.nombreAudio}</p>
+            <div class="w-full flex items-center">
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[0]].Audios.rutaImagen} alt="">
+                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1 text-balance" data-original={audios[randomPositions[0]].Audios.nombreAudio}>{audios[randomPositions[0]].Audios.nombreAudio}</p>
             </div>
-            <button class="mr-2 text-[#cc9338]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 sm:size-9">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                </svg>                  
-            </button>
         </a>
         <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[1]].Audios.idAudio}>
-            <div class="w-3/4 flex items-center">
-                <img class="rounded-tl rounded-bl w-8 h-8 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[1]].Audios.rutaImagen} alt="">
+            <div class="w-full flex items-center">
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[1]].Audios.rutaImagen} alt="">
                 <p class="ml-3 text-xs sm:text-sm lg:text-base font-bold mr-1" data-original={audios[randomPositions[1]].Audios.nombreAudio}>{audios[randomPositions[1]].Audios.nombreAudio}</p>
             </div>
-            <button class="mr-2 text-[#cc9338]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 sm:size-9">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                </svg>                  
-            </button>
         </a>
         <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[2]].Audios.idAudio}>
-            <div class="w-3/4 flex items-center">
-                <img class="rounded-tl rounded-bl w-8 h-8 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[2]].Audios.rutaImagen} alt="">
+            <div class="w-full flex items-center">
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[2]].Audios.rutaImagen} alt="">
                 <p class="ml-3 text-xs sm:text-sm lg:text-base font-bold mr-1" data-original={audios[randomPositions[2]].Audios.nombreAudio}>{audios[randomPositions[2]].Audios.nombreAudio}</p>
             </div>
-            <button class="mr-2 text-[#cc9338]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 sm:size-9">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                </svg>                  
-            </button>
         </a>
         <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[3]].Audios.idAudio}>
-            <div class="w-3/4 flex items-center">
-                <img class="rounded-tl rounded-bl w-8 h-8 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[3]].Audios.rutaImagen} alt="">
+            <div class="w-full flex items-center">
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[3]].Audios.rutaImagen} alt="">
                 <p class="ml-3 text-xs sm:text-sm lg:text-base font-bold mr-1" data-original={audios[randomPositions[3]].Audios.nombreAudio}>{audios[randomPositions[3]].Audios.nombreAudio}</p>
             </div>
-            <button class="mr-2 text-[#cc9338]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 sm:size-9">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                </svg>                  
-            </button>
         </a>
         <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[4]].Audios.idAudio}>
-            <div class="w-3/4 flex items-center">
-                <img class="rounded-tl rounded-bl w-8 h-8 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[4]].Audios.rutaImagen} alt="">
+            <div class="w-full flex items-center">
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[4]].Audios.rutaImagen} alt="">
                 <p class="ml-3 text-xs sm:text-sm lg:text-base font-bold mr-1" data-original={audios[randomPositions[4]].Audios.nombreAudio}>{audios[randomPositions[4]].Audios.nombreAudio}</p>
             </div>
-            <button class="mr-2 text-[#cc9338]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 sm:size-9">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                </svg>                  
-            </button>
         </a>
         <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[5]].Audios.idAudio}>
-            <div class="w-3/4 flex items-center">
-                <img class="rounded-tl rounded-bl w-8 h-8 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[5]].Audios.rutaImagen} alt="">
+            <div class="w-full flex items-center">
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[5]].Audios.rutaImagen} alt="">
                 <p class="ml-3 text-xs sm:text-sm lg:text-base font-bold mr-1" data-original={audios[randomPositions[5]].Audios.nombreAudio}>{audios[randomPositions[5]].Audios.nombreAudio}</p>
             </div>
-            <button class="mr-2 text-[#cc9338]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 sm:size-9">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                </svg>                  
-            </button>
         </a>
     </div>
 
@@ -191,8 +155,14 @@ while(randomPositions.length != 6)
             case ancho > 770:
                 caracteres = 16
                 break;
+            case ancho > 640:
+                caracteres = 13
+                break;
+            case ancho > 500:
+                caracteres = 14
+                break;
             default:
-                caracteres = 10
+                caracteres = 12
         }
         console.log(caracteres);
         const elementos = document.getElementById("cartas").querySelectorAll("p")
