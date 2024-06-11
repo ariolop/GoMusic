@@ -136,6 +136,9 @@ if (audios) {
         const idAudioURL = document.location.href.split('?')[1].split('=')[1]
         const idAudioReproductor = document.getElementById("audio").dataset.idaudio
 
+        console.log(idAudioURL);            
+        console.log(idAudioReproductor);        
+        
         return idAudioURL == idAudioReproductor
     }
 
