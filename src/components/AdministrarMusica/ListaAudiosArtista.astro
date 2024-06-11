@@ -24,17 +24,19 @@ console.log(canciones);
     <div class="w-full sm:w-3/4 md:w-8/12 lg:w-6/12 rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Tus canciones</h2>
         <div id="lista" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
-            <div class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm h-8">
-                <div class="w-5/12">
-                    <p class="font-bold text-lg">Título</p>
-                </div>
-                <div class="w-5/12">
-                    <p class="font-bold text-lg">Álbum</p>
-                </div>
-                <div class="w-2/12">
-                    <p class="font-bold text-lg text-center">Acciones</p>
-                </div>
-            </div>
+            {
+                canciones.length != 0 ? <div class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm h-8">
+                    <div class="w-5/12">
+                        <p class="font-bold text-lg">Título</p>
+                    </div>
+                    <div class="w-5/12">
+                        <p class="font-bold text-lg">Álbum</p>
+                    </div>
+                    <div class="w-2/12">
+                        <p class="font-bold text-lg text-center">Acciones</p>
+                    </div>
+                </div> : ""
+            }
             {
                 canciones.map((cancion) => {
                     return <div class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm">
@@ -64,6 +66,9 @@ console.log(canciones);
                             </div>
                     </div>
                 })
+            }
+            {
+                canciones.length == 0 ? <div><p class="text-lg">Aún no has añadido ninguna canción. ¿A qué esperas para hacerlo?</p></div> : ""
             }
             <ModalConfirmacinBorrado/>
         </div>
