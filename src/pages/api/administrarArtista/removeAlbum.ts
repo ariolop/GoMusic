@@ -11,7 +11,7 @@ export async function POST(context: APIContext): Promise<Response> {
     const idAlbum = formData.get("idAlbum").toString()
 
     //Obtenemos todos los idAudio que contenga el album
-    const idsAudioConsulta = await db.select({idAudio: Audios.idAudio}).from(Album_Audio).where(eq(Album_Audio.idAlbum, idAlbum))
+    const idsAudioConsulta = await db.select({idAudio: Album_Audio.idAudio}).from(Album_Audio).where(eq(Album_Audio.idAlbum, idAlbum))
     
     if (idsAudioConsulta.length > 0)
     {
@@ -35,7 +35,7 @@ export async function POST(context: APIContext): Promise<Response> {
     
     //Borramos los registros de la BD
 
-    await db.delete(Album).where(eq(Album_Audio.idAudio, idAlbum));    
+    await db.delete(Album).where(eq(Album.idAlbum, idAlbum));    
     
     return new Response('Album borrado', {status: 200})
 }
