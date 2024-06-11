@@ -96,7 +96,7 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
 
 <AvisoAgregarAudio/>
 
-<script>
+<script is:inline>
     document.getElementById("audioFile").addEventListener(("input"), () => {
         const input = document.getElementById("audioFile")
 
