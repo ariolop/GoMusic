@@ -1,5 +1,6 @@
 ---
 import { db, Album, eq } from 'astro:db'
+import ModalBorradoAlbum from './ModalBorradoAlbum.astro'
 
 const { idArtista } = Astro.props
 
@@ -13,7 +14,7 @@ console.log(album);
 <div class="w-full h-[88vh] flex justify-center items-center p-8">
     <div class="w-full sm:w-3/4 md:w-8/12 lg:w-6/12 rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Tus álbumes</h2>
-        <div class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
+        <div id="lista" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
             <div class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm h-8">
                 <div class="w-10/12">
                     <p class="font-bold text-lg">Álbum</p>
@@ -29,18 +30,18 @@ console.log(album);
                                 <p>{album.nombreAlbum}</p>
                             </div>
                             <div class="flex items-center h-8 w-2/12 justify-between">
-                                <button id="ver" data-idAlbum={album.idAlbum} class="bg-green-600 p-1 rounded-md text-gray-200">
+                                <button id="ver" data-idalbum={album.idAlbum} class="bg-green-600 p-1 rounded-md text-gray-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     </svg>
                                 </button>
-                                <button id="editar" data-idAlbum={album.idAlbum} class="bg-orange-600 p-1 rounded-md text-gray-200">
+                                <button id="editar" data-idalbum={album.idAlbum} class="bg-orange-600 p-1 rounded-md text-gray-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                                     </svg>
                                 </button>
-                                <button id="borrar" data-idAlbum={album.idAlbum} class="bg-red-600 p-1 rounded-md text-gray-200">
+                                <button type="button" data-modal-target="modalBorrado" data-modal-toggle="modalBorrado" id="abrirModalBorrar" data-idalbum={album.idAlbum} class="bg-red-600 p-1 rounded-md text-gray-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                     </svg>
@@ -49,7 +50,39 @@ console.log(album);
                     </div>
                 })
             }
-
+            {
+                albumes.length == 0 ? <div><p class="text-lg">Aún no has creado ningún álbum. ¿A qué esperas para hacerlo?</p></div> : ""
+            }
         </div>
+        <ModalBorradoAlbum/>
     </div>
 </div>
+
+<script is:inline>
+    document.getElementById("lista").addEventListener("click", (e) => {
+        const element = e.target.closest("#ver, #editar, #abrirModalBorrar")
+
+        if(!element || element.id != "ver" && element.id != "editar" && element.id != "abrirModalBorrar")
+            return false
+
+        switch(element.id)
+        {
+            case "ver":
+                verCancion(element)
+                break;
+            case "editar":
+                editarCancion(element)
+                break;
+            case "abrirModalBorrar":
+                abrirModalBorrar(element)
+                break;
+        }
+            
+    })
+
+    function abrirModalBorrar(element) {
+        document.getElementById("ventanaModalBorrar").classList.remove("hidden")
+        document.getElementById("botonBorrar").dataset.idalbum = element.dataset.idalbum
+        console.log("Abrir ventana modal");
+    }
+</script>
