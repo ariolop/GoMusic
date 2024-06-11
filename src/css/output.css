@@ -955,6 +955,10 @@ progress::-webkit-progress-value {
   height: 80vh;
 }
 
+.max-h-\[80px\] {
+  max-height: 80px;
+}
+
 .min-h-\[88vh\] {
   min-height: 88vh;
 }
