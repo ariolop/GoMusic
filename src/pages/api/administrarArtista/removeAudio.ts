@@ -1,7 +1,6 @@
 import { del } from "@vercel/blob";
 import type { APIContext } from "astro";
 import { db, Audios, eq, Album_Audio } from "astro:db";
-import { generateId } from "lucia";
 
 export async function GET(context: APIContext): Promise<Response>  {
     return context.redirect("/")

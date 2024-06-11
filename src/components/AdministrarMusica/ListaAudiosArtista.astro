@@ -1,14 +1,22 @@
 ---
-import { Album_Audio, Audios } from 'astro:db'
+import { Album_Audio, Audios, isNotNull, and } from 'astro:db'
 import { db, Album, eq } from 'astro:db'
 import ModalConfirmacinBorrado from './ModalConfirmaciónBorrado.astro';
+import type { SQL } from 'drizzle-orm';
 
 const { idArtista } = Astro.props
 
 
-const canciones = await db.select().from(Album).where(eq(Album.idArtista, idArtista))
+const canciones = await db.select()
+                            .from(Album)
                             .leftJoin(Album_Audio, eq(Album.idAlbum, Album_Audio.idAlbum))
-                            .leftJoin(Audios, eq(Album_Audio.idAudio, Audios.idAudio));
+                            .leftJoin(Audios, eq(Album_Audio.idAudio, Audios.idAudio))
+                            .where(and(
+                                eq(Album.idArtista, idArtista),
+                                isNotNull(Audios.idAudio)
+                            ));
+
+console.log(canciones);
 
 ---
 
