@@ -27,18 +27,101 @@ console.log(infoAudio);
 <div class="flex flex-wrap justify-center">
     <ListasIndex/>
     <div class="flex w-full sm:w-3/4 order-1 justify-center sm:justify-normal flex-wrap p-4 px-4 md:px-12">
-        <div class="w-full max-w-[300px] sm:max-w-none sm:w-1/3">
-            <img class="h-full" src={infoAudio.Audios.rutaImagen}>
+        <div class="w-full flex justify-center sm:justify-normal flex-wrap mb-5">
+            <div class="w-full max-w-[300px] sm:w-[48%] lg:w-1/3">
+                <img class="h-full" src={infoAudio.Audios.rutaImagen}>
+            </div>
+            <div class="w-full max-w-[300px] sm:max-w-max-0 sm:w-[48%] ml-4 flex justify-end flex-col">
+                <h2 class="w-full md:text-2xl lg:text-3xl font-bold">{infoAudio.Audios.nombreAudio}</h2>
+                <h2 class="w-full md:text-lg lg:text-xl font-semibold mb-2">{infoAudio.Usuario.nombre + " " + infoAudio.Usuario.apellidos}</h2>
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-11">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
+                    </svg>                  
+                </button>
+            </div>
         </div>
-        <div class="w-full max-w-[300px] sm:max-w-none sm:w-1/3 ml-2 flex justify-end flex-col">
-            <h2 class="w-full text-3xl font-bold">{infoAudio.Audios.nombreAudio}</h2>
-            <h2 class="w-full text-xl font-semibold mb-2">{infoAudio.Usuario.nombre + " " + infoAudio.Usuario.apellidos}</h2>
-            <button>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-11">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                </svg>                  
-            </button>
+
+        <!-- Lo mismo que antes, pero en forma de cuadrado -->
+        <div class="flex justify-between w-full mt-4 flex-wrap">
+            <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Recomendaciones para ti</h3>
+            <div class="w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-1">
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre del album</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre de la lista</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28 rounded-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre del artista</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre de la lista</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre del album</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lo mismo que antes, pero en forma de cuadrado -->
+        <div class="flex justify-between w-full mt-4 flex-wrap">
+            <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Recomendaciones para ti</h3>
+            <div class="w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-1">
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre del album</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre de la lista</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28 rounded-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre del artista</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre de la lista</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre del album</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lo mismo que antes, pero en forma de cuadrado -->
+        <div class="flex justify-between w-full mt-4 flex-wrap">
+            <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Recomendaciones para ti</h3>
+            <div class="w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-1">
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre del album</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre de la lista</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28 rounded-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre del artista</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre de la lista</p>
+                </div>
+                <div class="w-full text-center flex justify-center flex-wrap">
+                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                    <p class="w-full">Nombre del album</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
