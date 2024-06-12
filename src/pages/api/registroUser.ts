@@ -1,6 +1,6 @@
 import { list } from "@vercel/blob";
 import type { APIContext } from "astro";
-import { db, Usuario } from "astro:db";
+import { db, Usuario, Normal } from "astro:db";
 import { generateId } from 'lucia';
 import { Argon2id } from "oslo/password";
 
@@ -43,7 +43,7 @@ export async function POST(context: APIContext): Promise<Response> {
     const randomPosition = Math.floor(Math.random() * listImageDefault.length) 
     const userImage = listImageDefault[randomPosition].url
 
-    //Insertamos el registro en la BD
+    //Insertamos el registro en la tabla Usuario en la BD
     await db.insert(Usuario).values([
         {
             id: userId,
@@ -53,6 +53,15 @@ export async function POST(context: APIContext): Promise<Response> {
             email: email.toString(),
             contrasena: hashedPassword,
             imagenPerfil: userImage
+        }
+    ])
+
+    const idNormal = generateId(9)
+    //Insertamos el registro en la tabla Normal en la BD
+    await db.insert(Normal).values([
+        {
+            idNormal,
+            idUsuario: userId
         }
     ])
 

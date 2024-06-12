@@ -70,7 +70,7 @@ if (audios) {
                 </svg>
             </button>
         </div>
-        <audio id="audio" src={audio.Audios.rutaSonido} data-timeReproduced="0" data-timeLastPaused="0" data-reproducido="false" data-idaudio={audio.Audios.idAudio} data-posicioncola={posicionRandom}></audio>
+        <audio id="audio" src={audio.Audios.rutaSonido} data-timereproduced="0" data-timelastpaused="0" data-reproducido="false" data-idaudio={audio.Audios.idAudio} data-posicioncola={posicionRandom}></audio>
     </div>
 </div>
 
@@ -87,7 +87,7 @@ if (audios) {
             }
         }
 
-        document.getElementById("playAudio").addEventListener("click", (e) => {
+        document.getElementById("playAudio").addEventListener("click", () => {
             //audiosScript = eliminarCola()
             document.getElementById('playSong').classList.add('hidden')
             document.getElementById('pauseSong').classList.remove('hidden')
@@ -123,7 +123,7 @@ if (audios) {
             audioElement.play()
         })
 
-        document.getElementById("pauseAudio").addEventListener("click", (e) => {
+        document.getElementById("pauseAudio").addEventListener("click", () => {
             const audioElement = document.getElementById('audio')
             audioElement.pause()
 
@@ -179,11 +179,24 @@ if (audios) {
 
     document.getElementById('audio').addEventListener('timeupdate', (e) => {
 
-        if (+(e.target.dataset.reproducido) > 10 && e.target.dataset.reproducido == "false" && !e.target.paused) {
-            e.target.dataset.reproducido = "true"
-            añadirRegistroEscucha(e)
+        if ( e.target.dataset.reproducido == "false" && !e.target.paused ) 
+        {
+            const timeReproducidoLastPaused = +(e.target.currentTime) - +(e.target.dataset.timelastpaused)
+            console.log(timeReproducidoLastPaused);
+
+            if (timeReproducidoLastPaused > 10 && e.target.dataset.reproducido == "false")
+            {
+                const timeReproducidoTotal = +(e.target.dataset.timereproduced) + timeReproducidoLastPaused
+                e.target.dataset.timereproduced = timeReproducidoTotal
+            }
+
+            if (+(e.target.dataset.timereproduced) > 10)
+            {
+                e.target.dataset.reproducido = "true"
+                añadirRegistroEscucha(e)
+            }
         }
-            
+
         const timeAudio = convertSecToMinSec(e.target.currentTime);
 
         const musicProgress = document.getElementById('musicProgress')
@@ -229,6 +242,20 @@ if (audios) {
 
     document.getElementById('pauseSong').addEventListener('click', () => {
         console.log('Pause song');
+
+        if (document.getElementById('audio').dataset.reproducido == "false") {
+            const timeReproducidoLastPaused = +(document.getElementById('audio').currentTime) - +(document.getElementById('audio').dataset.timelastpaused)
+            console.log(timeReproducidoLastPaused);
+            const timeReproducidoTotal = +(document.getElementById('audio').dataset.timereproduced) + timeReproducidoLastPaused
+            document.getElementById('audio').dataset.timereproduced = timeReproducidoTotal
+
+            document.getElementById('audio').dataset.timelastpaused = document.getElementById('audio').currentTime
+
+            console.log(document.getElementById('audio').dataset.timereproduced);
+            console.log(document.getElementById('audio').dataset.timelastpaused);
+        }
+
+        
 
         const audio = document.getElementById('audio')
         audio.pause()
@@ -293,6 +320,7 @@ if (audios) {
             document.getElementById('audio').play()
             document.getElementById('playSong').classList.toggle('hidden')
             document.getElementById('pauseSong').classList.toggle('hidden')
+            document.getElementById('audio').dataset.timelastpaused = document.getElementById('audio').currentTime
         }
 
         document.addEventListener('mousemove', onMouseMove);
@@ -345,6 +373,20 @@ if (audios) {
 
     function añadirRegistroEscucha(e) {
         console.log("Contar como reproducido");
+
+        const audio = document.getElementById('audio')
+        const idAudio = audio.dataset.idaudio
+
+        const body = new FormData()
+        body.append('idAudio', idAudio)
+        fetch('api/reproducciones/nuevaReproduccion', {
+            method: "POST",
+            body
+        }).then(
+            res => console.log(res)
+        ).catch(
+            error => console.log(error)
+        )
     }
 
 </script>
