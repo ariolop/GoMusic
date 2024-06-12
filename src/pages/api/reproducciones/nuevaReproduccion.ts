@@ -1,5 +1,5 @@
 import type { APIContext } from "astro";
-import { db, eq, Session, Normal, Usuario_Escucha_Audio } from "astro:db";
+import { db, eq, Session, Normal, Escuchas } from "astro:db";
 import { generateId } from "lucia";
 
 export async function GET(context: APIContext): Promise<Response>  {
@@ -20,10 +20,14 @@ export async function POST(context: APIContext): Promise<Response> {
     console.log(idNormal);
     console.log(idAudio);
 
-    await db.insert(Usuario_Escucha_Audio).values({        
+    const hoy = Date.now()
+    const fechaHora = new Date(hoy)
+
+    await db.insert(Escuchas).values({        
         idEscucha,
-        idUsuario: idNormal,
-        idAudio
+        idNormal,
+        idAudio,
+        fechaHora
     })
     
     return new Response('Nueva reproducción', {status: 200})

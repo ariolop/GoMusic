@@ -72,11 +72,22 @@ const Comentarios = defineTable({
   }
 })
 
-const Usuario_Escucha_Audio = defineTable({
+// const Usuario_Escucha_Audio = defineTable({
+//   deprecated: true,
+//   columns: {
+//     idEscucha: column.text({ primaryKey: true }),
+//     idUsuario: column.text({ references: () => Normal.columns.idNormal }),
+//     idAudio: column.text({ references: () => Audios.columns.idAudio }),
+//     fechaHora: column.date({ default: new Date() })
+//   }
+// })
+
+const Escuchas = defineTable({
   columns: {
     idEscucha: column.text({ primaryKey: true }),
-    idUsuario: column.text({ references: () => Normal.columns.idNormal }),
-    idAudio: column.text({ references: () => Audios.columns.idAudio })
+    idNormal: column.text({ references: () => Normal.columns.idNormal }),
+    idAudio: column.text({ references: () => Audios.columns.idAudio }),
+    fechaHora: column.date()
   }
 })
 
@@ -123,11 +134,11 @@ export default defineDb({
     Audios,
     Album,
     Comentarios,
-    Usuario_Escucha_Audio,
     Usuario_MeGusta_Audio,
     Playlist,
     Playlist_Audio,
     Session,
-    Album_Audio
+    Album_Audio,
+    Escuchas
   }
 });
