@@ -2,9 +2,9 @@
 import { Album_Audio, Audios, isNotNull, and } from 'astro:db'
 import { db, Album, eq } from 'astro:db'
 import ModalBorradoAudio from './ModalBorradoAudio.astro';
+import ModalEditarAudio from './ModalEditarAudio.astro';
 
 const { idArtista } = Astro.props
-
 
 const canciones = await db.select()
                             .from(Album)
@@ -14,8 +14,6 @@ const canciones = await db.select()
                                 eq(Album.idArtista, idArtista),
                                 isNotNull(Audios.idAudio)
                             ));
-
-console.log(canciones);
 
 ---
 
@@ -52,7 +50,7 @@ console.log(canciones);
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     </svg>
                                 </button>
-                                <button id="editar" data-idaudio={cancion.Audios.idAudio} class="bg-orange-600 p-1 rounded-md text-gray-200">
+                                <button id="editar" data-idaudio={cancion.Audios.idAudio} data-infoAudio={JSON.stringify(cancion)} class="bg-orange-600 p-1 rounded-md text-gray-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                                     </svg>
@@ -69,7 +67,9 @@ console.log(canciones);
             {
                 canciones.length == 0 ? <div><p class="text-lg">Aún no has añadido ninguna canción. ¿A qué esperas para hacerlo?</p></div> : ""
             }
+
             <ModalBorradoAudio/>
+            <ModalEditarAudio/>
         </div>
     </div>
 </div>
@@ -87,7 +87,7 @@ console.log(canciones);
                 verCancion(element)
                 break;
             case "editar":
-                editarCancion(element)
+                abrirModalEditar(element)
                 break;
             case "abrirModalBorrar":
                 abrirModalBorrar(element)
@@ -95,20 +95,42 @@ console.log(canciones);
         }
             
     })
-
     
     function verCancion(element) {
         console.log("ver");
-    }
-
-    function editarCancion(element) {
-        console.log("editar");
     }
 
     function abrirModalBorrar(element) {
         document.getElementById("ventanaModalBorrar").classList.remove("hidden")
         document.getElementById("botonBorrar").dataset.idaudio = element.dataset.idaudio
         console.log("Abrir ventana modal");
+    }
+
+    async function abrirModalEditar(element) {
+        document.getElementById("botonGuardar").dataset.idaudio = element.dataset.idaudio
+        //document.getElementById("nuevoNombreCancion").placeholder = document.getElementById("nombreAlbum").innerText
+        console.log("Abrir ventana modal");
+
+        const idAudio = element.dataset.idaudio
+        console.log("Se editará el audio" + idAudio);
+
+        const info = await fetch('api/audios/getInfoAudio?idAudio='+idAudio)
+            .then(
+                res => res.json()
+            )
+
+        console.log(info);
+
+        document.getElementById("nuevoNombreAudio").value = info.Audios.nombreAudio
+        document.getElementById("nuevoAutoresSecundarios").value = info.Audios.autores_secundarios
+        document.getElementById("nuevoGenero").value = info.Audios.genero
+        document.getElementById("nuevoTipo").value = info.Audios.tipo
+        document.getElementById("nuevoAlbum").value = info.Album_Audio.idAlbum
+        document.getElementById("rutaAudio").innerText = info.Audios.archivoSonidoOriginal
+        document.getElementById("portadaAudio").src = info.Audios.rutaImagen
+        document.getElementById("nuevaDescripcion").value = info.Audios.descripcion
+
+        document.getElementById("ventanaModalEditar").classList.remove("hidden")
     }
 
 </script>

@@ -1,5 +1,6 @@
 ---
 import AvisoCrearAlbum from "../Alerts/AvisoCrearAlbum.astro"
+import ErrorAlbumRepetido from "../Alerts/ErrorAlbumRepetido.astro"
 ---
 
 <!-- Formulario básico para la creación de albumes -->
@@ -12,6 +13,10 @@ import AvisoCrearAlbum from "../Alerts/AvisoCrearAlbum.astro"
                 <label class="w-full text-lg" for="nombreAlbum">Nombre<span class="text-red-600">*</span></label>
                 <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" id="nombreAlbum" name="nombreAlbum" type="text" required placeholder="Nuevo álbum">
             </div>
+            <div class="w-full sm:w-10/12 mt-2 flex flex-wrap">
+                <input class="placeholder:text-gray-500 p-1 bg-gray-300 border-2 rounded border-black" id="esSencillo" name="esSencillo" type="checkbox">
+                <label class="ml-1 text-sm" for="esSencillo">¿Es un álbum sencillo?</label>
+            </div>
             <div class="w-full sm:w-10/12 mt-8 flex justify-end">
                 <input type="submit" class="bg-orange-300 rounded p-2 font-bold hover:bg-orange-400" value="Crear"></input>
             </div>
@@ -20,27 +25,40 @@ import AvisoCrearAlbum from "../Alerts/AvisoCrearAlbum.astro"
 </div>
 
 <AvisoCrearAlbum/>
+<ErrorAlbumRepetido/>
 
 <script>
     document.getElementById("formCreateAlbum").addEventListener("submit", async (e) => {
         e.preventDefault()
+        document.getElementById("errorAlbumRepetido").classList.remove("flex")
+        document.getElementById("errorAlbumRepetido").classList.add("hidden")
+        document.getElementById("alertCrearAlbum").classList.remove("flex")
+        document.getElementById("alertCrearAlbum").classList.add("hidden")
 
         const inputNombreAlbum = document.getElementById("nombreAlbum")
+        const inputEsSencillo = document.getElementById("esSencillo")
 
         const body = new FormData()
         body.append('nombreAlbum', inputNombreAlbum.value)
+        body.append('esSencillo', inputEsSencillo.checked)
 
-        const res = await fetch('/api/createAlbum', {
+        await fetch('/api/createAlbum', {
             body,
             method: 'POST'
         }).then(
             res => {
                 if(res.status == 400)
-                    throw new Error(res.statusText)
+                {
+                    document.getElementById("errorAlbumRepetido").classList.add("flex")
+                    document.getElementById("errorAlbumRepetido").classList.remove("hidden")
+                }
                 else
+                {
                     document.getElementById("alertCrearAlbum").classList.add("flex")
                     document.getElementById("alertCrearAlbum").classList.remove("hidden")
                     inputNombreAlbum.value = ""
+                    inputEsSencillo.checked = false
+                }       
             }
         ).catch(
             error => console.error(error)

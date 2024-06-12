@@ -1,6 +1,6 @@
 ---
 
-import {db, eq, Artista, Usuario, Session, Audios, Album_Audio, Album, Usuario_Escucha_Audio} from 'astro:db'
+import {db, eq, Artista, Usuario, Session, Audios, Album_Audio, Album} from 'astro:db'
 
 // const userId = ""
 // await db.delete(Session).where(eq(Session.userId, userId));
@@ -14,10 +14,10 @@ import {db, eq, Artista, Usuario, Session, Audios, Album_Audio, Album, Usuario_E
 // await db.delete(Album_Audio).where(eq(Album_Audio.idAudio, idAudio));
 // await db.delete(Audios).where(eq(Audios.idAudio, idAudio));
 
-// const idAlbum = "hl2y7s6xr"
-// await db.delete(Album).where(eq(Album.idAlbum, idAlbum));
+const idAlbum = "4ghzlls5z"
+await db.delete(Album).where(eq(Album.idAlbum, idAlbum));
 
-const idEscucha = "3mpgb8drm"
-await db.delete(Usuario_Escucha_Audio).where(eq(Usuario_Escucha_Audio.idEscucha, idEscucha));
+// const idEscucha = "3mpgb8drm"
+// await db.delete(Usuario_Escucha_Audio).where(eq(Usuario_Escucha_Audio.idEscucha, idEscucha));
 ---
 

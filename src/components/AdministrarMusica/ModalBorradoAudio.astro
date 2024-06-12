@@ -38,6 +38,7 @@
     })
 
     document.getElementById("botonBorrar").addEventListener("click", (e) => {
+        e.preventDefault()
         console.log("Borrar");
         borrarCancion(e)
     })

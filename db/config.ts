@@ -33,14 +33,6 @@ const Normal = defineTable({
   }
 })
 
-const Album = defineTable({
-  columns: {
-    idAlbum: column.text({ primaryKey: true }),
-    nombreAlbum: column.text(),
-    idArtista: column.text({ references: () => Artista.columns.idArtista })
-  }
-})
-
 const Audios = defineTable({
   columns: {
     idAudio: column.text({ primaryKey: true }),
@@ -51,11 +43,23 @@ const Audios = defineTable({
     rutaImagen: column.text(),
     rutaSonido: column.text(),
     subidoEn: column.date(),
-    autores_secundarios: column.text({ optional: true })
+    autores_secundarios: column.text({ optional: true }),
+    archivoSonidoOriginal: column.text({ default: "" })
+  }
+})
+
+const Album = defineTable({
+  deprecated: true,
+  columns: {
+    idAlbum: column.text({ primaryKey: true }),
+    nombreAlbum: column.text(),
+    idArtista: column.text({ references: () => Artista.columns.idArtista }),
+    esSencillo: column.text({ })
   }
 })
 
 const Album_Audio = defineTable({
+  deprecated: true,
   columns: {
     idAlbumAudio: column.text({ primaryKey: true }),
     idAlbum: column.text({ references: () => Album.columns.idAlbum }),
@@ -71,16 +75,6 @@ const Comentarios = defineTable({
     idAudio: column.text({ references: () => Audios.columns.idAudio })
   }
 })
-
-// const Usuario_Escucha_Audio = defineTable({
-//   deprecated: true,
-//   columns: {
-//     idEscucha: column.text({ primaryKey: true }),
-//     idUsuario: column.text({ references: () => Normal.columns.idNormal }),
-//     idAudio: column.text({ references: () => Audios.columns.idAudio }),
-//     fechaHora: column.date({ default: new Date() })
-//   }
-// })
 
 const Escuchas = defineTable({
   columns: {
