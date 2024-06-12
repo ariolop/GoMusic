@@ -85,7 +85,8 @@ export async function POST(context: APIContext): Promise<Response> {
             rutaImagen: urlImage,
             rutaSonido: urlAudio,
             subidoEn,
-            autores_secundarios
+            autores_secundarios,
+            archivoSonidoOriginal: inputAudio.name
         }
     ])
 
