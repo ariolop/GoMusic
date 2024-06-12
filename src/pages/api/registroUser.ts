@@ -44,7 +44,7 @@ export async function POST(context: APIContext): Promise<Response> {
     const userImage = listImageDefault[randomPosition].url
 
     //Insertamos el registro en la tabla Usuario en la BD
-    await db.insert(Usuario).values([
+    const usuario = await db.insert(Usuario).values([
         {
             id: userId,
             username: username.toString(),
@@ -54,7 +54,9 @@ export async function POST(context: APIContext): Promise<Response> {
             contrasena: hashedPassword,
             imagenPerfil: userImage
         }
-    ])
+    ]).returning()
+
+    console.log(usuario);
 
     const idNormal = generateId(9)
     //Insertamos el registro en la tabla Normal en la BD
