@@ -14,8 +14,8 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
 
 <!-- Formulario básico para subida de canciones -->
 
-<div class="w-full h-[88vh] flex justify-center items-center p-8">
-    <div class="w-4/4 sm:w-3/4 md:w-7/12 lg:w-5/12 rounded border border-black">
+<div class="w-full min-h-[86vh] flex justify-center items-center p-8 pb-4">
+    <div class="w-4/4 sm:w-3/4 md:w-7/12 lg:w-6/12 max-w-[580px] rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Subir audio</h2>
         <form method="POST" id="uploadForm" class="w-full flex justify-between flex-wrap bg-gray-300 p-8 rounded-b" enctype="multipart/form-data">
             <div class="w-full flex flex-wrap">
@@ -26,7 +26,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                 <label class="w-full font-bold">Autores secundarios</label>
                 <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" name="autoresSecundarios" id="autoresSecundarios">
             </div>
-            <div class="w-[30%] flex flex-wrap justify-center mt-2 items-center">
+            <div class="w-full sm:w-[30%] flex flex-wrap justify-center mt-2 items-center">
                 <label class="w-full mr-2 font-bold">Género <span class="text-red-600">*</span></label>
                 <select name="genero" id="genero" class="w-full p-1 bg-gray-300 border-2 rounded border-black" required>
                     <option value="" disabled selected>Géneros</option>
@@ -41,7 +41,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                     <option value="otro">Otro</option>
                 </select>
             </div>
-            <div class="w-[30%] flex flex-wrap justify-center mt-2 items-center">
+            <div class="w-full sm:w-[30%] flex flex-wrap justify-center mt-2 items-center">
                 <label class="w-full mr-2 font-bold">Tipo <span class="text-red-600">*</span></label>
                 <select name="tipo" id="tipo" class="w-full p-1 bg-gray-300 border-2 rounded border-black" required>
                     <option value="" disabled selected>Tipos</option>
@@ -49,7 +49,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                     <option value="podcast">Podcast</option>
                 </select>
             </div>
-            <div class="w-[30%] flex flex-wrap justify-center mt-2 items-center">
+            <div class="w-full sm:w-[30%] flex flex-wrap justify-center mt-2 items-center">
                 <label class="w-full mr-2 font-bold">Álbum <span class="text-red-600">*</span></label>
                 <select name="album" id="album" class="w-full p-1 bg-gray-300 border-2 rounded border-black" required>
                     <option value="" disabled selected>Álbumes</option>
@@ -61,7 +61,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                     }
                 </select>
             </div>
-            <div class="w-1/2 mt-2">
+            <div class="w-full sm:w-1/2 mt-2">
                 <p class="font-bold">Añadir audio <span class="text-red-600">*</span></p>
                 <label for="audioFile" class="cursor-pointer block w-max">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -73,7 +73,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                     
                 </p>
             </div>
-            <div class="w-1/2 mt-2">
+            <div class="w-full sm:w-1/2 mt-2">
                 <p class="font-bold">Añadir portada <span class="text-red-600">*</span></p>
                 <label for="imageFile" class="cursor-pointer block w-max">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -104,7 +104,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                 </div>
             </div>
             
-            <div class="w-full mt-2 flex justify-end">
+            <div class="w-full mt-6 sm:mt-2 flex justify-end">
                 <input type="submit" class="bg-orange-300 rounded p-2 font-bold hover:bg-orange-400"></input>
             </div>
         </form>
