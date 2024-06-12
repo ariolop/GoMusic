@@ -22,6 +22,9 @@ export async function POST(context: APIContext): Promise<Response> {
         return new Response('Falta algún campo de los requeridos', { status: 400 })
     }
 
+    //Validamos que el nombre de usuario y el email no existen
+    
+
     //Validate the strength password
     if ( password.toString().length < 8 || 
         !password.toString().match(/[$@#&!]+/) ||
@@ -44,7 +47,7 @@ export async function POST(context: APIContext): Promise<Response> {
     const userImage = listImageDefault[randomPosition].url
 
     //Insertamos el registro en la tabla Usuario en la BD
-    const usuario = await db.insert(Usuario).values([
+    await db.insert(Usuario).values([
         {
             id: userId,
             username: username.toString(),
@@ -54,9 +57,7 @@ export async function POST(context: APIContext): Promise<Response> {
             contrasena: hashedPassword,
             imagenPerfil: userImage
         }
-    ]).returning()
-
-    console.log(usuario);
+    ])
 
     const idNormal = generateId(9)
     //Insertamos el registro en la tabla Normal en la BD

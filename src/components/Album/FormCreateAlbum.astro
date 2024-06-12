@@ -27,7 +27,7 @@ import ErrorAlbumRepetido from "../Alerts/ErrorAlbumRepetido.astro"
 <AvisoCrearAlbum/>
 <ErrorAlbumRepetido/>
 
-<script>
+<script is:inline>
     document.getElementById("formCreateAlbum").addEventListener("submit", async (e) => {
         e.preventDefault()
         document.getElementById("errorAlbumRepetido").classList.remove("flex")
