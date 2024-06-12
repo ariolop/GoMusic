@@ -1,6 +1,8 @@
 ---
 import AvisoGuardarPerfil from '../Alerts/AvisoGuardarPerfil.astro'
 import AvisoActualizarDatos from '../Alerts/AvisoActualizarDatos.astro'
+import ErrorUsuarioExistente from '../Alerts/ErrorUsuarioExistente.astro'
+import ErrorActualizarDatos from '../Alerts/ErrorActualizarDatos.astro'
 
 interface Props {
     infoUser: object
@@ -43,12 +45,11 @@ const { infoUser } = Astro.props
             <input class="bg-[#DBAC63] p-1 px-2 rounded-md text-white font-semibold cursor-pointer mt-2" type="submit" value="Actualizar">
         </form>
     </div>
-    {
-        url && url.includes("guardado=correcto") ? <AvisoGuardarPerfil/> : ""
-    }
-    {
-        url && url.includes("actualizacion=correcto") ? <AvisoActualizarDatos/> : ""
-    }
+
+    <ErrorUsuarioExistente/>
+    <ErrorActualizarDatos/>
+    <AvisoGuardarPerfil/>
+    <AvisoActualizarDatos/>
 </div>
 
 <script is:inline>
@@ -103,6 +104,12 @@ const { infoUser } = Astro.props
 
     document.getElementById("formUpdateUser").addEventListener("submit", async (e) => {
         e.preventDefault()
+        document.getElementById("alertActualizarDatos").classList.remove("flex")
+        document.getElementById("alertActualizarDatos").classList.add("hidden")
+        document.getElementById("errorActualizarDatos").classList.remove("flex")
+        document.getElementById("errorActualizarDatos").classList.add("hidden")
+        document.getElementById("errorUsuarioExistente").classList.remove("flex")
+        document.getElementById("errorUsuarioExistente").classList.add("hidden")
         
         if (comprobarCambios())
         {
@@ -122,9 +129,35 @@ const { infoUser } = Astro.props
                 body,
                 method: 'POST'
             }).then(
-                _ => window.location.replace(location.href.split('?')[0] + "?actualizacion=correcto")
+                async res => {
+                    const text = await res.text()
+                    console.log(text);
+
+                    if(text == 'faltan datos' || text == 'datos existentes')
+                        throw new Error(text)
+                    else if (res.status == 400)
+                        throw new Error(res.statusText)
+                    else
+                        document.getElementById("mensajeDatos").innerText = ""
+                        document.getElementById("alertActualizarDatos").classList.add("flex")
+                        document.getElementById("alertActualizarDatos").classList.remove("hidden")
+                        //window.location.replace("/login?usuario=nuevo")
+                }
             ).catch(
-                error => console.error('Hay problemas con el fetch', error)
+                error => {
+                    //ErrorUsuarioExistente
+                    //ErrorActualizarDatos
+                    if (error.message == 'faltan datos')
+                    {
+                        document.getElementById("errorActualizarDatos").classList.add("flex")
+                        document.getElementById("errorActualizarDatos").classList.remove("hidden")
+                    }
+                    else if (error.message == 'datos existentes')
+                    {
+                        document.getElementById("errorUsuarioExistente").classList.add("flex")
+                        document.getElementById("errorUsuarioExistente").classList.remove("hidden")
+                    }
+                }
             );
         }
     })

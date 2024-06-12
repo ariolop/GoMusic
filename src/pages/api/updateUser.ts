@@ -1,7 +1,5 @@
 import type { APIContext } from "astro";
 import { db, Usuario, eq, Session } from "astro:db";
-import { getUserActivo } from "../../components/Cookies/Cookies.astro";
-import { lucia } from "../../auth";
 
 export async function GET(context: APIContext): Promise<Response>  {
     return context.redirect("/")
@@ -17,7 +15,7 @@ export async function POST(context: APIContext): Promise<Response> {
 
     //Validate the form data (como los inputs son required no debería de entrar aquí nunca)
     if (!username ||!nombre || !email) {
-        return context.redirect("/perfil?actualizacion=faltanDatos")
+        return new Response("faltan datos", {status: 400})
     }
     
     //Transformamos los get en String
@@ -59,7 +57,11 @@ export async function POST(context: APIContext): Promise<Response> {
     const emails = (await db.select({email: Usuario.email}).from(Usuario)).map(x => x.email)
     
     if (usernames.includes(infoUpdated.username) || emails.includes(infoUpdated.email)) {
-        return context.redirect("/perfil?actualizacion=datosExistentes")
+        return new Response("datos existentes", {status: 400})
+    }
+
+    if (!infoUpdated.username && !infoUpdated.nombre && !infoUpdated.apellidos && !infoUpdated.email) {
+        return new Response("faltan datos", {status: 400})
     }
 
     //Realizamos el UPDATE
@@ -67,5 +69,6 @@ export async function POST(context: APIContext): Promise<Response> {
         .set(infoUpdated)
         .where(eq(Usuario.id, userId));
 
-    return context.redirect("/perfil?actualizacion=correcta");
+    //return context.redirect("/perfil?actualizacion=correcta");
+    return new Response("OK", { status: 200 })
 }

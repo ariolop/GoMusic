@@ -26,7 +26,7 @@ export async function POST(context: APIContext): Promise<Response> {
     const existeUsuario = await db.select({email: Usuario.email, username: Usuario.username}).from(Usuario)
                             .where(
                                 or(
-                                    eq(Usuario.email, email.toString()),
+                                    eq(Usuario.email, email.toString().toLowerCase()),
                                     eq(Usuario.username, username.toString())
                                 )
                             )
@@ -65,7 +65,7 @@ export async function POST(context: APIContext): Promise<Response> {
             username: username.toString(),
             nombre: name.toString(),
             apellidos: surname.toString(),
-            email: email.toString(),
+            email: email.toString().toLowerCase(),
             contrasena: hashedPassword,
             imagenPerfil: userImage
         }
