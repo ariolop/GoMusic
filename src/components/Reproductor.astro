@@ -99,11 +99,6 @@ if (audios) {
             const tituloCancion = document.getElementById('tituloCancion').innerText
             const artistaCancion = document.getElementById('artistaCancion').innerText
 
-            console.log(rutaImagen)
-            console.log(rutaSonido)
-            console.log(tituloCancion)
-            console.log(artistaCancion)
-
             const audioElement = document.getElementById('audio')
             if( rutaSonido != audioElement.src)
             {
@@ -152,6 +147,12 @@ if (audios) {
 <script is:inline>
     //let audiosScript = audios
     //const progressElement = document.getElementById('musicProgress')
+    function mismaCancion() {
+        const idAudioURL = document.location.href.split('?')[1].split('=')[1]
+        const idAudioReproductor = document.getElementById("audio").dataset.idaudio      
+
+        return idAudioURL == idAudioReproductor
+    }
 
     function convertSecToMinSec(sec) {
         const minutes = Math.trunc(sec / 60).toString().padStart(2, 0);
@@ -178,7 +179,7 @@ if (audios) {
         document.getElementById('pauseSong').classList.add('hidden')
         document.getElementById('playSong').classList.remove('hidden')        
 
-        if( document.getElementById("playAudio") )
+        if( document.getElementById("playAudio") && mismaCancion())
         {
             document.getElementById('playAudio').classList.remove('hidden')
             document.getElementById('pauseAudio').classList.add('hidden')
@@ -243,7 +244,7 @@ if (audios) {
         document.getElementById('playSong').classList.add('hidden')
         document.getElementById('pauseSong').classList.remove('hidden')
 
-        if( document.getElementById("playAudio") )
+        if( document.getElementById("playAudio") && mismaCancion())
         {
             document.getElementById('playAudio').classList.add('hidden')
             document.getElementById('pauseAudio').classList.remove('hidden')
@@ -272,7 +273,7 @@ if (audios) {
         document.getElementById('pauseSong').classList.add('hidden')
         document.getElementById('playSong').classList.remove('hidden')        
 
-        if( document.getElementById("playAudio") )
+        if( document.getElementById("playAudio") && mismaCancion())
         {
             document.getElementById('playAudio').classList.remove('hidden')
             document.getElementById('pauseAudio').classList.add('hidden')
