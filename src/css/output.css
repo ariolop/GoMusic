@@ -891,6 +891,35 @@ progress::-webkit-progress-value {
   height: 100%;
 }
 
+.h-max {
+  height: -moz-max-content;
+  height: max-content;
+}
+
+.h-auto {
+  height: auto;
+}
+
+.h-80 {
+  height: 20rem;
+}
+
+.h-72 {
+  height: 18rem;
+}
+
+.h-60 {
+  height: 15rem;
+}
+
+.h-56 {
+  height: 14rem;
+}
+
+.h-36 {
+  height: 9rem;
+}
+
 .max-h-\[120px\] {
   max-height: 120px;
 }
@@ -1086,6 +1115,10 @@ progress::-webkit-progress-value {
 
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
 }
 
 .items-end {
@@ -1697,6 +1730,10 @@ progress::-webkit-progress-value {
     width: 100%;
   }
 
+  .sm\:w-1\/2 {
+    width: 50%;
+  }
+
   .sm\:max-w-12 {
     max-width: 3rem;
   }
@@ -1800,6 +1837,10 @@ progress::-webkit-progress-value {
 
   .md\:h-\[80px\] {
     height: 80px;
+  }
+
+  .md\:h-full {
+    height: 100%;
   }
 
   .md\:w-1\/3 {
