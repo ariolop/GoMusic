@@ -1,6 +1,6 @@
 import { list } from "@vercel/blob";
 import type { APIContext } from "astro";
-import { db, Usuario, Normal } from "astro:db";
+import { db, Usuario, Normal, eq, or } from "astro:db";
 import { generateId } from 'lucia';
 import { Argon2id } from "oslo/password";
 
@@ -23,8 +23,20 @@ export async function POST(context: APIContext): Promise<Response> {
     }
 
     //Validamos que el nombre de usuario y el email no existen
+    const existeUsuario = await db.select({email: Usuario.email, username: Usuario.username}).from(Usuario)
+                            .where(
+                                or(
+                                    eq(Usuario.email, email.toString()),
+                                    eq(Usuario.username, username.toString())
+                                )
+                            )
+
+    console.log(existeUsuario);
     
 
+    if (existeUsuario.length > 0)
+        return new Response('Usuario existente', { status: 400, statusText: 'usuario' })
+        
     //Validate the strength password
     if ( password.toString().length < 8 || 
         !password.toString().match(/[$@#&!]+/) ||

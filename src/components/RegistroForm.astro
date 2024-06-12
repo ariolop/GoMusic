@@ -4,6 +4,7 @@ import './../css/output.css'
 const url = Astro.request.url.split("?")[1]
 
 import ErrorPasswordDebil from './Alerts/ErrorPasswordDebil.astro'
+import ErrorUsuarioExistente from './Alerts/ErrorUsuarioExistente.astro'
 ---
 
 <div class="w-screen h-[88vh] flex justify-center items-center p-8">
@@ -39,11 +40,18 @@ import ErrorPasswordDebil from './Alerts/ErrorPasswordDebil.astro'
         </form>
     </div>
     <ErrorPasswordDebil />
+    <ErrorUsuarioExistente />
 </div>
 
-<script>
+<script is:inline>
     document.getElementById("formRegister").addEventListener("submit", async (e) => {
         e.preventDefault()
+
+        document.getElementById("alertContrasenaDebil").classList.remove("flex")
+        document.getElementById("alertContrasenaDebil").classList.add("hidden")
+        document.getElementById("errorUsuarioExistente").classList.remove("flex")
+        document.getElementById("errorUsuarioExistente").classList.add("hidden")
+
 
         const inputUsername = document.getElementById("username")
         const inputNombre = document.getElementById("name")
@@ -64,8 +72,9 @@ import ErrorPasswordDebil from './Alerts/ErrorPasswordDebil.astro'
         }).then(
             async res => {
                 const text = await res.text()
+                console.log(text);
 
-                if(text == 'Contrasena invalida')
+                if(text == 'Contrasena invalida' || text == 'Usuario existente')
                     throw new Error(text)
                 else if (res.status == 400)
                     throw new Error(res.statusText)
@@ -78,6 +87,11 @@ import ErrorPasswordDebil from './Alerts/ErrorPasswordDebil.astro'
                 {
                     document.getElementById("alertContrasenaDebil").classList.add("flex")
                     document.getElementById("alertContrasenaDebil").classList.remove("hidden")
+                }
+                else if (error.message == 'Usuario existente')
+                {
+                    document.getElementById("errorUsuarioExistente").classList.add("flex")
+                    document.getElementById("errorUsuarioExistente").classList.remove("hidden")
                 }
             }
         );
