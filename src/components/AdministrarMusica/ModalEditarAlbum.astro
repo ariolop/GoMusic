@@ -1,0 +1,91 @@
+---
+
+---
+
+<div id="ventanaModalEditar" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div> <!-- Backdrop -->
+  
+    <div class="fixed inset-0 z-10 w-full overflow-y-auto">
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:w-full sm:max-w-lg">
+            <form method="POST">
+                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="w-full mt-3 text-left sm:ml-4 sm:mt-0">
+                            <h3 class="text-base sm:text-lg font-semibold leading-6 text-gray-900" id="modal-title">Editar álbum</h3>
+                            <div class="mt-2">
+                                <label class="w-full text-base" for="nuevoNombre">Nombre<span class="text-red-600">*</span></label>
+                                <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" id="nuevoNombre" name="nuevoNombre" type="text" required placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <input id="botonGuardar" type="submit" class="cursor-pointer inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" data-idaudio="" value="Guardar">
+                    <button id="botonCancelarGuardar" type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancelar</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script is:inline>
+    document.getElementById("botonCancelarGuardar").addEventListener("click", () => {
+        document.getElementById("ventanaModalEditar").classList.add("hidden")
+    })
+
+    document.getElementById("botonBorrar").addEventListener("click", (e) => {
+        console.log("Borrar");
+        borrarAlbum(e)
+    })
+
+    async function borrarAlbum(e) {
+        const idAlbum = e.target.dataset.idalbum
+        console.log("Se borrará el album" + idAlbum);
+
+
+        const body = new FormData()
+        body.append('idAlbum', idAlbum)
+
+        await fetch('api/administrarArtista/removeAlbum', {
+            method: 'POST',
+            body: body
+        }).then(
+            res => {
+                console.log(res.status)
+                window.location.reload()
+            }
+        ).catch(
+            error => console.error(error)
+        )
+    }
+
+    document.getElementById("botonGuardar").addEventListener("click", (e) => {
+        console.log("Editar");
+        editarAlbum(e)
+    })
+
+    async function editarAlbum(e) {
+        const idAlbum = e.target.dataset.idalbum
+        const nuevoNombre = document.getElementById("nuevoNombre").value
+        console.log("Se editará el album" + idAlbum);
+
+        const body = new FormData()
+        body.append('idAlbum', idAlbum)
+        body.append('nombreAlbum', nuevoNombre)
+
+        await fetch('api/administrarArtista/updateAlbum', {
+            method: 'POST',
+            body: body
+        }).then(
+            res => {
+                console.log(res.status)
+                window.location.reload()
+            }
+        ).catch(
+            error => console.error(error)
+        )
+    }
+</script>
+    

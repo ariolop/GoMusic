@@ -1004,6 +1004,22 @@ progress::-webkit-progress-value {
   width: 100vw;
 }
 
+.w-3\/4 {
+  width: 75%;
+}
+
+.w-16 {
+  width: 4rem;
+}
+
+.w-36 {
+  width: 9rem;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
 .max-w-28 {
   max-width: 7rem;
 }
@@ -1275,6 +1291,10 @@ progress::-webkit-progress-value {
 
 .p-8 {
   padding: 2rem;
+}
+
+.p-0 {
+  padding: 0px;
 }
 
 .px-2 {
@@ -1576,6 +1596,11 @@ progress::-webkit-progress-value {
     margin-bottom: 2rem;
   }
 
+  .sm\:mx-4 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
   .sm\:ml-3 {
     margin-left: 0.75rem;
   }
@@ -1744,6 +1769,11 @@ progress::-webkit-progress-value {
   .sm\:text-base {
     font-size: 1rem;
     line-height: 1.5rem;
+  }
+
+  .sm\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 }
 

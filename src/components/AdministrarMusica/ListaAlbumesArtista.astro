@@ -1,6 +1,7 @@
 ---
 import { db, Album, eq } from 'astro:db'
 import ModalBorradoAlbum from './ModalBorradoAlbum.astro'
+import ModalEditarAlbum from './ModalEditarAlbum.astro'
 
 const { idArtista } = Astro.props
 
@@ -17,10 +18,10 @@ console.log(album);
         <div id="lista" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
             {
                 albumes.length > 0 ? <div class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm h-8">
-                    <div class="w-10/12">
+                    <div class="">
                         <p class="font-bold text-lg">Álbum</p>
                     </div>
-                    <div class="w-2/12">
+                    <div class="w-28">
                         <p class="font-bold text-lg text-center">Acciones</p>
                     </div>
                 </div> : ""
@@ -28,10 +29,10 @@ console.log(album);
             {
                 albumes.map((album) => {
                     return <div class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm">
-                            <div class="w-10/12">
-                                <p>{album.nombreAlbum}</p>
+                            <div>
+                                <p id="nombreAlbum">{album.nombreAlbum}</p>
                             </div>
-                            <div class="flex items-center h-8 w-2/12 justify-between">
+                            <div class="flex items-center h-8 w-28 justify-between">
                                 <button id="ver" data-idalbum={album.idAlbum} class="bg-green-600 p-1 rounded-md text-gray-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
@@ -57,6 +58,7 @@ console.log(album);
             }
         </div>
         <ModalBorradoAlbum/>
+        <ModalEditarAlbum/>
     </div>
 </div>
 
@@ -73,7 +75,7 @@ console.log(album);
                 verCancion(element)
                 break;
             case "editar":
-                editarCancion(element)
+                abrirModalEditar(element)
                 break;
             case "abrirModalBorrar":
                 abrirModalBorrar(element)
@@ -85,6 +87,13 @@ console.log(album);
     function abrirModalBorrar(element) {
         document.getElementById("ventanaModalBorrar").classList.remove("hidden")
         document.getElementById("botonBorrar").dataset.idalbum = element.dataset.idalbum
+        console.log("Abrir ventana modal");
+    }
+
+    function abrirModalEditar(element) {
+        document.getElementById("ventanaModalEditar").classList.remove("hidden")
+        document.getElementById("botonGuardar").dataset.idalbum = element.dataset.idalbum
+        document.getElementById("nuevoNombre").placeholder = document.getElementById("nombreAlbum").innerText
         console.log("Abrir ventana modal");
     }
 </script>
