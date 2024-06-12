@@ -1,5 +1,5 @@
 ---
-import { db, Album, eq, Artista } from "astro:db"
+import { db, Album, eq, Artista, and } from "astro:db"
 import { getUserActivo } from "../Cookies/Cookies.astro"
 import AvisoAgregarAudio from "../Alerts/AvisoAgregarAudio.astro"
 
@@ -8,12 +8,13 @@ const userActivo = await getUserActivo(cookies)
 
 const idArtista = (await db.select({idArtista: Artista.idArtista}).from(Artista).where(eq(Artista.idUsuario, userActivo)))[0].idArtista
 
-const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.idAlbum}).from(Album).where(eq(Album.idArtista, idArtista))
+const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.idAlbum}).from(Album).where(and(eq(Album.idArtista, idArtista), eq(Album.esSencillo, "false")))
+const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.idAlbum}).from(Album).where(and(eq(Album.idArtista, idArtista), eq(Album.esSencillo, "true")))
 ---
 
 <!-- Formulario básico para subida de canciones -->
 
-<div class="w-screen h-[88vh] flex justify-center items-center p-8">
+<div class="w-full h-[88vh] flex justify-center items-center p-8">
     <div class="w-4/4 sm:w-3/4 md:w-7/12 lg:w-5/12 rounded border border-black">
         <h2 class="text-center text-3xl my-3 font-bold">Subir audio</h2>
         <form method="POST" id="uploadForm" class="w-full flex justify-between flex-wrap bg-gray-300 p-8 rounded-b" enctype="multipart/form-data">
@@ -21,7 +22,7 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
                 <label class="w-full font-bold">Título del audio <span class="text-red-600">*</span></label>
                 <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" name="nombreAudio" id="nombreAudio" required>
             </div>
-            <div class="w-full flex flex-wrap">
+            <div class="w-full flex mt-2 flex-wrap">
                 <label class="w-full font-bold">Autores secundarios</label>
                 <input class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" name="autoresSecundarios" id="autoresSecundarios">
             </div>
@@ -49,7 +50,7 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
                 </select>
             </div>
             <div class="w-[30%] flex flex-wrap justify-center mt-2 items-center">
-                <label class="w-full mr-2 font-bold">Albúm <span class="text-red-600">*</span></label>
+                <label class="w-full mr-2 font-bold">Álbum <span class="text-red-600">*</span></label>
                 <select name="album" id="album" class="w-full p-1 bg-gray-300 border-2 rounded border-black" required>
                     <option value="" disabled selected>Álbumes</option>
                     {
@@ -82,12 +83,28 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
                 <input class="hidden" accept="image/jpg,image/png,image/webp,image/jpeg" type="file" id="imageFile" name="imageFile" required>
                 <img id="portadaAudio" class="w-24 h-24 mt-2 hidden" src="">
             </div>
-            <div class="w-full flex flex-wrap">
+            <div class="w-full flex flex-wrap mt-2">
                 <label class="w-full font-bold">Descripción</label>
                 <textarea class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" name="descripcion" id="descripcion"></textarea>
             </div>
+            <div class="w-full flex flex-wrap items-center mt-2">
+                <input class="placeholder:text-gray-500 p-1 bg-gray-300 border-2 rounded border-black" type="checkbox" name="esSencillo" id="esSencillo">
+                <label class="font-bold ml-1 mr-2">¿Es un sencillo?</label>
+                <div class="flex flex-col">
+                    <label class="font-bold ml-1 mr-2">Álbum sencillo</label>
+                    <select name="albumSencillo" id="albumSencillo" class="p-1 bg-gray-300 border-2 rounded border-black" disabled>
+                        <option value="" disabled selected>Álbumes</option>
+                        {
+                            //Los options van a ser cada uno de los albumos del usuario
+                            albumesSencillos.map((album) => {
+                                return <option value={album.idAlbum}>{album.nombreAlbum}</option>
+                            })
+                        }
+                    </select>
+                </div>
+            </div>
             
-            <div class="w-full mt-8 flex justify-end">
+            <div class="w-full mt-2 flex justify-end">
                 <input type="submit" class="bg-orange-300 rounded p-2 font-bold hover:bg-orange-400"></input>
             </div>
         </form>
@@ -97,6 +114,13 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
 <AvisoAgregarAudio/>
 
 <script is:inline>
+    document.getElementById("esSencillo").addEventListener(("change"), (e) => {
+        if(e.target.checked)
+            document.getElementById("albumSencillo").disabled = false
+        else
+            document.getElementById("albumSencillo").disabled = true
+    })
+
     document.getElementById("audioFile").addEventListener(("input"), () => {
         const input = document.getElementById("audioFile")
 
@@ -126,6 +150,8 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
         const inputPortada = document.getElementById("imageFile")
         const inputAudio = document.getElementById("audioFile")
         const inputDescripcion = document.getElementById("descripcion")
+        const inputEsSencillo = document.getElementById("esSencillo")
+        const inputAlbumSencillo = document.getElementById("albumSencillo")
 
         const body = new FormData()
         body.append('nombreAudio', inputTitulo.value)
@@ -136,6 +162,8 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
         body.append('imageFile', inputPortada.files[0])
         body.append('audioFile', inputAudio.files[0])
         body.append('descripcion', inputDescripcion ? inputDescripcion.value : "")
+        body.append('esSencillo', inputEsSencillo.checked ? true : false)
+        body.append('albumSencillo', inputAlbumSencillo.disabled ? "" : inputAlbumSencillo.value)
 
         const res = await fetch('/api/uploadMusic', {
             body,
@@ -150,7 +178,6 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
                     inputTitulo.value = ""
                     inputAutoresSecundarios.value = ""
                     inputDescripcion.value = ""
-                
             }
         ).catch(
             error => console.error('There was a problem with the fetch operation:', error)

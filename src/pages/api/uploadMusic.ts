@@ -18,14 +18,15 @@ export async function POST(context: APIContext): Promise<Response> {
     const inputPortada = form.get('imageFile') as File;
     const inputAudio = form.get('audioFile') as File;
     const inputDescripcion = form.get('descripcion')
+    const inputEsSencillo = form.get('esSencillo')
+    const inputAlbumSencillo = form.get('albumSencillo')
 
     //Validamos que estén todos los campos
     if (!inputTitulo || !inputGenero || !inputTipo || !inputAlbum || !inputPortada || !inputAudio) //En HTML los inputs y select son required
     {
-        return context.redirect("/insertarAudio?datos=faltan")
+        //return context.redirect("/insertarAudio?datos=faltan")
+        return new Response("Faltan datos", {status: 400})
     }
-    
-    console.log("Obtenemos el userId y el nombre completo del artista");
     
     //Obtenemos el userId y el nombre completo del artista
     const sessionId = context.cookies.get("auth_session").value
@@ -40,8 +41,6 @@ export async function POST(context: APIContext): Promise<Response> {
 
     const idAlbum = inputAlbum.toString()
     const hoy = Date.now()
-
-    console.log("Obtenemos todos los campos de la tabla Audios");
 
     //Obtenemos todos los campos de la tabla Audios
     const idAudio = generateId(9)
@@ -102,6 +101,21 @@ export async function POST(context: APIContext): Promise<Response> {
         }
     ])
 
-    return context.redirect("/insertarAudio?insertar=correcto")
+    if(inputEsSencillo.valueOf() && inputAlbumSencillo.toString())
+    {
+        const idAlbumSencillo = inputAlbumSencillo.toString()
+        const idAlbumSencilloAudio = generateId(9)
+
+        await db.insert(Album_Audio).values([
+            {
+                idAlbumAudio: idAlbumSencilloAudio,
+                idAlbum: idAlbumSencillo,
+                idAudio
+            }
+        ])
+    }
+
+    return new Response("ok", {status: 200})
+    //return context.redirect("/insertarAudio?insertar=correcto")
 
 }

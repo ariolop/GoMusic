@@ -161,8 +161,16 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
             body: body
         }).then(
             res => {
-                console.log(res.status)
-                window.location.reload()
+                if (res.status == 400)
+                    throw new Error(res.statusText)
+                else
+                {
+                    console.log("Editado");
+                    const nombreAudio = document.getElementById(idAudio).querySelector("#nombreAudio")
+                    const nombreAlbum = document.getElementById(idAudio).querySelector("#nombreAlbum")
+                    nombreAudio.innerText = nuevoNombre
+                    nombreAlbum.innerText = nuevoAlbum
+                }
             }
         ).catch(
             error => console.error(error)

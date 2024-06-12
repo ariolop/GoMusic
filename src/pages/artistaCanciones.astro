@@ -13,7 +13,6 @@ import { db, Artista, eq } from 'astro:db';
 
 const userId = await getUserActivo(cookies)
 const artistaId = (await db.select({idArtista: Artista.idArtista}).from(Artista).where(eq(Artista.idUsuario, userId)))[0].idArtista
-console.log(artistaId);
 ---
 
 <Layout>
