@@ -1,0 +1,36 @@
+---
+import { estaLogueado, getUserActivo } from '../components/Cookies/Cookies.astro';
+import { Normal, Playlist, eq, db  } from 'astro:db';
+
+const cookies = Astro.request.headers.get('cookie')
+
+if(!estaLogueado(cookies))
+    return Astro.redirect("./login")
+
+const userActivo = await getUserActivo(cookies)
+const idNormal = (await db.select({idNormal: Normal.idNormal}).from(Normal).where(eq(Normal.idUsuario, userActivo)))[0].idNormal
+
+const idPlaylist = Astro.request.url.split("?")[1].split("=")[1]
+const infoPlaylist = (await db.select().from(
+        Playlist
+    ).where(
+        eq(Playlist.idPlaylist, idPlaylist)
+    ))[0]
+
+if(idNormal != infoPlaylist.usuarioID)
+    return Astro.redirect("/")
+
+import './../css/output.css'
+import Reproductor from '../components/Reproductor.astro';
+import { ViewTransitions } from 'astro:transitions';
+import Layout from '../layouts/Layout.astro';
+import HeaderIndex from '../components/HeaderIndex.astro';
+import MainLista from '../layouts/MainLista.astro'
+---
+
+<Layout>
+    <ViewTransitions/>
+    <HeaderIndex/>
+    <MainLista/>
+    <Reproductor/>
+</Layout>

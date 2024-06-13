@@ -1,5 +1,5 @@
 ---
-import { estaLogueado, getUserActivo } from '../components/Cookies/Cookies.astro';
+import { estaLogueado } from '../components/Cookies/Cookies.astro';
 const cookies = Astro.request.headers.get('cookie')
 
 if(!estaLogueado(cookies))
@@ -11,8 +11,6 @@ import { ViewTransitions } from 'astro:transitions';
 import Layout from '../layouts/Layout.astro';
 import HeaderIndex from '../components/HeaderIndex.astro';
 import MainAudio from '../layouts/MainAudio.astro'
-
-const { idAudio } = Astro.props
 
 ---
 
