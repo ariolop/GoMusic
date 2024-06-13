@@ -93,7 +93,6 @@ console.log(cancionesFavs);
     if( document.getElementById("playAudio") )
     {
         const same = mismaCancion()
-        console.log(same);
         if (same) {
             if(!document.getElementById("audio").paused)
             {
@@ -128,6 +127,9 @@ console.log(cancionesFavs);
                 audioElement.setAttribute("src", rutaSonido)
                 audioElement.dataset.posicioncola = 0
                 audioElement.dataset.idaudio = idAudio
+
+                if (existeCancionFavorita(idAudio))
+                    cambiarEstilosCorazon()
             }
             
             audioElement.play()
@@ -162,22 +164,65 @@ console.log(cancionesFavs);
 <script is:inline>
     //let audiosScript = audios
     //const progressElement = document.getElementById('musicProgress')
-    document.getElementById("addFavorite").addEventListener("click", () => {
+    document.getElementById("addFavorite").addEventListener("click", async () => {
         cambiarEstilosCorazon()
 
         const idAudio = document.getElementById("audio").dataset.idaudio
-        existeCancionFavorita(idAudio)
+        const existe = await existeCancionFavorita(idAudio)
+        console.log(existe);
+        
+        if(existe)
+            eliminarCancionFavorita(idAudio)
+        else
+            agregarCancionFavorita(idAudio)
     })
 
+    async function agregarCancionFavorita(idAudio) {
+        const cantidad = document.getElementById("cantidadAudiosFavoritos").innerText
+        document.getElementById("cantidadAudiosFavoritos").innerText = +(cantidad) + 1
+
+        const body = new FormData()
+        body.append('idAudio', idAudio)
+
+        await fetch('api/meGustas/addFavoriteAudio', {
+            body,
+            method: 'POST'
+        }).then(
+            res => console.log(res.status)   
+        ).catch(
+            error => console.error(error)
+        )
+    }
+    
+    async function eliminarCancionFavorita(idAudio) {
+        const cantidad = document.getElementById("cantidadAudiosFavoritos").innerText
+        document.getElementById("cantidadAudiosFavoritos").innerText = +(cantidad) - 1
+
+        const body = new FormData()
+        body.append('idAudio', idAudio)
+
+        await fetch('api/meGustas/removeFavoriteAudio', {
+            body,
+            method: 'POST'
+        }).then(
+            res => console.log(res.status)   
+        ).catch(
+            error => console.error(error)
+        )
+    }
+
     async function existeCancionFavorita(idAudio) {
-        console.log(typeof idAudio);
         const existe = await fetch('api/meGustas/getExisteFavoriteAudio?idAudio=' + idAudio)
                                 .then(
                                     res => res.json()
-                                ).catch(
+                                ).then(
+                                    json => json
+                                )
+                                .catch(
                                     _ => false
                                 )
-        console.log(existe)
+
+        return existe
     }
 
     function cambiarEstilosCorazon() {
@@ -193,8 +238,6 @@ console.log(cancionesFavs);
             icono.classList.add("fill-none")
             icono.classList.remove("fill-red-500")
         }
-
-        console.log(icono.style.fill);
     }
 
     function mismaCancion() {
@@ -403,6 +446,8 @@ console.log(cancionesFavs);
         artistaElement.innerHTML = audio.Usuario.username
         imagenElement.setAttribute("src", audio.Audios.rutaImagen)
         audioElement.setAttribute("src", audio.Audios.rutaSonido)
+        if (existeCancionFavorita(audio.Audios.idAudio))
+            cambiarEstilosCorazon()
         audioElement.dataset.posicioncola = `${posicionColaAnterior}`
         audioElement.play()  
 
@@ -427,6 +472,9 @@ console.log(cancionesFavs);
         audioElement.setAttribute("src", audio.Audios.rutaSonido)
         audioElement.dataset.posicioncola = `${posicionColaSiguiente}`
         audioElement.play()
+
+        if (existeCancionFavorita(audio.Audios.idAudio))
+            cambiarEstilosCorazon()
 
         document.getElementById('pauseSong').classList.add('hidden')
         document.getElementById('playSong').classList.remove('hidden')

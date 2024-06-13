@@ -14,8 +14,6 @@ const cancionesFavoritas = (await db.select({
     Usuario_MeGusta_Audio
 ).where(
     eq(Usuario_MeGusta_Audio.idUsuario, idNormal)
-).groupBy(
-    Usuario_MeGusta_Audio.idAudio
 ))
 
 const playlists = await db.select({
@@ -33,7 +31,7 @@ const playlists = await db.select({
     Audios, eq(Playlist_Audio.idAudio, Audios.idAudio)
 ).groupBy(Playlist_Audio.idPlaylist)
 
-console.log(playlists);
+console.log(cancionesFavoritas);
 
 ---
 
@@ -45,7 +43,10 @@ console.log(playlists);
                 <img class="h-12 rounded-s-md" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/portada_canciones_favoritas-rEzUa42IpsQ8FJLVMoLYcIBgCpVNNU.png">
                 <div class="flex flex-col h-full  ml-2">
                     <p class="text-base font-bold">Canciones favoritas</p>
-                    <p class="text-sm">{cancionesFavoritas[0] ? cancionesFavoritas[0].cantidadCanciones + " canciones" : 0 + " canciones"}</p>
+                    <div class="flex">
+                        <p id="cantidadAudiosFavoritos" class="text-sm">{cancionesFavoritas[0] ? cancionesFavoritas[0].cantidadCanciones : 0}</p>
+                        <span class="text-sm">&nbsp;canciones</span>
+                    </div>
                 </div>
             </div>
         }

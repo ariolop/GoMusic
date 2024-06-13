@@ -1,6 +1,5 @@
 import type { APIContext } from "astro";
 import { db, Session, eq, Normal, Usuario_MeGusta_Audio, and } from "astro:db";
-import { generateId } from "lucia";
 
 export async function GET(context: APIContext): Promise<Response>  {
     return context.redirect("/")
