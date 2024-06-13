@@ -77,18 +77,6 @@ export async function POST(context: APIContext): Promise<Response> {
         }
     ])
 
-    const idPlaylist = generateId(9)
-    //Insertamos el registro en la tabla Playlist en la BD
-    //TODOS LOS USUARIOS tendrán una lista llamada "Canciones favoritas"
-    await db.insert(Playlist).values([
-        {
-            idPlaylist,
-            nombre: "Canciones favoritas",
-            visibilidad: false,
-            usuarioID: idNormal
-        }
-    ])
-
     //Redirect to login para que inicie sesión
     return new Response(JSON.stringify(listImageDefault), { status: 200 }); 
 }

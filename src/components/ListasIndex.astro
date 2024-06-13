@@ -1,5 +1,5 @@
 ---
-import { Audios, db, eq, Normal, Playlist, sql } from 'astro:db'
+import { Audios, db, eq, Normal, Playlist, sql, Usuario_MeGusta_Audio } from 'astro:db'
 import './../css/output.css'
 import { getUserActivo } from './Cookies/Cookies.astro'
 import { Playlist_Audio } from 'astro:db'
@@ -8,19 +8,30 @@ const cookies = Astro.request.headers.get('cookie')
 const userActivo = await getUserActivo(cookies)
 const idNormal = (await db.select({idNormal: Normal.idNormal}).from(Normal).where(eq(Normal.idUsuario, userActivo)))[0].idNormal
 
+const cancionesFavoritas = (await db.select({ 
+    cantidadCanciones: sql<number>`cast(count(${Playlist_Audio.idAudio}) as int)` 
+}).from(
+    Usuario_MeGusta_Audio
+).where(
+    eq(Usuario_MeGusta_Audio.idUsuario, idNormal)
+).groupBy(
+    Usuario_MeGusta_Audio.idAudio
+))
+
 const playlists = await db.select({
     idPlaylist: Playlist.idPlaylist,
     nombre: Playlist.nombre,
     visibilidad: Playlist.visibilidad,
     usuarioID: Playlist.usuarioID,
-    cantidadCanciones: sql<number>`cast(count(${Playlist_Audio.idAudio}) as int)`
+    cantidadCanciones: sql<number>`cast(count(${Playlist_Audio.idAudio}) as int)`,
+    portadaLista: Audios.rutaImagen
 }).from(Playlist).where(
     eq(Playlist.usuarioID, idNormal)
 ).leftJoin(
     Playlist_Audio, eq(Playlist_Audio.idPlaylist, Playlist.idPlaylist)
-).groupBy(
-    Playlist_Audio.idPlaylist
-)
+).leftJoin( 
+    Audios, eq(Playlist_Audio.idAudio, Audios.idAudio)
+).groupBy(Playlist_Audio.idPlaylist)
 
 console.log(playlists);
 
@@ -30,9 +41,22 @@ console.log(playlists);
     <h2 class="text-lg font-bold">Tus listas de reproducción</h2>
     <div class="mt-2">
         {
+            <div class="h-12 flex bg-gray-400 rounded-md mb-2">
+                <img class="rounded-s-md" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/portada_canciones_favoritas-rEzUa42IpsQ8FJLVMoLYcIBgCpVNNU.png">
+                <div class="flex flex-col h-full  ml-2">
+                    <p class="text-base font-bold">Canciones favoritas</p>
+                    <p class="text-sm">{cancionesFavoritas[0] ? cancionesFavoritas[0].cantidadCanciones : 0 + " canciones"}</p>
+                </div>
+            </div>
+        }
+        {
             playlists.map((playlist) => {
                 return <div class="h-12 flex bg-gray-400 rounded-md mb-2">
-                    <img class="rounded-s-md" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/ListaSinCanciones-5QyhWnrTQFUpPVtIomeinFAZZ0TkWo.jpg">
+                    <img class="rounded-s-md" src={
+                        playlist.cantidadCanciones > 0 ?
+                        playlist.portadaLista :
+                        "https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/ListaSinCanciones-5QyhWnrTQFUpPVtIomeinFAZZ0TkWo.jpg"
+                    }>
                     <div class="flex flex-col h-full  ml-2">
                         <p class="text-base font-bold">{playlist.nombre}</p>
                         <p class="text-sm">{playlist.cantidadCanciones + " canciones"}</p>
