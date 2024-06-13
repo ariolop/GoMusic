@@ -37,15 +37,15 @@ console.log(playlists);
 
 ---
 
-<div class="w-full sm:w-1/4 order-2 sm:order-1 bg-gray-200 p-2">
+<div class="w-full sm:max-w-[300px] sm:mr-auto sm:w-3/6 order-2 sm:order-1 bg-gray-200 p-2">
     <h2 class="text-lg font-bold">Tus listas de reproducción</h2>
     <div class="mt-2">
         {
-            <div class="h-12 flex bg-gray-400 rounded-md mb-2">
-                <img class="rounded-s-md" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/portada_canciones_favoritas-rEzUa42IpsQ8FJLVMoLYcIBgCpVNNU.png">
+            <div class="min-h-12 flex items-center bg-gray-400 rounded-md mb-2">
+                <img class="h-12 rounded-s-md" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/portada_canciones_favoritas-rEzUa42IpsQ8FJLVMoLYcIBgCpVNNU.png">
                 <div class="flex flex-col h-full  ml-2">
                     <p class="text-base font-bold">Canciones favoritas</p>
-                    <p class="text-sm">{cancionesFavoritas[0] ? cancionesFavoritas[0].cantidadCanciones : 0 + " canciones"}</p>
+                    <p class="text-sm">{cancionesFavoritas[0] ? cancionesFavoritas[0].cantidadCanciones + " canciones" : 0 + " canciones"}</p>
                 </div>
             </div>
         }

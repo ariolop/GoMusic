@@ -165,8 +165,20 @@ console.log(cancionesFavs);
     document.getElementById("addFavorite").addEventListener("click", () => {
         cambiarEstilosCorazon()
 
-
+        const idAudio = document.getElementById("audio").dataset.idaudio
+        existeCancionFavorita(idAudio)
     })
+
+    async function existeCancionFavorita(idAudio) {
+        console.log(typeof idAudio);
+        const existe = await fetch('api/meGustas/getExisteFavoriteAudio?idAudio=' + idAudio)
+                                .then(
+                                    res => res.json()
+                                ).catch(
+                                    _ => false
+                                )
+        console.log(existe)
+    }
 
     function cambiarEstilosCorazon() {
         const icono = document.getElementById("addFavorite").querySelector("svg")
