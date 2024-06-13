@@ -1765,6 +1765,10 @@ progress::-webkit-progress-value {
     width: 50%;
   }
 
+  .sm\:w-2\/4 {
+    width: 50%;
+  }
+
   .sm\:max-w-12 {
     max-width: 3rem;
   }
