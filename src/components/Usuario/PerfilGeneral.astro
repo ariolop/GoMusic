@@ -141,6 +141,11 @@ const { infoUser } = Astro.props
                         document.getElementById("mensajeDatos").innerText = ""
                         document.getElementById("alertActualizarDatos").classList.add("flex")
                         document.getElementById("alertActualizarDatos").classList.remove("hidden")
+
+                        setTimeout(() => {
+                            document.getElementById("alertActualizarDatos").classList.remove("flex")
+                            document.getElementById("alertActualizarDatos").classList.add("hidden")
+                        }, 5000);
                         //window.location.replace("/login?usuario=nuevo")
                 }
             ).catch(

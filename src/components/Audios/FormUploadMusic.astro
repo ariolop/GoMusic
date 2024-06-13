@@ -175,6 +175,12 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                 else
                     document.getElementById("alertAddAudio").classList.add("flex")
                     document.getElementById("alertAddAudio").classList.remove("hidden")
+
+                    setTimeout(() => {
+                            document.getElementById("alertAddAudio").classList.remove("flex")
+                            document.getElementById("alertAddAudio").classList.add("hidden")
+                    }, 5000);
+
                     inputTitulo.value = ""
                     inputAutoresSecundarios.value = ""
                     inputDescripcion.value = ""

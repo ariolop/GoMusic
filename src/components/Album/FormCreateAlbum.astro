@@ -56,6 +56,12 @@ import ErrorAlbumRepetido from "../Alerts/ErrorAlbumRepetido.astro"
                 {
                     document.getElementById("alertCrearAlbum").classList.add("flex")
                     document.getElementById("alertCrearAlbum").classList.remove("hidden")
+
+                    setTimeout(() => {
+                            document.getElementById("alertCrearAlbum").classList.remove("flex")
+                            document.getElementById("alertCrearAlbum").classList.add("hidden")
+                    }, 5000);
+
                     inputNombreAlbum.value = ""
                     inputEsSencillo.checked = false
                 }       

@@ -70,7 +70,6 @@ import AvisoNuevoUsuario from '../components/Alerts/AvisoNuevoUsuario.astro'
             error => {
                 document.getElementById("errorLogin").classList.add("flex")
                 document.getElementById("errorLogin").classList.remove("hidden")
-                console.error('Hay problemas con el fetch', error)
             }
         );
     })

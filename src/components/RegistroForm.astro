@@ -87,6 +87,11 @@ import ErrorUsuarioExistente from './Alerts/ErrorUsuarioExistente.astro'
                 {
                     document.getElementById("alertContrasenaDebil").classList.add("flex")
                     document.getElementById("alertContrasenaDebil").classList.remove("hidden")
+
+                    setTimeout(() => {
+                        document.getElementById("alertContrasenaDebil").classList.remove("flex")
+                        document.getElementById("alertContrasenaDebil").classList.add("hidden")
+                    }, 5000);
                 }
                 else if (error.message == 'Usuario existente')
                 {
