@@ -33,27 +33,27 @@ const canciones = cancionesDuplicadas.sort((a,b) => {
         <div id="lista" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
             {
                 canciones.length != 0 ? <div class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm h-8">
-                    <div class="w-5/12">
+                    <div class="w-4/12">
                         <p class="font-bold text-lg">Título</p>
                     </div>
-                    <div class="w-5/12">
+                    <div class="w-4/12">
                         <p class="font-bold text-lg text-end sm:text-start">Álbum</p>
                     </div>
-                    <div class="hidden sm:block w-2/12">
+                    <div class="hidden sm:block w-4/12 max-w-32">
                         <p class="font-bold text-lg text-center">Acciones</p>
                     </div>
                 </div> : ""
             }
             {
                 canciones.map((cancion) => {
-                    return <div id={cancion.Audios.idAudio} class="flex justify-between flex-wrap items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm">
-                                <div class="w-5/12">
+                    return <div id={cancion.Audios.idAudio} class="flex justify-center sm:justify-between flex-wrap items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm">
+                                <div class="w-6/12 sm:w-4/12">
                                     <p class="w-full text-sm sm:text-base" id="nombreAudio">{cancion.Audios.nombreAudio}</p>
                                 </div>
-                                <div class="w-5/12">
+                                <div class="w-6/12 sm:w-4/12">
                                     <p class="w-full text-sm sm:text-base text-end sm:text-start" id="nombreAlbum">{cancion.Album.nombreAlbum}</p>
                                 </div>
-                                <div class="flex items-center h-8 mt-2 sm:mt-0 w-full sm:w-2/12 justify-evenly sm:justify-between">
+                                <div class="flex items-center h-8 mt-2 sm:mt-0 w-full sm:w-4/12 max-w-32 justify-evenly sm:justify-between">
                                     <button id="ver" data-idaudio={cancion.Audios.idAudio} class="bg-green-600 p-1 rounded-md text-gray-200">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />

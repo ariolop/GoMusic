@@ -1013,6 +1013,18 @@ progress::-webkit-progress-value {
   width: 100vw;
 }
 
+.w-4\/12 {
+  width: 33.333333%;
+}
+
+.w-6\/12 {
+  width: 50%;
+}
+
+.min-w-10 {
+  min-width: 2.5rem;
+}
+
 .max-w-28 {
   max-width: 7rem;
 }
@@ -1035,6 +1047,10 @@ progress::-webkit-progress-value {
 
 .max-w-\[580px\] {
   max-width: 580px;
+}
+
+.max-w-32 {
+  max-width: 8rem;
 }
 
 .flex-shrink-0 {
@@ -1720,6 +1736,10 @@ progress::-webkit-progress-value {
 
   .sm\:w-2\/12 {
     width: 16.666667%;
+  }
+
+  .sm\:w-4\/12 {
+    width: 33.333333%;
   }
 
   .sm\:max-w-12 {
