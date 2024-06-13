@@ -16,7 +16,7 @@ const artistaId = (await db.select({idArtista: Artista.idArtista}).from(Artista)
 ---
 
 <Layout>
-    <Header/>
+    <Header perfil="true"/>
     <ViewTransitions/>
     <ListaAudios idArtista={artistaId}/>
 </Layout>
