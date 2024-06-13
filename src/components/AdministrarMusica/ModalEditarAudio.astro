@@ -1,5 +1,5 @@
 ---
-import { db, Album, eq, Artista } from "astro:db"
+import { db, Album, eq, Artista, and } from "astro:db"
 import { getUserActivo } from "../Cookies/Cookies.astro"
 
 const { infoAudio } = Astro.props
@@ -8,8 +8,8 @@ const cookies = Astro.request.headers.get('cookie')
 const userActivo = await getUserActivo(cookies)
 
 const idArtista = (await db.select({idArtista: Artista.idArtista}).from(Artista).where(eq(Artista.idUsuario, userActivo)))[0].idArtista
-const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.idAlbum}).from(Album).where(eq(Album.idArtista, idArtista))
-
+const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.idAlbum}).from(Album).where(and(eq(Album.idArtista, idArtista), eq(Album.esSencillo, "false")))
+const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.idAlbum}).from(Album).where(and(eq(Album.idArtista, idArtista), eq(Album.esSencillo, "true")))
 ---
 
 <div id="ventanaModalEditar" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -92,6 +92,22 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
                                 <label class="w-full font-bold" for="nuevaDescripcion">Descripción</label>
                                 <textarea class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" name="nuevaDescripcion" id="nuevaDescripcion"></textarea>
                             </div>
+                            <div class="w-full flex flex-wrap items-center mt-2">
+                                <input class="placeholder:text-gray-500 p-1 bg-gray-300 border-2 rounded border-black" type="checkbox" name="nuevoEsSencillo" id="nuevoEsSencillo">
+                                <label class="font-bold ml-1 mr-2" for="nuevoEsSencillo">¿Es un sencillo?</label>
+                                <div class="flex flex-col">
+                                    <label class="font-bold ml-1 mr-2">Álbum sencillo</label>
+                                    <select name="nuevoAlbumSencillo" id="nuevoAlbumSencillo" class="p-1 bg-gray-300 border-2 rounded border-black" disabled>
+                                        <option value="" disabled selected>Álbumes</option>
+                                        {
+                                            //Los options van a ser cada uno de los albumos del usuario
+                                            albumesSencillos.map((album) => {
+                                                return <option value={album.idAlbum}>{album.nombreAlbum}</option>
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,6 +122,13 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
 </div>
 
 <script is:inline>
+    document.getElementById("nuevoEsSencillo").addEventListener(("change"), (e) => {
+        if(e.target.checked)
+            document.getElementById("nuevoAlbumSencillo").disabled = false
+        else
+            document.getElementById("nuevoAlbumSencillo").disabled = true
+    })
+
     document.getElementById("nuevoAudioFile").addEventListener(("input"), () => {
         const input = document.getElementById("nuevoAudioFile")
 
@@ -143,6 +166,8 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
         const nuevoAudio = document.getElementById("nuevoAudioFile").value
         const nuevoPortada = document.getElementById("nuevoImageFile").value
         const nuevoDescripcion = document.getElementById("nuevaDescripcion").value
+        const nuevoEsSencillo = document.getElementById("nuevoEsSencillo").value
+        const nuevoAlbumSencillo = document.getElementById("nuevoAlbumSencillo").value
         console.log("Se editará el audio" + idAudio);
 
         const body = new FormData()
@@ -155,6 +180,8 @@ const albumes = await db.select({nombreAlbum: Album.nombreAlbum, idAlbum: Album.
         body.append('nuevoAudio', nuevoAudio)
         body.append('nuevoPortada', nuevoPortada)
         body.append('nuevoDescripcion', nuevoDescripcion)
+        body.append('nuevoEsSencillo', nuevoEsSencillo)
+        body.append('nuevoAlbumSencillo', nuevoAlbumSencillo)
 
         await fetch('api/administrarArtista/updateAudio', {
             method: 'POST',

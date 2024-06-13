@@ -6,20 +6,30 @@ import ModalEditarAudio from './ModalEditarAudio.astro';
 
 const { idArtista } = Astro.props
 
-const canciones = await db.select()
+const cancionesDuplicadas = await db.select()
                             .from(Album)
                             .leftJoin(Album_Audio, eq(Album.idAlbum, Album_Audio.idAlbum))
                             .leftJoin(Audios, eq(Album_Audio.idAudio, Audios.idAudio))
                             .where(and(
-                                eq(Album.idArtista, idArtista),
-                                isNotNull(Audios.idAudio)
+                                eq(Album.idArtista, idArtista), //Filtrar por artista
+                                isNotNull(Audios.idAudio), //Filtrar por albumes vacios
                             ));
+
+const canciones = cancionesDuplicadas.sort((a,b) => {
+                        return a.Album.esSencillo == b.Album.esSencillo ? 
+                                0 : 
+                                    a.Album.esSencillo ?
+                                    1 : 
+                                    -1
+                    }).filter((can, idx, array) => {
+                        return !array.slice(0, idx).some(elem => elem.Audios.idAudio == can.Audios.idAudio)
+                    })
 
 ---
 
 <div class="w-full min-h-[88vh] flex justify-center items-center p-8">
     <div class="w-full sm:w-3/4 md:w-8/12 lg:w-6/12 rounded border border-black">
-        <h2 class="text-center text-3xl my-3 font-bold">Tus canciones</h2>
+        <h2 class="text-center text-2xl sm:text-3xl my-3 font-bold">Tus canciones</h2>
         <div id="lista" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
             {
                 canciones.length != 0 ? <div class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm h-8">
@@ -27,23 +37,23 @@ const canciones = await db.select()
                         <p class="font-bold text-lg">Título</p>
                     </div>
                     <div class="w-5/12">
-                        <p class="font-bold text-lg">Álbum</p>
+                        <p class="font-bold text-lg text-end sm:text-start">Álbum</p>
                     </div>
-                    <div class="w-2/12">
+                    <div class="hidden sm:block w-2/12">
                         <p class="font-bold text-lg text-center">Acciones</p>
                     </div>
                 </div> : ""
             }
             {
                 canciones.map((cancion) => {
-                    return <div id={cancion.Audios.idAudio} class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm">
+                    return <div id={cancion.Audios.idAudio} class="flex justify-between flex-wrap items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm">
                                 <div class="w-5/12">
-                                    <p id="nombreAudio">{cancion.Audios.nombreAudio}</p>
+                                    <p class="w-full text-sm sm:text-base" id="nombreAudio">{cancion.Audios.nombreAudio}</p>
                                 </div>
                                 <div class="w-5/12">
-                                    <p id="nombreAlbum">{cancion.Album.nombreAlbum}</p>
+                                    <p class="w-full text-sm sm:text-base text-end sm:text-start" id="nombreAlbum">{cancion.Album.nombreAlbum}</p>
                                 </div>
-                                <div class="flex items-center h-8 w-2/12 justify-between">
+                                <div class="flex items-center h-8 mt-2 sm:mt-0 w-full sm:w-2/12 justify-evenly sm:justify-between">
                                     <button id="ver" data-idaudio={cancion.Audios.idAudio} class="bg-green-600 p-1 rounded-md text-gray-200">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
@@ -117,16 +127,22 @@ const canciones = await db.select()
         const info = await fetch('api/audios/getInfoAudio?idAudio='+idAudio)
             .then(
                 res => res.json()
+            ).then(
+                json => {
+                    return json
+                }
             )
 
-        document.getElementById("nuevoNombreAudio").value = info.Audios.nombreAudio
-        document.getElementById("nuevoAutoresSecundarios").value = info.Audios.autores_secundarios
-        document.getElementById("nuevoGenero").value = info.Audios.genero
-        document.getElementById("nuevoTipo").value = info.Audios.tipo
-        document.getElementById("nuevoAlbum").value = info.Album_Audio.idAlbum
-        document.getElementById("rutaAudio").innerText = info.Audios.archivoSonidoOriginal
-        document.getElementById("portadaAudio").src = info.Audios.rutaImagen
-        document.getElementById("nuevaDescripcion").value = info.Audios.descripcion
+        document.getElementById("nuevoNombreAudio").value = info[0].Audios.nombreAudio
+        document.getElementById("nuevoAutoresSecundarios").value = info[0].Audios.autores_secundarios
+        document.getElementById("nuevoGenero").value = info[0].Audios.genero
+        document.getElementById("nuevoTipo").value = info[0].Audios.tipo
+        document.getElementById("nuevoAlbum").value = info[0].Album_Audio.idAlbum
+        document.getElementById("rutaAudio").innerText = info[0].Audios.archivoSonidoOriginal
+        document.getElementById("portadaAudio").src = info[0].Audios.rutaImagen
+        document.getElementById("nuevaDescripcion").value = info[0].Audios.descripcion
+        document.getElementById("nuevoEsSencillo").checked = info[1] ? true : false
+        document.getElementById("nuevoAlbumSencillo").value = info[1] ? info[1].Album.idAlbum : ""
 
         document.getElementById("ventanaModalEditar").classList.remove("hidden")
     }

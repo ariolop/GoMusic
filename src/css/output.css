@@ -1339,6 +1339,10 @@ progress::-webkit-progress-value {
   text-align: right;
 }
 
+.text-end {
+  text-align: end;
+}
+
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
@@ -1367,6 +1371,11 @@ progress::-webkit-progress-value {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .font-bold {
@@ -1480,6 +1489,10 @@ progress::-webkit-progress-value {
 .ring-gray-300 {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .transition-all {
@@ -1609,6 +1622,10 @@ progress::-webkit-progress-value {
     margin-top: 0.5rem;
   }
 
+  .sm\:block {
+    display: block;
+  }
+
   .sm\:inline {
     display: inline;
   }
@@ -1701,6 +1718,10 @@ progress::-webkit-progress-value {
     width: 30%;
   }
 
+  .sm\:w-2\/12 {
+    width: 16.666667%;
+  }
+
   .sm\:max-w-12 {
     max-width: 3rem;
   }
@@ -1737,6 +1758,10 @@ progress::-webkit-progress-value {
     justify-content: flex-start;
   }
 
+  .sm\:justify-between {
+    justify-content: space-between;
+  }
+
   .sm\:rounded-none {
     border-radius: 0px;
   }
@@ -1770,6 +1795,10 @@ progress::-webkit-progress-value {
     text-align: left;
   }
 
+  .sm\:text-start {
+    text-align: start;
+  }
+
   .sm\:text-base {
     font-size: 1rem;
     line-height: 1.5rem;
@@ -1778,6 +1807,11 @@ progress::-webkit-progress-value {
   .sm\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+
+  .sm\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 }
 

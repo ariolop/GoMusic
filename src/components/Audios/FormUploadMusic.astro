@@ -165,7 +165,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
         body.append('esSencillo', inputEsSencillo.checked ? true : false)
         body.append('albumSencillo', inputAlbumSencillo.disabled ? "" : inputAlbumSencillo.value)
 
-        const res = await fetch('/api/uploadMusic', {
+        await fetch('/api/uploadMusic', {
             body,
             method: 'POST'
         }).then(
