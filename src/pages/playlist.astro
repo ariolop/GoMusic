@@ -1,6 +1,6 @@
 ---
 import { estaLogueado, getUserActivo } from '../components/Cookies/Cookies.astro';
-import { Normal, Playlist, eq, db  } from 'astro:db';
+import { Normal, Playlist as T_Playlist, eq, db  } from 'astro:db';
 
 const cookies = Astro.request.headers.get('cookie')
 
@@ -12,9 +12,9 @@ const idNormal = (await db.select({idNormal: Normal.idNormal}).from(Normal).wher
 
 const idPlaylist = Astro.request.url.split("?")[1].split("=")[1]
 const infoPlaylist = (await db.select().from(
-        Playlist
+        T_Playlist
     ).where(
-        eq(Playlist.idPlaylist, idPlaylist)
+        eq(T_Playlist.idPlaylist, idPlaylist)
     ))[0]
 
 if(idNormal != infoPlaylist.usuarioID)

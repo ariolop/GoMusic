@@ -53,7 +53,7 @@ console.log(cancionesFavoritas);
         {
             playlists.map((playlist) => {
                 return <div class="h-12 flex bg-gray-400 rounded-md mb-2">
-                    <a class="w-full h-full flex" href={"/lista?idplaylist=" + playlist.idPlaylist}>
+                    <a class="w-full h-full flex" href={"/playlist?idplaylist=" + playlist.idPlaylist}>
                         <img class="rounded-s-md" src={
                         playlist.cantidadCanciones > 0 ?
                         playlist.portadaLista :

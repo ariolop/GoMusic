@@ -1,43 +1,73 @@
 ---
+import { Album_Audio } from 'astro:db';
 import ListasIndex from '../components/ListasIndex.astro';
-import { db, Audios, Normal, Usuario, eq, Playlist_Audio, Playlist } from "astro:db";
+import { db, Audios, Normal, Usuario, eq, Playlist_Audio, Playlist, Album, Artista } from "astro:db";
 
 const idPlaylist = Astro.request.url.split("?")[1].split("=")[1]
 
-const infoPlaylist = (
-    await db.select().from(
-        Playlist
-    ).where(
+// const usuarioArtista = alias(Usuario, "usuarioArtista")
+const infoPlaylist = (await db.select().from(Playlist)
+    .where(
         eq(Playlist.idPlaylist, idPlaylist)
-    ).leftJoin(
+    )
+    .leftJoin(
         Normal,
         eq(Playlist.usuarioID, Normal.idNormal)
     ).leftJoin(
         Usuario,
         eq(Normal.idUsuario, Usuario.id)
+    ))[0]
+
+const resulCanciones = (
+    await db.select().from(
+        Playlist
+    ).where(
+        eq(Playlist.idPlaylist, idPlaylist)
     ).leftJoin(
         Playlist_Audio,
         eq(Playlist_Audio.idPlaylist, Playlist.idPlaylist)
     ).leftJoin(
         Audios,
         eq(Playlist_Audio.idAudio, Audios.idAudio)
+    ).leftJoin(
+        Album_Audio,
+        eq(Album_Audio.idAudio, Audios.idAudio)
+    ).leftJoin(
+        Album,
+        eq(Album_Audio.idAlbum, Album.idAlbum)
+    ).leftJoin(
+        Artista,
+        eq(Artista.idArtista, Album.idArtista)
+    ).leftJoin(
+        Usuario,
+        eq(Artista.idUsuario, Usuario.id)
     )
 );
+
+const canciones = resulCanciones.sort((a,b) => {
+                        return a.Album.esSencillo == b.Album.esSencillo ? 
+                                0 : 
+                                    a.Album.esSencillo ?
+                                    1 : 
+                                    -1
+                    }).filter((can, idx, array) => {
+                        return !array.slice(0, idx).some(elem => elem.Audios.idAudio == can.Audios.idAudio)
+                    })
     
-console.log(infoPlaylist);
+console.log(canciones);
 
 ---
 
 <div class="min-h-[80vh] flex flex-wrap sm:flex-nowrap justify-between">
     <ListasIndex/>
-    <div class="flex h-full w-full sm:w-full order-1 flex-wrap flex-col items-center p-4 px-4 md:px-12">
+    <div class="flex h-full w-full sm:w-full order-1 flex-wrap flex-col p-4 px-4 md:px-12">
         <div class="w-full flex justify-center sm:justify-normal flex-wrap mb-5">
             <div class="w-full max-w-[300px] sm:w-[48%] lg:w-1/3">
-                <img id="imagenPortada" class="h-full" src={infoPlaylist[0].Audios ? infoPlaylist[0].Audios.rutaImagen : "https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/ListaSinCanciones-5QyhWnrTQFUpPVtIomeinFAZZ0TkWo.jpg"}>
+                <img id="imagenPortada" class="h-full" src={canciones[0].Audios ? canciones[0].Audios.rutaImagen : "https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/ListaSinCanciones-5QyhWnrTQFUpPVtIomeinFAZZ0TkWo.jpg"}>
             </div>
             <div class="w-full max-w-[300px] sm:max-w-max-0 sm:w-[48%] ml-4 flex justify-end flex-col">
-                <h2 id="tituloLista" class="w-full md:text-2xl lg:text-3xl font-bold">{infoPlaylist[0].Playlist.nombre}</h2>
-                <h2 id="autorLista" class="w-full md:text-lg lg:text-xl font-semibold mb-2">{infoPlaylist[0].Usuario.nombre + " " + infoPlaylist[0].Usuario.apellidos}</h2>
+                <h2 id="tituloLista" class="w-full md:text-2xl lg:text-3xl font-bold">{infoPlaylist.Playlist.nombre}</h2>
+                <h2 id="autorLista" class="w-full md:text-lg lg:text-xl font-semibold mb-2">{infoPlaylist.Usuario.nombre + " " + infoPlaylist.Usuario.apellidos}</h2>
                 <!-- <button id="playAudio" data-rutasonido={infoPlaylist[0].Audios.rutaSonido}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-11">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -52,58 +82,27 @@ console.log(infoPlaylist);
             </div>
         </div>
 
-        <!-- Lo mismo que antes, pero en forma de cuadrado -->
-        <div class="flex justify-between w-full mt-4 flex-wrap">
-            <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Recomendaciones para ti</h3>
-            <div class="w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-1">
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre del album</p>
-                </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre de la lista</p>
-                </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28 rounded-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre del artista</p>
-                </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre de la lista</p>
-                </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre del album</p>
-                </div>
+        <div id="" class="mt-4 w-full">
+            <div class="flex h-10 items-center justify-between border-b border-black mb-4">
+                <div class="w-10"></div>
+                <p class="w-1/4">Título</p>
+                <p class="w-1/4">Albúm</p>
+                <p class="w-1/4">Artistas</p>
             </div>
-        </div>
-
-        <!-- Lo mismo que antes, pero en forma de cuadrado -->
-        <div class="flex justify-between w-full mt-4 flex-wrap">
-            <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Recomendaciones para ti</h3>
-            <div class="w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-1">
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre del album</p>
+            {
+                canciones[0].Audios ?
+                canciones.map((cancion) => {
+                    return <div class="flex h-10 items-center justify-between mb-2">
+                        <img class="h-full w-10" src={cancion.Audios.rutaImagen}>
+                        <p class="w-1/4">{cancion.Audios.nombreAudio}</p>
+                        <p class="w-1/4">{cancion.Audios.nombreAudio}</p>
+                        <p class="w-1/4">{cancion.Usuario.nombre + " " + cancion.Usuario.apellidos}</p>
+                    </div>
+                }) :
+                <div>
+                    <p>Aún no se han añadido canciones a esta playlist.</p>
                 </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre de la lista</p>
-                </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28 rounded-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre del artista</p>
-                </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre de la lista</p>
-                </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre del album</p>
-                </div>
-            </div>
+            }
         </div>
 
         <!-- Lo mismo que antes, pero en forma de cuadrado -->

@@ -1,8 +1,8 @@
 ---
 import { Audios, Artista, Album, Usuario, Album_Audio, Normal, Playlist } from 'astro:db';
 import { db, eq, and } from 'astro:db';
-import { getUserActivo } from './Cookies/Cookies.astro';
-import { Playlist_Audio } from 'astro:db';
+// import { getUserActivo } from './Cookies/Cookies.astro';
+// import { Playlist_Audio } from 'astro:db';
 
 const audios = (
     await db.select().from(
@@ -16,23 +16,30 @@ const audios = (
     ).innerJoin(
         Usuario, eq(Artista.idUsuario, Usuario.id)
     )
-);
+).sort((a,b) => {
+    return a.Album.esSencillo == b.Album.esSencillo ? 
+            0 : 
+                a.Album.esSencillo ?
+                1 : 
+                -1
+}).filter((can, idx, array) => {
+    return !array.slice(0, idx).some(elem => elem.Audios.idAudio == can.Audios.idAudio)
+});
 
 const posicionRandom = Math.floor(Math.random() * audios.length)
 const audio = audios.at(posicionRandom)
   
-const cookies = Astro.request.headers.get('cookie')
-const userActivo = await getUserActivo(cookies)
-const idNormal = (await db.select({idNormal: Normal.idNormal}).from(Normal).where(eq(Normal.idUsuario, userActivo)))[0].idNormal
-const cancionesFavs = await db.select({idAudio: Playlist_Audio.idAudio}).from(Playlist).where(and(
-    eq(Playlist.nombre, "Canciones favoritas"),
-    eq(Playlist.usuarioID, idNormal)
-)).leftJoin(
-    Playlist_Audio,
-    eq(Playlist_Audio.idPlaylist, Playlist.idPlaylist)
-)
+// const cookies = Astro.request.headers.get('cookie')
+// const userActivo = await getUserActivo(cookies)
+// const idNormal = (await db.select({idNormal: Normal.idNormal}).from(Normal).where(eq(Normal.idUsuario, userActivo)))[0].idNormal
+// const cancionesFavs = await db.select({idAudio: Playlist_Audio.idAudio}).from(Playlist).where(and(
+//     eq(Playlist.nombre, "Canciones favoritas"),
+//     eq(Playlist.usuarioID, idNormal)
+// )).leftJoin(
+//     Playlist_Audio,
+//     eq(Playlist_Audio.idPlaylist, Playlist.idPlaylist)
+// )
 
-console.log(cancionesFavs);
 
 ---
 
@@ -129,7 +136,10 @@ console.log(cancionesFavs);
 
                 const existe = await existeCancionFavorita(idAudio)
                 if (existe)
-                    cambiarEstilosCorazon()
+                    cambiarEstilosCorazon(true)
+                else
+                    cambiarEstilosCorazon(false)
+
 
                 const nombreElement = document.getElementById('nombre')
                 const artistaElement = document.getElementById('artista')
@@ -159,10 +169,7 @@ console.log(cancionesFavs);
 
     function mismaCancion() {
         const idAudioURL = document.location.href.split('?')[1].split('=')[1]
-        const idAudioReproductor = document.getElementById("audio").dataset.idaudio
-
-        console.log(idAudioURL);            
-        console.log(idAudioReproductor);        
+        const idAudioReproductor = document.getElementById("audio").dataset.idaudio     
 
         return idAudioURL == idAudioReproductor
     }
@@ -193,15 +200,21 @@ console.log(cancionesFavs);
     })
 
     document.getElementById("addFavorite").addEventListener("click", async () => {
-        cambiarEstilosCorazon()
+        
 
         const idAudio = document.getElementById("audio").dataset.idaudio
         const existe = await existeCancionFavorita(idAudio)
         
         if(existe)
+        {
             eliminarCancionFavorita(idAudio)
+            cambiarEstilosCorazon(false)
+        }
         else
+        {
             agregarCancionFavorita(idAudio)
+            cambiarEstilosCorazon(true)
+        }
     })
 
     async function agregarCancionFavorita(idAudio) {
@@ -252,10 +265,10 @@ console.log(cancionesFavs);
         return existe
     }
 
-    function cambiarEstilosCorazon() {
+    function cambiarEstilosCorazon(relleno) {
         const icono = document.getElementById("addFavorite").querySelector("svg")
 
-        if(icono.classList.contains("fill-none"))
+        if(relleno)
         {
             icono.classList.add("fill-red-500")
             icono.classList.remove("fill-none")
@@ -476,7 +489,9 @@ console.log(cancionesFavs);
         
         const existe = await existeCancionFavorita(audio.Audios.idAudio) 
         if (existe)
-            cambiarEstilosCorazon()
+            cambiarEstilosCorazon(true)
+        else
+            cambiarEstilosCorazon(false)
         
             audioElement.dataset.posicioncola = `${posicionColaAnterior}`
         audioElement.play()  
@@ -505,7 +520,9 @@ console.log(cancionesFavs);
 
         const existe = await existeCancionFavorita(audio.Audios.idAudio) 
         if (existe)
-            cambiarEstilosCorazon()
+            cambiarEstilosCorazon(true)
+        else
+            cambiarEstilosCorazon(false)
 
         document.getElementById('pauseSong').classList.add('hidden')
         document.getElementById('playSong').classList.remove('hidden')
