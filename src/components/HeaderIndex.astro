@@ -21,7 +21,7 @@ const infoUser = (await db.select().from(Usuario).where(eq(Usuario.id, userActiv
             </a>
         </div>
         <div class="h-[40%] sm:h-full w-full sm:w-1/3 p-1 sm:p-3 bg-gray-300 sm:bg-transparent flex justify-end items-center">
-            <a target="_blank" href="./perfil" class="h-full flex items-center">
+            <a target={perfil ? "" : "_blank"} href="./perfil" class="h-full flex items-center">
                 <img class="h-full rounded-full sm:max-w-12 sm:max-h-12 bg-blue-300 border border-black" src={infoUser["imagenPerfil"]} alt="Foto del perfil del usuario">
             </a>
         </div>
