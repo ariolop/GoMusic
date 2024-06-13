@@ -1,11 +1,45 @@
 ---
+import { Audios, db, eq, Normal, Playlist, sql } from 'astro:db'
 import './../css/output.css'
+import { getUserActivo } from './Cookies/Cookies.astro'
+import { Playlist_Audio } from 'astro:db'
+
+const cookies = Astro.request.headers.get('cookie')
+const userActivo = await getUserActivo(cookies)
+const idNormal = (await db.select({idNormal: Normal.idNormal}).from(Normal).where(eq(Normal.idUsuario, userActivo)))[0].idNormal
+
+const playlists = await db.select({
+    idPlaylist: Playlist.idPlaylist,
+    nombre: Playlist.nombre,
+    visibilidad: Playlist.visibilidad,
+    usuarioID: Playlist.usuarioID,
+    cantidadCanciones: sql<number>`cast(count(${Playlist_Audio.idAudio}) as int)`
+}).from(Playlist).where(
+    eq(Playlist.usuarioID, idNormal)
+).leftJoin(
+    Playlist_Audio, eq(Playlist_Audio.idPlaylist, Playlist.idPlaylist)
+).groupBy(
+    Playlist_Audio.idPlaylist
+)
+
+console.log(playlists);
+
 ---
 
 <div class="w-full sm:w-1/4 order-2 sm:order-1 bg-gray-200 p-2">
     <h2 class="text-lg font-bold">Tus listas de reproducción</h2>
-    <div class="mt-1">
-        Hola
-        <!-- Botones para abrir las listas de reproduccion -->
+    <div class="mt-2">
+        {
+            playlists.map((playlist) => {
+                return <div class="h-12 flex bg-gray-400 rounded-md mb-2">
+                    <img class="rounded-s-md" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/ListaSinCanciones-5QyhWnrTQFUpPVtIomeinFAZZ0TkWo.jpg">
+                    <div class="flex flex-col h-full  ml-2">
+                        <p class="text-base font-bold">{playlist.nombre}</p>
+                        <p class="text-sm">{playlist.cantidadCanciones + " canciones"}</p>
+                    </div>
+                </div>
+            })
+        }
+        
     </div>
 </div>

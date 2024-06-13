@@ -1,6 +1,6 @@
 import { list } from "@vercel/blob";
 import type { APIContext } from "astro";
-import { db, Usuario, Normal, eq, or } from "astro:db";
+import { db, Usuario, Normal, eq, or, Playlist } from "astro:db";
 import { generateId } from 'lucia';
 import { Argon2id } from "oslo/password";
 
@@ -29,10 +29,7 @@ export async function POST(context: APIContext): Promise<Response> {
                                     eq(Usuario.email, email.toString().toLowerCase()),
                                     eq(Usuario.username, username.toString())
                                 )
-                            )
-
-    console.log(existeUsuario);
-    
+                            )    
 
     if (existeUsuario.length > 0)
         return new Response('Usuario existente', { status: 400, statusText: 'usuario' })
@@ -77,6 +74,18 @@ export async function POST(context: APIContext): Promise<Response> {
         {
             idNormal,
             idUsuario: userId
+        }
+    ])
+
+    const idPlaylist = generateId(9)
+    //Insertamos el registro en la tabla Playlist en la BD
+    //TODOS LOS USUARIOS tendrán una lista llamada "Canciones favoritas"
+    await db.insert(Playlist).values([
+        {
+            idPlaylist,
+            nombre: "Canciones favoritas",
+            visibilidad: false,
+            usuarioID: idNormal
         }
     ])
 
