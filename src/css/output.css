@@ -1700,6 +1700,10 @@ progress::-webkit-progress-value {
     max-height: 3rem;
   }
 
+  .sm\:max-h-\[80px\] {
+    max-height: 80px;
+  }
+
   .sm\:w-1\/2 {
     width: 50%;
   }
@@ -1819,6 +1823,10 @@ progress::-webkit-progress-value {
 
   .sm\:justify-start {
     justify-content: flex-start;
+  }
+
+  .sm\:justify-center {
+    justify-content: center;
   }
 
   .sm\:justify-between {
