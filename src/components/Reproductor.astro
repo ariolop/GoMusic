@@ -1,6 +1,7 @@
 ---
-import { Audios, Artista, Album, Usuario, Album_Audio, Normal, Playlist } from 'astro:db';
+import { Audios, Artista, Album, Usuario, Album_Audio, Normal, Playlist, Usuario_MeGusta_Audio } from 'astro:db';
 import { db, eq, and } from 'astro:db';
+import { getUserActivo } from './Cookies/Cookies.astro';
 // import { getUserActivo } from './Cookies/Cookies.astro';
 // import { Playlist_Audio } from 'astro:db';
 
@@ -28,19 +29,17 @@ const audios = (
 
 const posicionRandom = Math.floor(Math.random() * audios.length)
 const audio = audios.at(posicionRandom)
+
+const cookies = Astro.request.headers.get('cookie')
+const userActivo = await getUserActivo(cookies)
+const idNormal = (await db.select({idNormal: Normal.idNormal}).from(Normal).where(eq(Normal.idUsuario, userActivo)))[0].idNormal
+
+const cancionesFavoritas = (await db.select().from(
+    Usuario_MeGusta_Audio
+).where(
+    eq(Usuario_MeGusta_Audio.idUsuario, idNormal)
+)).map(cancion => cancion.idAudio)
   
-// const cookies = Astro.request.headers.get('cookie')
-// const userActivo = await getUserActivo(cookies)
-// const idNormal = (await db.select({idNormal: Normal.idNormal}).from(Normal).where(eq(Normal.idUsuario, userActivo)))[0].idNormal
-// const cancionesFavs = await db.select({idAudio: Playlist_Audio.idAudio}).from(Playlist).where(and(
-//     eq(Playlist.nombre, "Canciones favoritas"),
-//     eq(Playlist.usuarioID, idNormal)
-// )).leftJoin(
-//     Playlist_Audio,
-//     eq(Playlist_Audio.idPlaylist, Playlist.idPlaylist)
-// )
-
-
 ---
 
 <div transition:persist id="container" class="w-[95%] min-h-[75px] sm:h-[110px] md:h-max sm:w-full bg-orange-200 sticky bottom-1 mx-auto sm:bottom-0 rounded-lg sm:rounded-none">
@@ -65,8 +64,8 @@ const audio = audios.at(posicionRandom)
             </div>
         </div>
         <div class="controles order-2 md:order-3 w-2/4 sm:w-1/3 flex justify-end sm:justify-center lg:justify-end items-center flex-wrap">
-            <button id="addFavorite">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" class="w-8 h-8 fill-none stroke-red-500">
+            <button id="addFavoriteRepro">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class={cancionesFavoritas.includes(audio.Audios.idAudio) ? "fill-red-500 w-8 h-8" : "w-8 h-8"}>
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                 </svg>                                      
             </button>
@@ -106,7 +105,7 @@ const audio = audios.at(posicionRandom)
 </div>
 
 <script is:inline data-astro-rerun>
-    if( document.getElementById("playAudio") )
+    if(document.location.pathname == '/audio')
     {
         const same = mismaCancion()
         if (same) {
@@ -116,55 +115,115 @@ const audio = audios.at(posicionRandom)
                 document.getElementById("pauseAudio").classList.toggle("hidden") 
             }
         }
-
+        
         document.getElementById("playAudio").addEventListener("click", async () => {
-            //audiosScript = eliminarCola()
-            document.getElementById('playSong').classList.add('hidden')
-            document.getElementById('pauseSong').classList.remove('hidden')
-            document.getElementById('playAudio').classList.add('hidden')
-            document.getElementById('pauseAudio').classList.remove('hidden')
-
-            const rutaImagen = document.getElementById('imagenPortada').src
-            const rutaSonido = document.getElementById("playAudio").dataset.rutasonido
-            const tituloCancion = document.getElementById('tituloCancion').innerText
-            const artistaCancion = document.getElementById('artistaCancion').innerText
-
-            const audioElement = document.getElementById('audio')
-            if( rutaSonido != audioElement.src)
-            {
-                const idAudio = document.location.href.split("?")[1].split("=")[1]
-
-                const existe = await existeCancionFavorita(idAudio)
-                if (existe)
-                    cambiarEstilosCorazon(true)
-                else
-                    cambiarEstilosCorazon(false)
-
-
-                const nombreElement = document.getElementById('nombre')
-                const artistaElement = document.getElementById('artista')
-                const imagenElement = document.getElementById('imagen')
-
-                nombreElement.innerHTML = tituloCancion
-                artistaElement.innerHTML = artistaCancion
-                imagenElement.setAttribute("src", rutaImagen)
-                audioElement.setAttribute("src", rutaSonido)
-                audioElement.dataset.posicioncola = 0
-                audioElement.dataset.idaudio = idAudio
-            }
-            
-            audioElement.play()
+            await playSong(document.getElementById("playAudio"), document.getElementById("pauseAudio"))
         })
 
         document.getElementById("pauseAudio").addEventListener("click", () => {
-            const audioElement = document.getElementById('audio')
-            audioElement.pause()
-
-            document.getElementById('playSong').classList.remove('hidden')
-            document.getElementById('pauseSong').classList.add('hidden')
-            document.getElementById('playAudio').classList.remove('hidden')
-            document.getElementById('pauseAudio').classList.add('hidden')
+            pauseSong(document.getElementById("playAudio"), document.getElementById("pauseAudio"))
         })
+    }
+    else if (document.location.pathname != '/')
+    {
+        const numCancion = mismaCancionLista()
+        const elementosLista = Array.from(document.getElementById("lista").children)
+        elementosLista.shift()
+
+        if(numCancion != -1 && !document.getElementById('audio').paused)
+        {
+            elementosLista[numCancion].querySelector("#playAudio").classList.add("hidden")
+            elementosLista[numCancion].querySelector("#pauseAudio").classList.remove("hidden")
+        }
+        
+        //Añadir evento a todos y preguntar por el nextSibiling para el pauseSong
+        elementosLista.forEach((element, index, array) => {
+            element.querySelector("#playAudio").addEventListener("click", async () => {
+                array.forEach((elem , indexResto) => {
+                    if(indexResto != index)
+                    elem.querySelector("#playAudio").classList.remove('hidden')
+                    elem.querySelector("#pauseAudio").classList.add('hidden')
+                })
+
+                await playSong(element.querySelector("#playAudio"), element.querySelector("#pauseAudio"))
+            })
+
+            element.querySelector("#pauseAudio").addEventListener("click", () => {
+                pauseSong(element.querySelector("#playAudio"), element.querySelector("#pauseAudio"))
+            })
+
+            element.querySelector("#addFavoriteSong").addEventListener("click", async () => {
+                const idAudio = element.id
+                const idAudioReproductor = document.getElementById("audio").dataset.idaudio
+                const existe = await existeCancionFavorita(idAudio)
+
+                if(existe)
+                {
+                    eliminarCancionFavorita(idAudio)
+                    cambiarEstilosCorazon(false, idAudio == idAudioReproductor, true, idAudio)
+                }
+                else
+                {
+                    agregarCancionFavorita(idAudio)
+                    cambiarEstilosCorazon(true, idAudio == idAudioReproductor, true, idAudio)
+                }
+            })
+        })
+    }
+
+    function pauseSong(elementPlayAudio, elementPauseAudio) {
+        const audioElement = document.getElementById('audio')
+        audioElement.pause()
+
+        document.getElementById('playSong').classList.remove('hidden')
+        document.getElementById('pauseSong').classList.add('hidden')
+        elementPlayAudio.classList.remove('hidden')
+        elementPauseAudio.classList.add('hidden')
+    }
+
+    async function playSong(elementPlayAudio, elementPauseAudio) {
+        //audiosScript = eliminarCola()
+        document.getElementById('playSong').classList.add('hidden')
+        document.getElementById('pauseSong').classList.remove('hidden')
+        elementPlayAudio.classList.add('hidden')
+        elementPauseAudio.classList.remove('hidden')
+
+        const rutaImagen = elementPlayAudio.parentNode.parentNode.querySelector("#imagenPortada").src
+        const rutaSonido = elementPlayAudio.dataset.rutasonido
+        const tituloCancion = elementPlayAudio.parentNode.parentNode.querySelector("#tituloCancion").innerText
+        const artistaCancion = elementPlayAudio.parentNode.parentNode.querySelector("#artistaCancion").innerText
+
+        const audioElement = document.getElementById('audio')
+        if( rutaSonido != audioElement.src)
+        {
+            let idAudio = undefined
+            if(document.location.pathname == '/audio')
+                idAudio = document.location.href.split("?")[1].split("=")[1]
+            else
+                idAudio = elementPlayAudio.parentNode.parentNode.id
+
+            console.log(idAudio);
+
+            const existe = await existeCancionFavorita(idAudio)
+            if (existe)
+                cambiarEstilosCorazon(true, true, false)
+            else
+                cambiarEstilosCorazon(false, true, false)
+
+
+            const nombreElement = document.getElementById('nombre')
+            const artistaElement = document.getElementById('artista')
+            const imagenElement = document.getElementById('imagen')
+
+            nombreElement.innerHTML = tituloCancion
+            artistaElement.innerHTML = artistaCancion
+            imagenElement.setAttribute("src", rutaImagen)
+            audioElement.setAttribute("src", rutaSonido)
+            audioElement.dataset.posicioncola = 0
+            audioElement.dataset.idaudio = idAudio
+        }
+        
+        audioElement.play()
     }
 
     function mismaCancion() {
@@ -174,8 +233,53 @@ const audio = audios.at(posicionRandom)
         return idAudioURL == idAudioReproductor
     }
 
-    function eliminarCola() {
-        return audiosScript.splice(0,0)
+    function mismaCancionLista() {
+        //const idAudioURL = document.location.href.split('?')[1].split('=')[1]
+        const elementosLista = document.getElementById("lista").children
+        const idElementosLista = Array.from(elementosLista).map(e => e.id)
+        idElementosLista.shift()
+
+        const idAudioReproductor = document.getElementById("audio").dataset.idaudio     
+
+        return idElementosLista.indexOf(idAudioReproductor)
+    }
+
+    function cambiarEstilosCorazon(relleno, actualizarRepro, actualizarCanc, idSong) {
+        const iconoRepro = document.getElementById("addFavoriteRepro").querySelector("svg")
+        const idAudio = document.getElementById("audio").dataset.idaudio
+        const iconoSong = document.getElementById(idSong) ? document.getElementById(idSong).querySelector("#addFavoriteSong").querySelector("svg") : undefined
+        console.log(iconoRepro);
+        console.log(iconoSong);
+        console.log(relleno, actualizarRepro, actualizarCanc)
+        console.log(idAudio);
+        if(relleno)
+        {
+            if(actualizarRepro)
+            {
+                iconoRepro.classList.add("fill-red-500")
+                iconoRepro.classList.remove("fill-none")
+            }
+                
+            if(actualizarCanc)
+            {
+                iconoSong.classList.add("fill-red-500")
+                iconoSong.classList.remove("fill-none")
+            }
+        }
+        else
+        {
+            if(actualizarRepro)
+            {
+                iconoRepro.classList.add("fill-none")
+                iconoRepro.classList.remove("fill-red-500")
+            }
+            
+            if(actualizarCanc)
+            {
+                iconoSong.classList.add("fill-none")
+                iconoSong.classList.remove("fill-red-500")
+            }
+        }
     }
 </script>
 
@@ -199,21 +303,30 @@ const audio = audios.at(posicionRandom)
         }
     })
 
-    document.getElementById("addFavorite").addEventListener("click", async () => {
+    document.getElementById("addFavoriteRepro").addEventListener("click", async () => {
         
-
         const idAudio = document.getElementById("audio").dataset.idaudio
         const existe = await existeCancionFavorita(idAudio)
         
         if(existe)
         {
             eliminarCancionFavorita(idAudio)
-            cambiarEstilosCorazon(false)
-        }
+            if(document.location.pathname == "/audio")
+                cambiarEstilosCorazon(false, true, mismaCancion(), idAudio)
+            else if (document.location.pathname != "/")
+                cambiarEstilosCorazon(false, true, mismaCancionLista() != -1, idAudio)
+            else
+                cambiarEstilosCorazon(false, true, false)
+        }   
         else
         {
             agregarCancionFavorita(idAudio)
-            cambiarEstilosCorazon(true)
+            if(document.location.pathname == "/audio")
+                cambiarEstilosCorazon(true, true, mismaCancion(), idAudio)
+            else if (document.location.pathname != "/")
+                cambiarEstilosCorazon(true, true, mismaCancionLista() != -1, idAudio)
+            else
+                cambiarEstilosCorazon(true, true, false)
         }
     })
 
@@ -265,21 +378,6 @@ const audio = audios.at(posicionRandom)
         return existe
     }
 
-    function cambiarEstilosCorazon(relleno) {
-        const icono = document.getElementById("addFavorite").querySelector("svg")
-
-        if(relleno)
-        {
-            icono.classList.add("fill-red-500")
-            icono.classList.remove("fill-none")
-        }
-        else
-        {
-            icono.classList.add("fill-none")
-            icono.classList.remove("fill-red-500")
-        }
-    }
-
     function mismaCancion() {
         const idAudioURL = document.location.href.split('?')[1].split('=')[1]
         const idAudioReproductor = document.getElementById("audio").dataset.idaudio      
@@ -295,8 +393,6 @@ const audio = audios.at(posicionRandom)
     }
 
     document.getElementById('audio').addEventListener('loadedmetadata', (e) => {
-        console.log(e.target.duration);
-
         const timeAudio = convertSecToMinSec(e.target.duration);
 
         const musicProgress = document.getElementById('musicProgress')
@@ -326,7 +422,6 @@ const audio = audios.at(posicionRandom)
         if ( e.target.dataset.reproducido == "false" && !e.target.paused ) 
         {
             const timeReproducidoLastPaused = +(e.target.currentTime) - +(e.target.dataset.timelastpaused)
-            console.log(timeReproducidoLastPaused);
 
             if (timeReproducidoLastPaused > 10 && e.target.dataset.reproducido == "false")
             {
@@ -370,18 +465,30 @@ const audio = audios.at(posicionRandom)
     });
 
     document.getElementById('playSong').addEventListener('click', () => {
-        console.log('Play song');
 
         const audio = document.getElementById('audio')
         audio.play()
         document.getElementById('playSong').classList.add('hidden')
         document.getElementById('pauseSong').classList.remove('hidden')
 
-        if( document.getElementById("playAudio") && mismaCancion())
+        if(document.location.pathname == '/audio')
         {
-            document.getElementById('playAudio').classList.add('hidden')
-            document.getElementById('pauseAudio').classList.remove('hidden')
+            if( document.getElementById("playAudio") && mismaCancion())
+            {
+                document.getElementById('playAudio').classList.add('hidden')
+                document.getElementById('pauseAudio').classList.remove('hidden')
+            }
         }
+        else if(document.location.pathname != '/')
+        {
+            if( mismaCancionLista() != -1)
+            {
+                const idAudio = audio.dataset.idaudio
+                document.getElementById(idAudio).querySelector('#playAudio').classList.add('hidden')
+                document.getElementById(idAudio).querySelector('#pauseAudio').classList.remove('hidden')
+            }
+        }
+        
     });
 
     document.getElementById('pauseSong').addEventListener('click', () => {
@@ -389,7 +496,6 @@ const audio = audios.at(posicionRandom)
 
         if (document.getElementById('audio').dataset.reproducido == "false") {
             const timeReproducidoLastPaused = +(document.getElementById('audio').currentTime) - +(document.getElementById('audio').dataset.timelastpaused)
-            console.log(timeReproducidoLastPaused);
             const timeReproducidoTotal = +(document.getElementById('audio').dataset.timereproduced) + timeReproducidoLastPaused
             document.getElementById('audio').dataset.timereproduced = timeReproducidoTotal
 
@@ -406,10 +512,22 @@ const audio = audios.at(posicionRandom)
         document.getElementById('pauseSong').classList.add('hidden')
         document.getElementById('playSong').classList.remove('hidden')        
 
-        if( document.getElementById("playAudio") && mismaCancion())
+        if(document.location.pathname == '/audio')
         {
-            document.getElementById('playAudio').classList.remove('hidden')
-            document.getElementById('pauseAudio').classList.add('hidden')
+            if( document.getElementById("playAudio") && mismaCancion())
+            {
+                document.getElementById('playAudio').classList.remove('hidden')
+                document.getElementById('pauseAudio').classList.add('hidden')
+            }
+        }
+        else if(document.location.pathname != '/')
+        {
+            if( mismaCancionLista() != -1)
+            {
+                const idAudio = audio.dataset.idaudio
+                document.getElementById(idAudio).querySelector('#playAudio').classList.remove('hidden')
+                document.getElementById(idAudio).querySelector('#pauseAudio').classList.add('hidden')
+            }
         }
     });
 

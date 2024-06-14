@@ -37,6 +37,7 @@ const canciones = favs.sort((a,b) => {
                     }).filter((can, idx, array) => {
                         return !array.slice(0, idx).some(elem => elem.Usuario_MeGusta_Audio.idAudio == can.Usuario_MeGusta_Audio.idAudio)
                     })
+
 ---
 
 <div class="min-h-[80vh] flex flex-wrap sm:flex-nowrap justify-between">
@@ -44,7 +45,7 @@ const canciones = favs.sort((a,b) => {
     <div class="flex h-full w-full sm:w-full order-1 flex-wrap flex-col p-4 px-4 md:px-12">
         <div class="w-full flex justify-center sm:justify-normal flex-wrap mb-5">
             <div class="w-full max-w-[250px] sm:w-[48%] lg:w-1/3">
-                <img id="imagenPortada" class="h-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/portada_canciones_favoritas-rEzUa42IpsQ8FJLVMoLYcIBgCpVNNU.png">
+                <img class="h-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/portada_canciones_favoritas-rEzUa42IpsQ8FJLVMoLYcIBgCpVNNU.png">
             </div>
             <div class="w-full max-w-[300px] sm:max-w-max-0 sm:w-[48%] ml-4 flex justify-end flex-col">
                 <h2 id="tituloLista" class="w-full md:text-2xl lg:text-3xl font-bold">Audios favoritos</h2>
@@ -63,7 +64,7 @@ const canciones = favs.sort((a,b) => {
             </div>
         </div>
 
-        <div id="" class="mt-4 w-full">
+        <div id="lista" class="mt-4 w-full">
             <div class="flex h-10 items-center justify-between border-b border-black mb-4">
                 <div class="w-10 mr-2"></div>
                 <p class="w-1/4">Título</p>
@@ -72,22 +73,31 @@ const canciones = favs.sort((a,b) => {
                 <p class="w-1/6"></p>
             </div>
             {
-                canciones[0].Usuario_MeGusta_Audio ?
+                canciones.length > 0 ?
                 canciones.map((cancion) => {
-                    return <div class="flex min-h-10 items-center justify-between mb-2">
-                        <img class="h-full w-10 mr-2" src={cancion.Audios.rutaImagen}>
-                        <p class="w-1/4">{cancion.Audios.nombreAudio}</p>
+                    return <div id={cancion.Audios.idAudio} class="flex min-h-10 items-center justify-between mb-2">
+                        <img id="imagenPortada" class="h-full w-10 mr-2" src={cancion.Audios.rutaImagen}>
+                        <p id="tituloCancion" class="w-1/4">{cancion.Audios.nombreAudio}</p>
                         <p class="w-1/4">{cancion.Album.nombreAlbum}</p>
-                        <p class="w-1/4">{cancion.Usuario.nombre + " " + cancion.Usuario.apellidos}</p>
+                        <p id="artistaCancion" class="w-1/4">{cancion.Usuario.nombre + " " + cancion.Usuario.apellidos}</p>
                         <div class="w-1/6 flex justify-center items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="w-8 h-8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                            </svg>
+                            <button id="addFavoriteSong">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                            </button>
 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                            </svg>
+                            <button id="playAudio" data-rutasonido={cancion.Audios.rutaSonido}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
+                                </svg>                  
+                            </button>
+                            <button id="pauseAudio" class="hidden" data-rutasonido={cancion.Audios.rutaSonido}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>                                                           
+                            </button>
                         </div>
                     </div>
                 }) :

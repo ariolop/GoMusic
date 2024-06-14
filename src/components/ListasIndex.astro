@@ -31,8 +31,6 @@ const playlists = await db.select({
     Audios, eq(Playlist_Audio.idAudio, Audios.idAudio)
 ).groupBy(Playlist_Audio.idPlaylist)
 
-console.log(cancionesFavoritas);
-
 ---
 
 <div class="w-full sm:max-w-[300px] sm:w-3/6 order-2 sm:order-1 bg-gray-200 p-2">
@@ -40,14 +38,16 @@ console.log(cancionesFavoritas);
     <div class="mt-2">
         {
             <div class="min-h-12 flex items-center bg-gray-400 rounded-md mb-2">
-                <img class="h-12 rounded-s-md" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/portada_canciones_favoritas-rEzUa42IpsQ8FJLVMoLYcIBgCpVNNU.png">
-                <div class="flex flex-col h-full  ml-2">
-                    <p class="text-base font-bold">Audios favoritas</p>
-                    <div class="flex">
-                        <p id="cantidadAudiosFavoritos" class="text-sm">{cancionesFavoritas[0] ? cancionesFavoritas[0].cantidadCanciones : 0}</p>
-                        <span class="text-sm">&nbsp;canciones</span>
+                <a class="w-full h-full flex" href="/audiosFavoritos">
+                    <img class="h-12 rounded-s-md" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/portada_canciones_favoritas-rEzUa42IpsQ8FJLVMoLYcIBgCpVNNU.png">
+                    <div class="flex flex-col h-full  ml-2">
+                        <p class="text-base font-bold">Audios favoritas</p>
+                        <div class="flex">
+                            <p id="cantidadAudiosFavoritos" class="text-sm">{cancionesFavoritas[0] ? cancionesFavoritas[0].cantidadCanciones : 0}</p>
+                            <span class="text-sm">&nbsp;canciones</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         }
         {
