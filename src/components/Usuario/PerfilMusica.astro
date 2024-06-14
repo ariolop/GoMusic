@@ -13,7 +13,7 @@ const esArtista = await db.select().from(Artista).where(eq(Artista.idUsuario, in
 
 {
     esArtista.length > 0 ? 
-    <div id="musica" class="w-full h-max bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0 absolute">
+    <div id="musica" class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4 transition-all opacity-0 absolute">
         <h3 class="font-bold text-xl mb-2">Música</h3>
         <div class="flex flex-col">
             <a class="hover:bg-[#DBAC63] hover:text-white rounded-md w-max mb-2 p-1 px-2" href="insertarAlbum">Añadir álbum</p>

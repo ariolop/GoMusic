@@ -49,7 +49,6 @@ const Audios = defineTable({
 })
 
 const Album = defineTable({
-  deprecated: true,
   columns: {
     idAlbum: column.text({ primaryKey: true }),
     nombreAlbum: column.text(),
@@ -59,7 +58,6 @@ const Album = defineTable({
 })
 
 const Album_Audio = defineTable({
-  deprecated: true,
   columns: {
     idAlbumAudio: column.text({ primaryKey: true }),
     idAlbum: column.text({ references: () => Album.columns.idAlbum }),
