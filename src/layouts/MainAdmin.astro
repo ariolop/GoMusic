@@ -1,0 +1,89 @@
+---
+import { db, Usuario, Audios, Album, Playlist } from "astro:db"
+
+const usuarios = await db.select().from(Usuario)
+const album = await db.select().from(Album)
+const audios = await db.select().from(Audios)
+const playlist = await db.select().from(Playlist)
+---
+
+<div class="flex flex-wrap justify-between">
+    <div id="usuarios" class="flex justify-between flex-wrap p-8 w-full">
+        <div class="flex border border-black justify-between w-full">
+            <p class="w-2/12">Email</p>
+            <p class="w-2/12">Nombre</p>
+            <p class="w-2/12">Username</p>
+            <p class="w-2/12">Apellidos</p>
+            <p class="w-2/12">imagenPerfil</p> 
+        </div>
+        {
+            usuarios.map(user => {
+            return <div class="flex border w-full border-black justify-between">
+                <div class="w-2/12"><p class="w-full break-all">{user.email}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{user.nombre}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{user.username}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{user.apellidos}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{user.imagenPerfil}</p></div>
+            </div>
+            })
+        }    
+    </div>
+    <div id="albumes" class="flex justify-between flex-wrap p-8 w-full">
+        <div class="flex border border-black justify-between w-full">
+            <p class="w-2/12">Nombre</p>
+            <p class="w-2/12">esSencillo</p>
+            <p class="w-2/12">idArtista</p>
+        </div>
+        {
+            album.map(album => {
+            return <div class="flex border w-full border-black justify-between">
+                <div class="w-2/12"><p class="w-full break-all">{album.nombreAlbum}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{album.esSencillo}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{album.idArtista}</p></div>
+            </div>
+            })
+        }    
+    </div> 
+    <div id="audios" class="flex justify-between flex-wrap p-8">
+        <div class="flex border border-black justify-between w-full">
+            <p class="w-2/12">Nombre</p>
+            <p class="w-2/12">Tipo</p>
+            <p class="w-2/12">Genero</p>
+            <p class="w-2/12">rutaImagen</p> 
+            <p class="w-2/12">rutaSonido</p> 
+            <p class="w-2/12">descripcion</p>
+            <p class="w-2/12">autores secundarios</p>
+            <p class="w-2/12">SubidoEn</p>
+        </div>
+        {
+            audios.map(audio => {
+            return <div class="flex border w-full border-black justify-between">
+                <div class="w-2/12"><p class="w-full break-all">{audio.nombreAudio}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{audio.tipo}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{audio.genero}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{audio.rutaImagen}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{audio.rutaSonido}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{audio.descripcion}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{audio.autores_secundarios}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{audio.subidoEn}</p></div>
+            </div>
+            })
+        }    
+    </div> 
+    <div id="usuarios" class="flex justify-between flex-wrap p-8">
+        <div class="flex border border-black justify-between w-full">
+            <p class="w-2/12">Usuario ID</p>
+            <p class="w-2/12">Nombre</p>
+            <p class="w-2/12">Visibilidad</p>
+        </div>
+        {
+            playlist.map(list => {
+            return <div class="flex border w-full border-black justify-between">
+                <div class="w-2/12"><p class="w-full break-all">{list.nombre}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{list.usuarioID}</p></div>
+                <div class="w-2/12"><p class="w-full break-all">{list.visibilidad}</p></div>
+            </div>
+            })
+        }    
+    </div> 
+</div>

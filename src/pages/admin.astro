@@ -1,0 +1,32 @@
+---
+import { Administrador, db, eq } from "astro:db"
+import { estaLogueado, getUserActivo } from '../components/Cookies/Cookies.astro';
+
+const cookies = Astro.request.headers.get('cookie')
+
+if(!estaLogueado(cookies))
+    return Astro.redirect("./login")
+
+const userActivo = await getUserActivo(cookies)
+console.log(userActivo)
+const idAdministrador = await db.select().from(Administrador).where(eq(Administrador.idUsuario, userActivo))
+
+console.log(idAdministrador);
+
+
+
+if(!idAdministrador)
+    return Astro.redirect("/")
+
+import HeaderIndex from '../components/HeaderIndex.astro';
+import Layout from '../layouts/Layout.astro';
+import { ViewTransitions } from 'astro:transitions';
+import MainAdmin from '../layouts/MainAdmin.astro'
+
+---
+
+<Layout>
+    <ViewTransitions/>
+    <HeaderIndex/>
+    <MainAdmin/>
+</Layout>
