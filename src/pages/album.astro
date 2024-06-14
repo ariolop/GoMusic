@@ -1,0 +1,22 @@
+---
+import { estaLogueado } from '../components/Cookies/Cookies.astro';
+
+const cookies = Astro.request.headers.get('cookie')
+
+if(!estaLogueado(cookies))
+    return Astro.redirect("./login")
+
+import './../css/output.css'
+import Reproductor from '../components/Reproductor.astro';
+import { ViewTransitions } from 'astro:transitions';
+import Layout from '../layouts/Layout.astro';
+import HeaderIndex from '../components/HeaderIndex.astro';
+import MainAlbum from '../layouts/MainAlbum.astro'
+---
+
+<Layout>
+    <ViewTransitions/>
+    <HeaderIndex/>
+    <MainAlbum/>
+    <Reproductor/>
+</Layout>
