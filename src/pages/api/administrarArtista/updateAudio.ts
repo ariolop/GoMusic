@@ -1,5 +1,6 @@
+import { del, list, put } from "@vercel/blob";
 import type { APIContext } from "astro";
-import { db, Album, eq, Audios } from "astro:db";
+import { db, Album, eq, Audios, Artista, Session } from "astro:db";
 
 export async function GET(context: APIContext): Promise<Response>  {
     return context.redirect("/")
@@ -13,9 +14,6 @@ export async function POST(context: APIContext): Promise<Response> {
     let nuevoAutoresSecundarios = formData.get("nuevoAutoresSecundarios")
     let nuevoGenero = formData.get("nuevoGenero")
     let nuevoTipo = formData.get("nuevoTipo")
-    let nuevoAlbum = formData.get("nuevoAlbum")
-    let nuevoAudio = formData.get("nuevoAudio")
-    let nuevoPortada = formData.get("nuevoPortada")
     let nuevoDescripcion = formData.get("nuevoDescripcion")
 
     idAudio = idAudio.toString()
@@ -23,9 +21,6 @@ export async function POST(context: APIContext): Promise<Response> {
     nuevoAutoresSecundarios = nuevoAutoresSecundarios ? nuevoAutoresSecundarios.toString() : undefined
     nuevoGenero = nuevoGenero ? nuevoGenero.toString() : undefined
     nuevoTipo = nuevoTipo ? nuevoTipo.toString() : undefined
-    nuevoAlbum = nuevoAlbum ? nuevoAlbum.toString() : undefined
-    nuevoAudio = nuevoAudio ? nuevoAudio.toString() : undefined
-    nuevoPortada = nuevoPortada ? nuevoPortada.toString() : undefined
     nuevoDescripcion = nuevoDescripcion ? nuevoDescripcion.toString() : undefined
     
     const newInfo = {
@@ -33,24 +28,20 @@ export async function POST(context: APIContext): Promise<Response> {
         descripcion: nuevoDescripcion,
         genero: nuevoGenero,
         tipo: nuevoTipo,
-        rutaImagen: nuevoAlbum,
-        rutaSonido: nuevoAudio,
         autores_secundarios: nuevoAutoresSecundarios,
     }
 
-    const audioInfo = (await db.select().from(Audios).where(eq(Audios.idAudio, idAudio)))[0]
+    const audioInfo = (await db.select({nombreAudio: Audios.nombreAudio, descripcion: Audios.descripcion, genero:Audios.genero, tipo:Audios.tipo, autores_secundarios:Audios.autores_secundarios}).from(Audios).where(eq(Audios.idAudio, idAudio)))[0]
     console.log(newInfo);
     
     console.log(audioInfo);
    
-    const keysUserInfo = Object.keys(audioInfo).shift()
+    const keysUserInfo = Object.keys(audioInfo)
     const infoUpdated = {
         nombreAudio: undefined,
         descripcion: undefined,
         genero: undefined,
         tipo: undefined,
-        rutaImagen: undefined,
-        rutaSonido: undefined,
         autores_secundarios: undefined
     }
 
@@ -58,6 +49,9 @@ export async function POST(context: APIContext): Promise<Response> {
     {
         const key = keysUserInfo[i]
         
+        console.log(newInfo[key]);
+        console.log(audioInfo[key]);
+
         if(newInfo[key] != audioInfo[key])
             infoUpdated[key] = newInfo[key]
     }
@@ -65,17 +59,10 @@ export async function POST(context: APIContext): Promise<Response> {
    
    console.log(infoUpdated);
    
-   
-    // console.log(idAlbum);
-    // console.log(nombreAlbum);
-
-    // //Realizamos el UPDATE
-    // await db.update(Album)
-    //     .set({
-    //         idAlbum,
-    //         nombreAlbum            
-    //     })
-    //     .where(eq(Album.idAlbum, idAlbum));
+    //Realizamos el UPDATE
+    await db.update(Audios)
+        .set(infoUpdated)
+        .where(eq(Audios.idAudio, idAudio));
 
     return context.redirect("/perfil?actualizacion=correcta");
 }

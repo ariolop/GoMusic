@@ -21,7 +21,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
             <form method="POST">
                 <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
-                        <div class="flex flex-wrap justify-between w-full mt-3 text-left sm:mt-0">
+                        <div class="flex flex-wrap justify-evenly w-full mt-3 text-left sm:mt-0">
                             <h3 class="w-full text-base sm:text-lg font-semibold leading-6 text-gray-900" id="modal-title">Editar audio</h3>
                             <div class="w-full mt-2">
                                 <label class="w-full" for="nuevoNombreAudio">Título del audio <span class="text-red-600">*</span></label>
@@ -54,59 +54,9 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                                     <option value="podcast">Podcast</option>
                                 </select>
                             </div>
-                            <div class="w-[30%] flex flex-wrap justify-center mt-2 items-center">
-                                <label class="w-full mr-2 font-bold" for="nuevoAlbum">Albúm <span class="text-red-600">*</span></label>
-                                <select name="nuevoAlbum" id="nuevoAlbum" class="w-full p-1 bg-gray-300 border-2 rounded border-black" required>
-                                    <option value="" disabled selected>Álbumes</option>
-                                    {
-                                        //Los options van a ser cada uno de los albumos del usuario
-                                        albumes.map((album) => {
-                                            return <option value={album.idAlbum}>{album.nombreAlbum}</option>
-                                        })
-                                    }
-                                </select>
-                            </div>
-                            <div class="w-[45%] mt-2">
-                                <p class="font-bold w-full">Añadir audio <span class="text-red-600">*</span></p>
-                                <label for="nuevoAudioFile" class="cursor-pointer block w-max">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
-                                    </svg>                  
-                                </label>
-                                <input class="hidden" accept="audio/mp3" type="file" id="nuevoAudioFile" name="nuevoAudioFile">
-                                <p id="rutaAudio">
-                                    
-                                </p>
-                            </div>
-                            <div class="w-[45%] mt-2">
-                                <p class="font-bold">Añadir portada <span class="text-red-600">*</span></p>
-                                <label for="nuevoImageFile" class="cursor-pointer block w-max">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
-                                    </svg>  
-                                </label>
-                                <input class="hidden" accept="image/jpg,image/png,image/webp,image/jpeg" type="file" id="nuevoImageFile" name="nuevoImageFile">
-                                <img id="portadaAudio" class="w-24 h-24 mt-2" src="">
-                            </div>
                             <div class="w-full flex flex-wrap">
                                 <label class="w-full font-bold" for="nuevaDescripcion">Descripción</label>
                                 <textarea class="placeholder:text-gray-500 w-full p-1 bg-gray-300 border-2 rounded border-black" name="nuevaDescripcion" id="nuevaDescripcion"></textarea>
-                            </div>
-                            <div class="w-full flex flex-wrap items-center mt-2">
-                                <input class="placeholder:text-gray-500 p-1 bg-gray-300 border-2 rounded border-black" type="checkbox" name="nuevoEsSencillo" id="nuevoEsSencillo">
-                                <label class="font-bold ml-1 mr-2" for="nuevoEsSencillo">¿Es un sencillo?</label>
-                                <div class="flex flex-col">
-                                    <label class="font-bold ml-1 mr-2">Álbum sencillo</label>
-                                    <select name="nuevoAlbumSencillo" id="nuevoAlbumSencillo" class="p-1 bg-gray-300 border-2 rounded border-black" disabled>
-                                        <option value="" disabled selected>Álbumes</option>
-                                        {
-                                            //Los options van a ser cada uno de los albumos del usuario
-                                            albumesSencillos.map((album) => {
-                                                return <option value={album.idAlbum}>{album.nombreAlbum}</option>
-                                            })
-                                        }
-                                    </select>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,29 +72,6 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
 </div>
 
 <script is:inline>
-    document.getElementById("nuevoEsSencillo").addEventListener(("change"), (e) => {
-        if(e.target.checked)
-            document.getElementById("nuevoAlbumSencillo").disabled = false
-        else
-            document.getElementById("nuevoAlbumSencillo").disabled = true
-    })
-
-    document.getElementById("nuevoAudioFile").addEventListener(("input"), () => {
-        const input = document.getElementById("nuevoAudioFile")
-
-        const nombreArchivo = input.files[0].name
-
-        document.getElementById("rutaAudio").innerText = nombreArchivo
-    })
-
-    document.getElementById("nuevoImageFile").addEventListener(("input"), () => {
-        const input = document.getElementById("nuevoImageFile")
-
-        const nombreArchivo = input.files[0]
-
-        const preview = document.getElementById("portadaAudio")
-        preview.src = URL.createObjectURL(nombreArchivo)
-    })
 
     document.getElementById("botonCancelarGuardar").addEventListener("click", () => {
         document.getElementById("ventanaModalEditar").classList.add("hidden")
@@ -153,21 +80,16 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
     document.getElementById("botonGuardar").addEventListener("click", (e) => {
         e.preventDefault()
         console.log("Editar");
-        editarAlbum(e)
+        editarAudio(e)
     })
 
-    async function editarAlbum(e) {
+    async function editarAudio(e) {
         const idAudio = e.target.dataset.idaudio
         const nuevoNombre = document.getElementById("nuevoNombreAudio").value
         const nuevoAutoresSecundarios = document.getElementById("nuevoAutoresSecundarios").value
         const nuevoGenero = document.getElementById("nuevoGenero").value
         const nuevoTipo = document.getElementById("nuevoTipo").value
-        const nuevoAlbum = document.getElementById("nuevoAlbum").value
-        const nuevoAudio = document.getElementById("nuevoAudioFile").value
-        const nuevoPortada = document.getElementById("nuevoImageFile").value
         const nuevoDescripcion = document.getElementById("nuevaDescripcion").value
-        const nuevoEsSencillo = document.getElementById("nuevoEsSencillo").value
-        const nuevoAlbumSencillo = document.getElementById("nuevoAlbumSencillo").value
         console.log("Se editará el audio" + idAudio);
 
         const body = new FormData()
@@ -176,12 +98,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
         body.append('nuevoAutoresSecundarios', nuevoAutoresSecundarios)
         body.append('nuevoGenero', nuevoGenero)
         body.append('nuevoTipo', nuevoTipo)
-        body.append('nuevoAlbum', nuevoAlbum)
-        body.append('nuevoAudio', nuevoAudio)
-        body.append('nuevoPortada', nuevoPortada)
         body.append('nuevoDescripcion', nuevoDescripcion)
-        body.append('nuevoEsSencillo', nuevoEsSencillo)
-        body.append('nuevoAlbumSencillo', nuevoAlbumSencillo)
 
         await fetch('api/administrarArtista/updateAudio', {
             method: 'POST',
@@ -194,9 +111,7 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                 {
                     console.log("Editado");
                     const nombreAudio = document.getElementById(idAudio).querySelector("#nombreAudio")
-                    const nombreAlbum = document.getElementById(idAudio).querySelector("#nombreAlbum")
                     nombreAudio.innerText = nuevoNombre
-                    nombreAlbum.innerText = nuevoAlbum
                 }
             }
         ).catch(
@@ -204,4 +119,3 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
         )
     }
 </script>
-    

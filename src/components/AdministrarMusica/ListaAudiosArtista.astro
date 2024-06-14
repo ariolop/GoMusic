@@ -30,7 +30,7 @@ const canciones = cancionesDuplicadas.sort((a,b) => {
 <div class="w-full min-h-[88vh] flex justify-center items-center p-8">
     <div class="w-full sm:w-3/4 md:w-8/12 lg:w-6/12 rounded border border-black">
         <h2 class="text-center text-2xl sm:text-3xl my-3 font-bold">Tus canciones</h2>
-        <div id="lista" class="w-full flex justify-center items-center flex-wrap bg-gray-300 p-8 rounded-b">
+        <div id="lista" class="w-full flex justify-center items-center flex-wrap bg-gray-300 px-8 pt-8 rounded-b">
             {
                 canciones.length != 0 ? <div class="flex justify-between items-center w-full mb-2 border-gray-100 border p-1 px-2 rounded-sm h-8">
                     <div class="w-4/12">
@@ -53,13 +53,7 @@ const canciones = cancionesDuplicadas.sort((a,b) => {
                                 <div class="w-6/12 sm:w-4/12">
                                     <p class="w-full text-sm sm:text-base text-end sm:text-start" id="nombreAlbum">{cancion.Album.nombreAlbum}</p>
                                 </div>
-                                <div class="flex items-center h-8 mt-2 sm:mt-0 w-full sm:w-4/12 max-w-32 justify-evenly sm:justify-between">
-                                    <button id="ver" data-idaudio={cancion.Audios.idAudio} class="bg-green-600 p-1 rounded-md text-gray-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                        </svg>
-                                    </button>
+                                <div class="flex items-center h-8 mt-2 sm:mt-0 w-full sm:w-4/12 max-w-32 justify-evenly">
                                     <button id="editar" data-idaudio={cancion.Audios.idAudio} class="bg-orange-600 p-1 rounded-md text-gray-200">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
@@ -80,6 +74,10 @@ const canciones = cancionesDuplicadas.sort((a,b) => {
 
             <ModalBorradoAudio/>
             <ModalEditarAudio/>
+        </div>
+
+        <div class="bg-gray-300 pl-8 pb-2">
+            <a href="insertarAudio" class="underline underline-offset-1">¿Quiéres añadir más canciones?</a>
         </div>
     </div>
 </div>
@@ -137,12 +135,7 @@ const canciones = cancionesDuplicadas.sort((a,b) => {
         document.getElementById("nuevoAutoresSecundarios").value = info[0].Audios.autores_secundarios
         document.getElementById("nuevoGenero").value = info[0].Audios.genero
         document.getElementById("nuevoTipo").value = info[0].Audios.tipo
-        document.getElementById("nuevoAlbum").value = info[0].Album_Audio.idAlbum
-        document.getElementById("rutaAudio").innerText = info[0].Audios.archivoSonidoOriginal
-        document.getElementById("portadaAudio").src = info[0].Audios.rutaImagen
         document.getElementById("nuevaDescripcion").value = info[0].Audios.descripcion
-        document.getElementById("nuevoEsSencillo").checked = info[1] ? true : false
-        document.getElementById("nuevoAlbumSencillo").value = info[1] ? info[1].Album.idAlbum : ""
 
         document.getElementById("ventanaModalEditar").classList.remove("hidden")
     }
