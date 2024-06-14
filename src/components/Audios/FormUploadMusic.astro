@@ -104,7 +104,8 @@ const albumesSencillos = await db.select({nombreAlbum: Album.nombreAlbum, idAlbu
                 </div>
             </div>
             
-            <div class="w-full mt-6 sm:mt-2 flex justify-end">
+            <div class="w-full mt-6 sm:mt-2 flex justify-between items-center">
+                <a class="underline" href="artistaAlbumes">¿Quieres modificar algún audio?</a>
                 <input type="submit" class="bg-orange-300 rounded p-2 font-bold hover:bg-orange-400"></input>
             </div>
         </form>
