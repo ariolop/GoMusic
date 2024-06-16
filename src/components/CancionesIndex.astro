@@ -30,7 +30,7 @@ while(randomPositions.length != 6)
 
 ---
 
-<div transition:persist class="flex h-full w-full sm:w-full order-1 flex-wrap flex-col items-center p-4 px-4 md:px-12">
+<div transition:persist class="flex h-full w-full sm:w-full flex-wrap flex-col items-center p-4 px-4 md:px-12">
     <!-- 3 Botones para filtrar por Canciones, Podcast o Todo -->
     <div class="flex justify-evenly w-full lg:w-3/4 items-center h-10">
         <button class="bg-gray-200 hover:bg-gray-400 hover:text-white text-sm sm:text-base md:text-lg hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Todos</button>
@@ -82,7 +82,7 @@ while(randomPositions.length != 6)
     <!-- Lo mismo que antes, pero en forma de cuadrado -->
     <div class="flex justify-between w-full mt-4 flex-wrap">
         <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Recomendaciones para ti</h3>
-        <div class="w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-1">
+        <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 lg:grid-rows-1 gap-4 gap-y-6">
             <div class="w-full text-center flex justify-center flex-wrap">
                 <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
                 <p class="w-full">Nombre del album</p>
@@ -98,6 +98,10 @@ while(randomPositions.length != 6)
             <div class="w-full text-center flex justify-center flex-wrap">
                 <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
                 <p class="w-full">Nombre de la lista</p>
+            </div>
+            <div class="w-full text-center flex justify-center flex-wrap">
+                <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
+                <p class="w-full">Nombre del album</p>
             </div>
             <div class="w-full text-center flex justify-center flex-wrap">
                 <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
@@ -106,9 +110,10 @@ while(randomPositions.length != 6)
         </div>
     </div>
 
-    <div class="flex justify-between w-full mt-2 flex-wrap">
+    <!-- Lo mismo que antes, pero en forma de cuadrado -->
+    <div class="flex justify-between w-full mt-4 flex-wrap">
         <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Recomendaciones para ti</h3>
-        <div class="w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-1">
+        <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 lg:grid-rows-1 gap-4 gap-y-6">
             <div class="w-full text-center flex justify-center flex-wrap">
                 <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
                 <p class="w-full">Nombre del album</p>
@@ -128,28 +133,6 @@ while(randomPositions.length != 6)
             <div class="w-full text-center flex justify-center flex-wrap">
                 <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
                 <p class="w-full">Nombre del album</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="flex justify-between w-full mt-2 flex-wrap">
-        <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Recomendaciones para ti</h3>
-        <div class="w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-1">
-            <div class="w-full text-center flex justify-center flex-wrap">
-                <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                <p class="w-full">Nombre del album</p>
-            </div>
-            <div class="w-full text-center flex justify-center flex-wrap">
-                <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                <p class="w-full">Nombre de la lista</p>
-            </div>
-            <div class="w-full text-center flex justify-center flex-wrap">
-                <img class="w-full max-w-28 rounded-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                <p class="w-full">Nombre del artista</p>
-            </div>
-            <div class="w-full text-center flex justify-center flex-wrap">
-                <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                <p class="w-full">Nombre de la lista</p>
             </div>
             <div class="w-full text-center flex justify-center flex-wrap">
                 <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">

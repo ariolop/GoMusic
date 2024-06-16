@@ -612,6 +612,10 @@ progress::-webkit-progress-value {
   border-width: 0;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .fixed {
   position: fixed;
 }
@@ -777,6 +781,10 @@ progress::-webkit-progress-value {
 
 .block {
   display: block;
+}
+
+.inline {
+  display: inline;
 }
 
 .flex {
@@ -1093,6 +1101,10 @@ progress::-webkit-progress-value {
   flex-wrap: wrap;
 }
 
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
 .items-end {
   align-items: flex-end;
 }
@@ -1119,6 +1131,19 @@ progress::-webkit-progress-value {
 
 .gap-4 {
   gap: 1rem;
+}
+
+.gap-x-6 {
+  -moz-column-gap: 1.5rem;
+       column-gap: 1.5rem;
+}
+
+.gap-y-12 {
+  row-gap: 3rem;
+}
+
+.gap-y-6 {
+  row-gap: 1.5rem;
 }
 
 .overflow-hidden {
@@ -1372,6 +1397,10 @@ progress::-webkit-progress-value {
 
 .pt-8 {
   padding-top: 2rem;
+}
+
+.pl-1 {
+  padding-left: 0.25rem;
 }
 
 .text-left {
@@ -1643,6 +1672,10 @@ progress::-webkit-progress-value {
 }
 
 @media (min-width: 640px) {
+  .sm\:invisible {
+    visibility: hidden;
+  }
+
   .sm\:bottom-0 {
     bottom: 0px;
   }
@@ -1689,6 +1722,10 @@ progress::-webkit-progress-value {
     display: flex;
   }
 
+  .sm\:hidden {
+    display: none;
+  }
+
   .sm\:h-10 {
     height: 2.5rem;
   }
@@ -1711,6 +1748,10 @@ progress::-webkit-progress-value {
 
   .sm\:h-full {
     height: 100%;
+  }
+
+  .sm\:h-20 {
+    height: 5rem;
   }
 
   .sm\:max-h-\[80px\] {
@@ -1793,6 +1834,10 @@ progress::-webkit-progress-value {
     max-width: 32rem;
   }
 
+  .sm\:max-w-\[270px\] {
+    max-width: 270px;
+  }
+
   .sm\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1819,6 +1864,10 @@ progress::-webkit-progress-value {
 
   .sm\:justify-start {
     justify-content: flex-start;
+  }
+
+  .sm\:justify-end {
+    justify-content: flex-end;
   }
 
   .sm\:justify-center {
@@ -2009,6 +2058,10 @@ progress::-webkit-progress-value {
 
   .lg\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .lg\:grid-rows-1 {

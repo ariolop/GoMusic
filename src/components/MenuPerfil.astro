@@ -2,7 +2,7 @@
 
 ---
 
-<ul transition:persist id="menu">
+<ul transition:persist id="menu" class="hidden sm:block">
     <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkGeneral">General</p></li>
     <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkMusica">Tu música</p></li>
     <li class="mt-2"><p class="hover:bg-[#DBAC63] hover:text-white p-1 rounded cursor-pointer" id="linkSeguridad">Seguridad</p></li>
@@ -11,6 +11,8 @@
 
 <script is:inline>
     async function cambiarContenedor(e) {
+        document.getElementById("menu").classList.add("hidden")
+
         switch(e.target.id) { //Ignorar error
             case "linkGeneral": 
                 document.getElementById("general").classList.add("opacity-100")
