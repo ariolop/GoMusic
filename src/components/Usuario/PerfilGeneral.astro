@@ -188,10 +188,12 @@ const { infoUser } = Astro.props
                         document.getElementById("mensajeImagen").innerText = ""
                         document.getElementById("alertCambioPerfil").classList.add("flex")
                         document.getElementById("alertCambioPerfil").classList.remove("hidden")
-
+                        document.getElementById("imagenPerfil").src = inputImage.files[0]
+                        
                         setTimeout(() => {
                             document.getElementById("alertCambioPerfil").classList.remove("flex")
                             document.getElementById("alertCambioPerfil").classList.add("hidden")
+                            
                         }, 5000);
                 }
             ).catch(
