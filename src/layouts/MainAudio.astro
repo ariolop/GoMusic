@@ -32,13 +32,13 @@ const infoAudio = (
             <div class="w-full max-w-[300px] sm:max-w-max-0 sm:w-[48%] ml-4 flex justify-end flex-col">
                 <h2 translate="no" id="tituloCancion" class="w-full md:text-2xl lg:text-3xl font-bold">{infoAudio.Audios.nombreAudio}</h2>
                 <h2 translate="no" id="artistaCancion" class="w-full md:text-lg lg:text-xl font-semibold mb-2">{infoAudio.Usuario.nombre + " " + infoAudio.Usuario.apellidos}</h2>
-                <button id="playAudio" data-rutasonido={infoAudio.Audios.rutaSonido}>
+                <button id="playAudio" class="max-w-max" data-rutasonido={infoAudio.Audios.rutaSonido}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-11">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
                     </svg>                  
                 </button>
-                <button id="pauseAudio" class="hidden" data-rutasonido={infoAudio.Audios.rutaSonido}>
+                <button id="pauseAudio" class="max-w-max hidden" data-rutasonido={infoAudio.Audios.rutaSonido}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-11">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>                                                           

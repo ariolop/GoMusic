@@ -1038,6 +1038,10 @@ progress::-webkit-progress-value {
   width: 100vw;
 }
 
+.w-auto {
+  width: auto;
+}
+
 .max-w-28 {
   max-width: 7rem;
 }
@@ -1072,6 +1076,11 @@ progress::-webkit-progress-value {
 
 .max-w-xs {
   max-width: 20rem;
+}
+
+.max-w-max {
+  max-width: -moz-max-content;
+  max-width: max-content;
 }
 
 .flex-shrink-0 {

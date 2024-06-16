@@ -1,5 +1,5 @@
 ---
-import { db, Normal, Usuario_MeGusta_Audio, Album_Audio, Album, Audios, Artista, Usuario, eq } from "astro:db"
+import { db, Normal, Usuario_MeGusta_Audio, Album_Audio, Album, Audios, Artista, Usuario, eq, isNull } from "astro:db"
 import { getUserActivo } from "../components/Cookies/Cookies.astro"
 import ListasIndex from "../components/ListasIndex.astro"
 
@@ -7,7 +7,7 @@ const cookies = Astro.request.headers.get('cookie')
 const userActivo = await getUserActivo(cookies)
 const idNormal = (await db.select({idNormal: Normal.idNormal}).from(Normal).where(eq(Normal.idUsuario, userActivo)))[0].idNormal
 
-const favs = (await db.select().from(
+const favsQuery = db.select().from(
     Usuario_MeGusta_Audio
 ).where(
     eq(Usuario_MeGusta_Audio.idUsuario, idNormal),
@@ -16,7 +16,7 @@ const favs = (await db.select().from(
     eq(Audios.idAudio, Usuario_MeGusta_Audio.idAudio)
 ).leftJoin(
     Album_Audio,
-    eq(Album_Audio.idAudio, Usuario_MeGusta_Audio.idAudio)
+    eq(Album_Audio.idAudio, Audios.idAudio)
 ).leftJoin(
     Album,
     eq(Album_Audio.idAlbum, Album.idAlbum)
@@ -26,7 +26,9 @@ const favs = (await db.select().from(
 ).leftJoin(
     Usuario,
     eq(Artista.idUsuario, Usuario.id)
-))
+).as("favsQuery")
+
+const favs = await db.select().from(favsQuery)
 
 const canciones = favs.sort((a,b) => {
                         return a.Album.esSencillo == b.Album.esSencillo ? 
@@ -37,6 +39,53 @@ const canciones = favs.sort((a,b) => {
                     }).filter((can, idx, array) => {
                         return !array.slice(0, idx).some(elem => elem.Usuario_MeGusta_Audio.idAudio == can.Usuario_MeGusta_Audio.idAudio)
                     })
+
+const audios = (
+    await db.select().from(
+        Audios
+    ).leftJoin(
+        favsQuery,
+        eq(Audios.idAudio, favsQuery.Audios.idAudio)
+    ).where(
+        isNull(favsQuery.Usuario_MeGusta_Audio.idAudio)
+    )
+);
+
+const albumes = (
+    await db.select().from(
+        Album
+    ).leftJoin(
+        Album_Audio,
+        eq(Album_Audio.idAlbum, Album.idAlbum)
+    ).leftJoin(
+        Audios,
+        eq(Album_Audio.idAudio, Audios.idAudio)
+    )
+).filter((album, index, array) => {
+    return !array.slice(0, index).some(elem => elem.Album.idAlbum == album.Album.idAlbum)
+});
+
+const randomPositionsAudios = []
+const randomPositionsAlbumes = []
+
+
+const cantidadAudios = audios.length
+const cantidadAlbumes = albumes.length
+
+
+while(randomPositionsAudios.length != 5)
+{
+    const numAlea = Math.floor(Math.random() * cantidadAudios)
+    if (!randomPositionsAudios.includes(numAlea))
+        randomPositionsAudios.push(numAlea) 
+}
+
+while(randomPositionsAlbumes.length != 5)
+{
+    const numAlea = Math.floor(Math.random() * cantidadAlbumes)
+    if (!randomPositionsAlbumes.includes(numAlea))
+        randomPositionsAlbumes.push(numAlea) 
+}
 
 ---
 
@@ -50,17 +99,6 @@ const canciones = favs.sort((a,b) => {
             <div class="w-full max-w-[300px] sm:max-w-max-0 sm:w-[48%] ml-4 flex justify-end flex-col">
                 <h2 id="tituloLista" class="w-full md:text-2xl lg:text-3xl font-bold">Audios favoritos</h2>
                 <h2 id="autorLista" class="w-full md:text-lg lg:text-xl font-semibold mb-2">Nombre del usuario</h2>
-                <!-- <button id="playAudio" data-rutasonido={infoPlaylist[0].Audios.rutaSonido}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-11">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-                    </svg>                  
-                </button>
-                <button id="pauseAudio" class="hidden" data-rutasonido={infoPlaylist[0].Audios.rutaSonido}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-11">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>                                                           
-                </button> -->
             </div>
         </div>
 
@@ -116,29 +154,74 @@ const canciones = favs.sort((a,b) => {
             }
         </div>
 
-        <!-- Lo mismo que antes, pero en forma de cuadrado -->
         <div class="flex justify-between w-full mt-4 flex-wrap">
-            <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Recomendaciones para ti</h3>
-            <div class="w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-1">
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre del album</p>
+            <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Canciones relacionadas</h3>
+            <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 lg:grid-rows-1 gap-4 gap-y-6">
+                <div class="w-full">
+                    <a href={"./audio?id=" + audios[randomPositionsAudios[0]].Audios.idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28" src={audios[randomPositionsAudios[0]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsAudios[0]].Audios.nombreAudio}</p>
+                    </a>
                 </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre de la lista</p>
+                <div class="w-full">
+                    <a href={"./audio?id=" + audios[randomPositionsAudios[1]].Audios.idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28" src={audios[randomPositionsAudios[1]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsAudios[1]].Audios.nombreAudio}</p>
+                    </a>
                 </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28 rounded-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre del artista</p>
+                <div class="w-full">
+                    <a href={"./audio?id=" + audios[randomPositionsAudios[2]].Audios.idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28" src={audios[randomPositionsAudios[2]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsAudios[2]].Audios.nombreAudio}</p>
+                    </a>
                 </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre de la lista</p>
+                <div class="w-full">
+                    <a href={"./audio?id=" + audios[randomPositionsAudios[3]].Audios.idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28" src={audios[randomPositionsAudios[3]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsAudios[3]].Audios.nombreAudio}</p>
+                    </a>
                 </div>
-                <div class="w-full text-center flex justify-center flex-wrap">
-                    <img class="w-full max-w-28" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/nhwg7laas/2obzakpst/portada-35qlmxl5krtcuGzMMok0zjgtUsu4nJ.jpg" alt="">
-                    <p class="w-full">Nombre del album</p>
+                <div class="w-full">
+                    <a href={"./audio?id=" + audios[randomPositionsAudios[4]].Audios.idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28" src={audios[randomPositionsAudios[4]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsAudios[4]].Audios.nombreAudio}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-between w-full mt-4 flex-wrap">
+            <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Álbumes recomendados</h3>
+            <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 lg:grid-rows-1 gap-4 gap-y-6">
+                <div class="w-full">
+                    <a href={"./album?id=" + albumes[randomPositionsAlbumes[0]].Album.idAlbum} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28 rounded-xl" src={albumes[randomPositionsAlbumes[0]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{albumes[randomPositionsAlbumes[0]].Album.nombreAlbum}</p>
+                    </a>
+                </div>
+                <div class="w-full">
+                    <a href={"./album?id=" + albumes[randomPositionsAlbumes[1]].Album.idAlbum} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28 rounded-xl" src={albumes[randomPositionsAlbumes[1]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{albumes[randomPositionsAlbumes[1]].Album.nombreAlbum}</p>
+                    </a>
+                </div>
+                <div class="w-full">
+                    <a href={"./album?id=" + albumes[randomPositionsAlbumes[2]].Album.idAlbum} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28 rounded-xl" src={albumes[randomPositionsAlbumes[2]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{albumes[randomPositionsAlbumes[2]].Album.nombreAlbum}</p>
+                    </a>
+                </div>
+                <div class="w-full">
+                    <a href={"./album?id=" + albumes[randomPositionsAlbumes[3]].Album.idAlbum} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28 rounded-xl" src={albumes[randomPositionsAlbumes[3]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{albumes[randomPositionsAlbumes[3]].Album.nombreAlbum}</p>
+                    </a>
+                </div>
+                <div class="w-full">
+                    <a href={"./album?id=" + albumes[randomPositionsAlbumes[4]].Album.idAlbum} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                        <img class="mt-2 w-full max-w-28 rounded-xl" src={albumes[randomPositionsAlbumes[4]].Audios.rutaImagen} alt="">
+                        <p translate="no" class="w-full max-w-28 mb-2">{albumes[randomPositionsAlbumes[4]].Album.nombreAlbum}</p>
+                    </a>
                 </div>
             </div>
         </div>

@@ -19,10 +19,12 @@ const albumes = (
         Audios,
         eq(Album_Audio.idAudio, Audios.idAudio)
     )
-).filter((item, index, array) => array.indexOf(item) === index);
+).filter((album, index, array) => {
+    return !array.slice(0, index).some(elem => elem.Album.idAlbum == album.Album.idAlbum)
+});
 
 const randomPositionsCartas = []
-const randomPositionsRecomendaciones1 = []
+const randomPositionsSongs = []
 const randomPositionsAlbumes = []
 
 
@@ -36,11 +38,11 @@ while(randomPositionsCartas.length != 6)
         randomPositionsCartas.push(numAlea) 
 }
 
-while(randomPositionsRecomendaciones1.length != 5)
+while(randomPositionsSongs.length != 5)
 {
     const numAlea = Math.floor(Math.random() * cantidadAudios)
-    if (!randomPositionsCartas.includes(numAlea) && !randomPositionsRecomendaciones1.includes(numAlea))
-        randomPositionsRecomendaciones1.push(numAlea) 
+    if (!randomPositionsCartas.includes(numAlea) && !randomPositionsSongs.includes(numAlea))
+        randomPositionsSongs.push(numAlea) 
 }
 
 while(randomPositionsAlbumes.length != 5)
@@ -106,33 +108,33 @@ while(randomPositionsAlbumes.length != 5)
         <h3 class="w-full text-xl md:text-2xl mb-2 font-bold">Canciones TOP para ti</h3>
         <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 lg:grid-rows-1 gap-4 gap-y-6">
             <div class="w-full">
-                <a href={"./audio?id=" + audios[randomPositionsRecomendaciones1[0]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
-                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsRecomendaciones1[0]].rutaImagen} alt="">
-                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsRecomendaciones1[0]].nombreAudio}</p>
+                <a href={"./audio?id=" + audios[randomPositionsSongs[0]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsSongs[0]].rutaImagen} alt="">
+                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsSongs[0]].nombreAudio}</p>
                 </a>
             </div>
             <div class="w-full">
-                <a href={"./audio?id=" + audios[randomPositionsRecomendaciones1[1]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
-                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsRecomendaciones1[1]].rutaImagen} alt="">
-                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsRecomendaciones1[1]].nombreAudio}</p>
+                <a href={"./audio?id=" + audios[randomPositionsSongs[1]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsSongs[1]].rutaImagen} alt="">
+                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsSongs[1]].nombreAudio}</p>
                 </a>
             </div>
             <div class="w-full">
-                <a href={"./audio?id=" + audios[randomPositionsRecomendaciones1[2]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
-                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsRecomendaciones1[2]].rutaImagen} alt="">
-                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsRecomendaciones1[2]].nombreAudio}</p>
+                <a href={"./audio?id=" + audios[randomPositionsSongs[2]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsSongs[2]].rutaImagen} alt="">
+                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsSongs[2]].nombreAudio}</p>
                 </a>
             </div>
             <div class="w-full">
-                <a href={"./audio?id=" + audios[randomPositionsRecomendaciones1[3]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
-                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsRecomendaciones1[3]].rutaImagen} alt="">
-                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsRecomendaciones1[3]].nombreAudio}</p>
+                <a href={"./audio?id=" + audios[randomPositionsSongs[3]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsSongs[3]].rutaImagen} alt="">
+                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsSongs[3]].nombreAudio}</p>
                 </a>
             </div>
             <div class="w-full">
-                <a href={"./audio?id=" + audios[randomPositionsRecomendaciones1[4]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
-                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsRecomendaciones1[4]].rutaImagen} alt="">
-                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsRecomendaciones1[4]].nombreAudio}</p>
+                <a href={"./audio?id=" + audios[randomPositionsSongs[4]].idAudio} class="hover:bg-orange-200 rounded-md transition-colors max-h-min w-full text-center flex justify-center flex-wrap">
+                    <img class="mt-2 w-full max-w-28" src={audios[randomPositionsSongs[4]].rutaImagen} alt="">
+                    <p translate="no" class="w-full max-w-28 mb-2">{audios[randomPositionsSongs[4]].nombreAudio}</p>
                 </a>
             </div>
         </div>
