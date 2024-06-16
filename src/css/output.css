@@ -912,10 +912,6 @@ progress::-webkit-progress-value {
   max-height: 120px;
 }
 
-.min-h-10 {
-  min-height: 2.5rem;
-}
-
 .min-h-12 {
   min-height: 3rem;
 }
@@ -948,10 +944,6 @@ progress::-webkit-progress-value {
   width: 33.333333%;
 }
 
-.w-1\/4 {
-  width: 25%;
-}
-
 .w-1\/6 {
   width: 16.666667%;
 }
@@ -982,10 +974,6 @@ progress::-webkit-progress-value {
 
 .w-3 {
   width: 0.75rem;
-}
-
-.w-3\/4 {
-  width: 75%;
 }
 
 .w-4 {
@@ -1043,10 +1031,6 @@ progress::-webkit-progress-value {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-4\/6 {
-  width: 66.666667%;
 }
 
 .max-w-28 {
@@ -1356,10 +1340,6 @@ progress::-webkit-progress-value {
 
 .fill-red-500 {
   fill: #ef4444;
-}
-
-.fill-red-600 {
-  fill: #dc2626;
 }
 
 .p-1 {
@@ -2010,16 +1990,12 @@ progress::-webkit-progress-value {
     width: 66.666667%;
   }
 
-  .md\:w-full {
-    width: 100%;
-  }
-
-  .md\:w-1\/4 {
-    width: 25%;
-  }
-
   .md\:w-\[30\%\] {
     width: 30%;
+  }
+
+  .md\:w-full {
+    width: 100%;
   }
 
   .md\:min-w-56 {
@@ -2125,10 +2101,6 @@ progress::-webkit-progress-value {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
-  .lg\:grid-cols-6 {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-
   .lg\:grid-rows-1 {
     grid-template-rows: repeat(1, minmax(0, 1fr));
   }
@@ -2146,6 +2118,11 @@ progress::-webkit-progress-value {
     line-height: 2.25rem;
   }
 
+  .lg\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
   .lg\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
@@ -2154,11 +2131,6 @@ progress::-webkit-progress-value {
   .lg\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
-  }
-
-  .lg\:text-base {
-    font-size: 1rem;
-    line-height: 1.5rem;
   }
 }
 
