@@ -146,7 +146,6 @@ const { infoUser } = Astro.props
                             document.getElementById("alertActualizarDatos").classList.remove("flex")
                             document.getElementById("alertActualizarDatos").classList.add("hidden")
                         }, 5000);
-                        //window.location.replace("/login?usuario=nuevo")
                 }
             ).catch(
                 error => {
@@ -178,11 +177,23 @@ const { infoUser } = Astro.props
             const body = new FormData()
             body.append('file_image', inputImage.files[0])
 
-            const res = await fetch('/api/updateUserImage', {
+            await fetch('/api/updateUserImage', {
                 body,
                 method: 'POST'
             }).then(
-                res => window.location.replace(location.href.split('?')[0] + "?guardado=correcto")
+                res => {
+                    if (res.status == 400)
+                        throw new Error(res.statusText)
+                    else
+                        document.getElementById("mensajeImagen").innerText = ""
+                        document.getElementById("alertCambioPerfil").classList.add("flex")
+                        document.getElementById("alertCambioPerfil").classList.remove("hidden")
+
+                        setTimeout(() => {
+                            document.getElementById("alertCambioPerfil").classList.remove("flex")
+                            document.getElementById("alertCambioPerfil").classList.add("hidden")
+                        }, 5000);
+                }
             ).catch(
                 error => console.error('There was a problem with the fetch operation:', error)
             );

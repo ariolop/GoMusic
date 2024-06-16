@@ -5,7 +5,6 @@ import { db, Usuario, eq } from "astro:db";
 
 const { perfil } = Astro.props
 const url = Astro.request.url.split("/")[3]
-console.log(url);
 
 const cookies = Astro.request.headers.get('cookie')
 const userActivo = await getUserActivo(cookies)
