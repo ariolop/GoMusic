@@ -52,20 +52,29 @@ const cancionesFavoritas = (await db.select().from(
 
         <div id="lista" class="mt-4 w-full">
             <div class="flex h-10 items-center justify-between border-b border-black mb-4">
-                <div class="w-10 mr-2"></div>
-                <p class="w-1/4">Título</p>
-                <p class="w-1/4">Albúm</p>
-                <p class="w-1/4">Artistas</p>
-                <p class="w-1/6"></p>
+                <div class="w-5/6 flex">
+                    <div class="hidden md:block w-10 mr-2"></div>
+                    <div class="flex justify-between w-full items-center">
+                        <p class="w-full md:hidden">Canciones del álbum</p>
+                        <p class="w-[30%] hidden md:inline">Título</p>
+                        <p class="w-[30%] hidden md:inline">Albúm</p>
+                        <p class="w-[30%] hidden md:inline">Artistas</p>
+                    </div>
+                </div>
+                <p class="w-1/6">&nbsp;</p>
             </div>
             {
                 canciones[0].Audios ?
                 canciones.map((cancion) => {
                     return <div id={cancion.Audios.idAudio} class="flex h-10 items-center justify-between mb-2">
-                        <img id="imagenPortada" class="h-full w-10 mr-2" src={cancion.Audios.rutaImagen}>
-                        <p id="tituloCancion" class="w-1/4">{cancion.Audios.nombreAudio}</p>
-                        <p class="w-1/4">{cancion.Album.nombreAlbum}</p>
-                        <p id="artistaCancion" class="w-1/4">{cancion.Usuario.nombre + " " + cancion.Usuario.apellidos}</p>
+                        <div class="w-5/6 flex">
+                            <img id="imagenPortada" class="h-full w-10 mr-2" src={cancion.Audios.rutaImagen}>
+                            <div class="flex justify-start md:justify-between w-full items-center flex-wrap">
+                                <p id="tituloCancion" class="w-full md:w-[30%] text-sm lg:text-base">{cancion.Audios.nombreAudio}</p>
+                                <p id="albumCancion" class="md:w-[30%] hidden text-sm lg:text-base md:inline">{cancion.Album.nombreAlbum}</p>
+                                <p id="artistaCancion" class="w-full md:w-[30%] text-sm lg:text-base italic">{cancion.Usuario.nombre + " " + cancion.Usuario.apellidos}</p>
+                            </div>
+                        </div>
                         <div class="w-1/6 flex justify-center items-center">
                             <button id="addFavoriteSong">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class={cancionesFavoritas.includes(cancion.Audios.idAudio) ? "fill-red-500 w-8 h-8" : "fill-none w-8 h-8"}>

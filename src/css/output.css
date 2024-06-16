@@ -1045,6 +1045,10 @@ progress::-webkit-progress-value {
   width: 100vw;
 }
 
+.w-4\/6 {
+  width: 66.666667%;
+}
+
 .max-w-28 {
   max-width: 7rem;
 }
@@ -1352,6 +1356,10 @@ progress::-webkit-progress-value {
 
 .fill-red-500 {
   fill: #ef4444;
+}
+
+.fill-red-600 {
+  fill: #dc2626;
 }
 
 .p-1 {
@@ -1965,6 +1973,10 @@ progress::-webkit-progress-value {
     display: block;
   }
 
+  .md\:inline {
+    display: inline;
+  }
+
   .md\:flex {
     display: flex;
   }
@@ -2002,6 +2014,14 @@ progress::-webkit-progress-value {
     width: 100%;
   }
 
+  .md\:w-1\/4 {
+    width: 25%;
+  }
+
+  .md\:w-\[30\%\] {
+    width: 30%;
+  }
+
   .md\:min-w-56 {
     min-width: 14rem;
   }
@@ -2012,6 +2032,10 @@ progress::-webkit-progress-value {
 
   .md\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .md\:justify-between {
+    justify-content: space-between;
   }
 
   .md\:p-8 {
@@ -2130,6 +2154,11 @@ progress::-webkit-progress-value {
   .lg\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .lg\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 }
 
