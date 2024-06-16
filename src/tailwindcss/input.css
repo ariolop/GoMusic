@@ -13,4 +13,20 @@
         @apply rounded-md;
         @apply bg-white;
     }
+
+    #volumen::-webkit-slider-runnable-track {
+        height: 8px;
+        cursor: pointer;
+        background: #FFA500;
+        @apply rounded-md;
+    }
+
+    #volumen::-webkit-slider-thumb {
+        height: 12px;
+        width: 12px;
+        @apply rounded-full;
+        background: #FF0303;
+        -webkit-appearance: none;
+        margin-top: -2px;
+    }
 } 

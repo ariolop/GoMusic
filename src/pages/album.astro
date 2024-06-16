@@ -6,6 +6,11 @@ const cookies = Astro.request.headers.get('cookie')
 if(!estaLogueado(cookies))
     return Astro.redirect("./login")
 
+let idAlbum = Astro.request.url.split("?")[1]
+
+if(!idAlbum)
+    return Astro.redirect("/")
+
 import './../css/output.css'
 import Reproductor from '../components/Reproductor.astro';
 import { ViewTransitions } from 'astro:transitions';
