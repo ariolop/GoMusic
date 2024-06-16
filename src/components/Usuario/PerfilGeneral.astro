@@ -138,14 +138,20 @@ const { infoUser } = Astro.props
                     else if (res.status == 400)
                         throw new Error(res.statusText)
                     else
+                    {
                         document.getElementById("mensajeDatos").innerText = ""
                         document.getElementById("alertActualizarDatos").classList.add("flex")
                         document.getElementById("alertActualizarDatos").classList.remove("hidden")
+                        inputUsername.dataset.original = inputUsername.value
+                        inputNombre.dataset.original = inputNombre.value
+                        inputApellidos.dataset.original = inputApellidos.value
+                        inputEmail.dataset.original = inputEmail.value
 
                         setTimeout(() => {
                             document.getElementById("alertActualizarDatos").classList.remove("flex")
                             document.getElementById("alertActualizarDatos").classList.add("hidden")
                         }, 5000);
+                    }
                 }
             ).catch(
                 error => {

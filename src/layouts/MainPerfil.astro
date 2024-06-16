@@ -35,7 +35,7 @@ const infoUser = (await db.select().from(Usuario).where(eq(Usuario.id, userActiv
     </div>
 </div>
 
-<script is:inline>
+<script is:inline data-astro-rerun>
     document.getElementById("openMenu").addEventListener("click", (e) => {
         e.preventDefault()
 

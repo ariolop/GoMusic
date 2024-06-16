@@ -17,15 +17,32 @@ const audios = (
     )
 );
 
-const randomPositions = []
+const randomPositionsCartas = []
+const randomPositionsRecomendaciones1 = []
+const randomPositionsRecomendaciones2 = []
+
 
 const cantidadAudios = audios.length
 
-while(randomPositions.length != 6)
+while(randomPositionsCartas.length != 6)
 {
     const numAlea = Math.floor(Math.random() * cantidadAudios)
-    if (!randomPositions.includes(numAlea))
-        randomPositions.push(numAlea) 
+    if (!randomPositionsCartas.includes(numAlea))
+        randomPositionsCartas.push(numAlea) 
+}
+
+while(randomPositionsRecomendaciones1.length != 5)
+{
+    const numAlea = Math.floor(Math.random() * cantidadAudios)
+    if (!randomPositionsCartas.includes(numAlea) && !randomPositionsRecomendaciones1.includes(numAlea))
+        randomPositionsRecomendaciones1.push(numAlea) 
+}
+
+while(randomPositionsRecomendaciones2.length != 5)
+{
+    const numAlea = Math.floor(Math.random() * cantidadAudios)
+    if (!randomPositionsCartas.includes(numAlea) && !randomPositionsRecomendaciones1.includes(numAlea) && !randomPositionsRecomendaciones2.includes(numAlea))
+        randomPositionsRecomendaciones2.push(numAlea) 
 }
 
 ---
@@ -38,42 +55,42 @@ while(randomPositions.length != 6)
         <button class="bg-gray-200 hover:bg-gray-400 hover:text-white text-sm sm:text-base md:text-lg hover:font-bold w-1/3 sm:w-1/4 sm:max-w-28 mx-1 rounded-full h-fit py-2 px-3">Podcasts</button>
     </div>
     
-    <!-- Últimas canciones escuchadas, si no tiene, poder canciones o álbumes randoms -->
+    <!-- Últimas canciones escuchadas, si no tiene, poner canciones o álbumes randoms -->
     <div id="cartas" class="grid grid-rows-3 grid-cols-2 lg:grid-rows-2 lg:grid-cols-3 w-full gap-4 mt-4 ">
-        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[0]].Audios.idAudio}>
+        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositionsCartas[0]].Audios.idAudio}>
             <div class="w-full flex items-center">
-                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[0]].Audios.rutaImagen} alt="">
-                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1 text-balance" data-original={audios[randomPositions[0]].Audios.nombreAudio}>{audios[randomPositions[0]].Audios.nombreAudio}</p>
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositionsCartas[0]].Audios.rutaImagen} alt="">
+                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1 text-balance" data-original={audios[randomPositionsCartas[0]].Audios.nombreAudio}>{audios[randomPositionsCartas[0]].Audios.nombreAudio}</p>
             </div>
         </a>
-        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[1]].Audios.idAudio}>
+        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositionsCartas[1]].Audios.idAudio}>
             <div class="w-full flex items-center">
-                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[1]].Audios.rutaImagen} alt="">
-                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositions[1]].Audios.nombreAudio}>{audios[randomPositions[1]].Audios.nombreAudio}</p>
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositionsCartas[1]].Audios.rutaImagen} alt="">
+                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositionsCartas[1]].Audios.nombreAudio}>{audios[randomPositionsCartas[1]].Audios.nombreAudio}</p>
             </div>
         </a>
-        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[2]].Audios.idAudio}>
+        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositionsCartas[2]].Audios.idAudio}>
             <div class="w-full flex items-center">
-                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[2]].Audios.rutaImagen} alt="">
-                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositions[2]].Audios.nombreAudio}>{audios[randomPositions[2]].Audios.nombreAudio}</p>
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositionsCartas[2]].Audios.rutaImagen} alt="">
+                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositionsCartas[2]].Audios.nombreAudio}>{audios[randomPositionsCartas[2]].Audios.nombreAudio}</p>
             </div>
         </a>
-        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[3]].Audios.idAudio}>
+        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositionsCartas[3]].Audios.idAudio}>
             <div class="w-full flex items-center">
-                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[3]].Audios.rutaImagen} alt="">
-                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositions[3]].Audios.nombreAudio}>{audios[randomPositions[3]].Audios.nombreAudio}</p>
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositionsCartas[3]].Audios.rutaImagen} alt="">
+                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositionsCartas[3]].Audios.nombreAudio}>{audios[randomPositionsCartas[3]].Audios.nombreAudio}</p>
             </div>
         </a>
-        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[4]].Audios.idAudio}>
+        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositionsCartas[4]].Audios.idAudio}>
             <div class="w-full flex items-center">
-                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[4]].Audios.rutaImagen} alt="">
-                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositions[4]].Audios.nombreAudio}>{audios[randomPositions[4]].Audios.nombreAudio}</p>
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositionsCartas[4]].Audios.rutaImagen} alt="">
+                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositionsCartas[4]].Audios.nombreAudio}>{audios[randomPositionsCartas[4]].Audios.nombreAudio}</p>
             </div>
         </a>
-        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositions[5]].Audios.idAudio}>
+        <a class="flex bg-gray-200 items-center justify-between rounded" href={"audio?id=" + audios[randomPositionsCartas[5]].Audios.idAudio}>
             <div class="w-full flex items-center">
-                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositions[5]].Audios.rutaImagen} alt="">
-                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositions[5]].Audios.nombreAudio}>{audios[randomPositions[5]].Audios.nombreAudio}</p>
+                <img class="rounded-tl rounded-bl w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14" src={audios[randomPositionsCartas[5]].Audios.rutaImagen} alt="">
+                <p class="ml-3 text-xs sm:text-base lg:text-lg font-bold mr-1" data-original={audios[randomPositionsCartas[5]].Audios.nombreAudio}>{audios[randomPositionsCartas[5]].Audios.nombreAudio}</p>
             </div>
         </a>
     </div>
