@@ -60,7 +60,7 @@ const playlists = await db.select({
                         "https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/portadas/ListaSinCanciones-5QyhWnrTQFUpPVtIomeinFAZZ0TkWo.jpg"
                         }>
                         <div class="flex flex-col h-full  ml-2">
-                            <p class="text-base font-bold">{playlist.nombre}</p>
+                            <p translate="no" class="text-base font-bold">{playlist.nombre}</p>
                             <p class="text-sm">{playlist.cantidadCanciones + " canciones"}</p>
                         </div>
                     </a>

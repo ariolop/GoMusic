@@ -49,8 +49,8 @@ const cancionesFavoritas = (await db.select().from(
                 <img id="imagen" class="w-12 sm:w-14 lg:w-16" src={audio.Audios.rutaImagen} alt="Imagen">
             </div>
             <div class="info w-8/12 ml-2">
-                <p class="font-bold text-sm md:text-base" id="nombre">{audio.Audios.nombreAudio}</p>
-                <p class="text-xs md:text-sm" id="artista">{audio.Usuario.nombre} {audio.Usuario.apellidos}</p>
+                <p translate="no" class="font-bold text-sm md:text-base" id="nombre">{audio.Audios.nombreAudio}</p>
+                <p translate="no" class="text-xs md:text-sm" id="artista">{audio.Usuario.nombre} {audio.Usuario.apellidos}</p>
             </div>
         </div>
         <div class="reproductor mt-2 order-3 md:order-2 w-full md:w-1/3 flex justify-between"> 

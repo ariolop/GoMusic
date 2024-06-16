@@ -84,9 +84,9 @@ const canciones = favs.sort((a,b) => {
                         <div class="w-5/6 flex">
                             <img id="imagenPortada" class="h-full w-10 mr-2" src={cancion.Audios.rutaImagen}>
                             <div class="flex justify-start md:justify-between w-full items-center flex-wrap">
-                                <p id="tituloCancion" class="w-full md:w-[30%] text-sm lg:text-base">{cancion.Audios.nombreAudio}</p>
-                                <p id="albumCancion" class="md:w-[30%] hidden text-sm lg:text-base md:inline">{cancion.Album.nombreAlbum}</p>
-                                <p id="artistaCancion" class="w-full md:w-[30%] text-sm lg:text-base italic">{cancion.Usuario.nombre + " " + cancion.Usuario.apellidos}</p>
+                                <p translate="no" id="tituloCancion" class="w-full md:w-[30%] text-sm lg:text-base">{cancion.Audios.nombreAudio}</p>
+                                <p translate="no" id="albumCancion" class="md:w-[30%] hidden text-sm lg:text-base md:inline">{cancion.Album.nombreAlbum}</p>
+                                <p translate="no" id="artistaCancion" class="w-full md:w-[30%] text-sm lg:text-base italic">{cancion.Usuario.nombre + " " + cancion.Usuario.apellidos}</p>
                             </div>
                         </div>
                         <div class="w-1/6 flex justify-center items-center">
