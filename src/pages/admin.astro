@@ -8,12 +8,7 @@ if(!estaLogueado(cookies))
     return Astro.redirect("./login")
 
 const userActivo = await getUserActivo(cookies)
-console.log(userActivo)
 const idAdministrador = await db.select().from(Administrador).where(eq(Administrador.idUsuario, userActivo))
-
-console.log(idAdministrador);
-
-
 
 if(!idAdministrador)
     return Astro.redirect("/")

@@ -8,80 +8,121 @@ const playlist = await db.select().from(Playlist)
 ---
 
 <div class="flex flex-wrap justify-between">
+    <div class="pl-8 pt-8">
+        <h2 class="text-2xl font-bold">Administrar registros</h2>
+    </div>
     <div id="usuarios" class="flex justify-between flex-wrap p-8 w-full">
+        <h2 class="text-xl font-bold mb-2">Usuarios</h2>
         <div class="flex border border-black justify-between w-full">
-            <p class="w-2/12">Email</p>
-            <p class="w-2/12">Nombre</p>
-            <p class="w-2/12">Username</p>
-            <p class="w-2/12">Apellidos</p>
-            <p class="w-2/12">imagenPerfil</p> 
+            <p class="w-2/12 p-1 font-bold">ID Usuario</p>
+            <p class="w-2/12 p-1 font-bold">Email</p>
+            <p class="w-2/12 p-1 font-bold">Nombre</p>
+            <p class="w-2/12 p-1 font-bold">Username</p>
+            <p class="w-2/12 p-1 font-bold">Apellidos</p>
+            <p class="w-2/12 p-1 font-bold">imagenPerfil</p> 
+            <p class="w-2/12 p-1 font-bold">Controles</p> 
         </div>
         {
             usuarios.map(user => {
-            return <div class="flex border w-full border-black justify-between">
-                <div class="w-2/12"><p class="w-full break-all">{user.email}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{user.nombre}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{user.username}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{user.apellidos}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{user.imagenPerfil}</p></div>
+            return <div class="flex border w-full border-black justify-between items-center">
+                <div class="w-2/12 p-1"><p class="w-full break-all">{user.id}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{user.email}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{user.nombre}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{user.username}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{user.apellidos}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{user.imagenPerfil.split("imagenesPerfil")[1]}</p></div>
+                <div class="w-2/12 p-1 flex justify-evenly">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                    </svg>
+                </div>
             </div>
             })
         }    
     </div>
     <div id="albumes" class="flex justify-between flex-wrap p-8 w-full">
+        <h2 class="text-xl font-bold mb-2">Albumes</h2>
         <div class="flex border border-black justify-between w-full">
-            <p class="w-2/12">Nombre</p>
-            <p class="w-2/12">esSencillo</p>
-            <p class="w-2/12">idArtista</p>
+            <p class="w-2/12 p-1 font-bold">ID Album</p>
+            <p class="w-2/12 p-1 font-bold">Nombre</p>
+            <p class="w-2/12 p-1 font-bold">¿Es sencillo?</p>
+            <p class="w-2/12 p-1 font-bold">ID Artista</p>
+            <p class="w-2/12 p-1 font-bold">Controles</p> 
         </div>
         {
             album.map(album => {
-            return <div class="flex border w-full border-black justify-between">
-                <div class="w-2/12"><p class="w-full break-all">{album.nombreAlbum}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{album.esSencillo}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{album.idArtista}</p></div>
+            return <div class="flex border w-full border-black justify-between items-center">
+                <div class="w-2/12 p-1"><p class="w-full break-all">{album.idAlbum}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{album.nombreAlbum}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{album.esSencillo}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{album.idArtista}</p></div>
+                <div class="w-2/12 p-1 flex justify-evenly">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                    </svg>
+                </div>
             </div>
             })
         }    
     </div> 
     <div id="audios" class="flex justify-between flex-wrap p-8">
+        <h2 class="text-xl font-bold mb-2">Audios</h2>
         <div class="flex border border-black justify-between w-full">
-            <p class="w-2/12">Nombre</p>
-            <p class="w-2/12">Tipo</p>
-            <p class="w-2/12">Genero</p>
-            <p class="w-2/12">rutaImagen</p> 
-            <p class="w-2/12">rutaSonido</p> 
-            <p class="w-2/12">descripcion</p>
-            <p class="w-2/12">autores secundarios</p>
-            <p class="w-2/12">SubidoEn</p>
+            <p class="w-2/12 p-1 font-bold">ID Audio</p>
+            <p class="w-2/12 p-1 font-bold">Nombre</p>
+            <p class="w-2/12 p-1 font-bold">Tipo</p>
+            <p class="w-2/12 p-1 font-bold">Genero</p>
+            <p class="w-2/12 p-1 font-bold">Ruta de imagen</p> 
+            <p class="w-2/12 p-1 font-bold">Ruta de sonido</p> 
+            <p class="w-2/12 p-1 font-bold">Descripcion</p>
+            <p class="w-2/12 p-1 font-bold">Autores secundarios</p>
+            <p class="w-2/12 p-1 font-bold">SubidoEn</p>
+            <p class="w-2/12 p-1 font-bold">Controles</p> 
         </div>
         {
             audios.map(audio => {
-            return <div class="flex border w-full border-black justify-between">
-                <div class="w-2/12"><p class="w-full break-all">{audio.nombreAudio}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{audio.tipo}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{audio.genero}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{audio.rutaImagen}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{audio.rutaSonido}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{audio.descripcion}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{audio.autores_secundarios}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{audio.subidoEn}</p></div>
-            </div>
-            })
-        }    
-    </div> 
-    <div id="usuarios" class="flex justify-between flex-wrap p-8">
-        <div class="flex border border-black justify-between w-full">
-            <p class="w-2/12">Usuario ID</p>
-            <p class="w-2/12">Nombre</p>
-            <p class="w-2/12">Visibilidad</p>
-        </div>
-        {
-            playlist.map(list => {
-            return <div class="flex border w-full border-black justify-between">
-                <div class="w-2/12"><p class="w-full break-all">{list.nombre}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{list.usuarioID}</p></div>
-                <div class="w-2/12"><p class="w-full break-all">{list.visibilidad}</p></div>
+            return <div class="flex border w-full border-black justify-between items-center">
+                <div class="w-2/12 p-1"><p class="w-full break-all">{audio.idAudio}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{audio.nombreAudio}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{audio.tipo}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{audio.genero}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{audio.rutaImagen.split("/portadas")[1]}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{audio.rutaSonido.split("/audios")[1]}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{audio.descripcion}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{audio.autores_secundarios}</p></div>
+                <div class="w-2/12 p-1"><p class="w-full break-all">{audio.subidoEn}</p></div>
+                <div class="w-2/12 p-1 flex justify-evenly">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                    </svg>
+                </div>
             </div>
             })
         }    

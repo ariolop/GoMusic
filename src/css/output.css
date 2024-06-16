@@ -1042,6 +1042,14 @@ progress::-webkit-progress-value {
   width: auto;
 }
 
+.w-1\/12 {
+  width: 8.333333%;
+}
+
+.w-3\/12 {
+  width: 25%;
+}
+
 .max-w-28 {
   max-width: 7rem;
 }
