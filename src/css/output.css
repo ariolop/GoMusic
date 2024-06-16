@@ -1907,8 +1907,16 @@ progress::-webkit-progress-value {
     order: 3;
   }
 
+  .md\:block {
+    display: block;
+  }
+
   .md\:flex {
     display: flex;
+  }
+
+  .md\:hidden {
+    display: none;
   }
 
   .md\:h-full {
