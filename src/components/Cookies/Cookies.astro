@@ -13,7 +13,7 @@ export function estaLogueado(cookies: string)
     if(!cookies) //Si no hay cookies, seguro que no está logueado (retorno temprano)
         return false
 
-    return getCookie(cookies, "auth_session")
+    return getUserActivo(cookies)
 }
 
 export async function getUserActivo(cookies: string)
