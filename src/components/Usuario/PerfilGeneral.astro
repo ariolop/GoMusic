@@ -17,7 +17,7 @@ const { infoUser } = Astro.props
     <div class="w-full sm:w-1/2">
         <h3 class="font-bold text-xl mb-2">Datos perfil</h3>
         <div class="flex items-end">
-            <img id="imagenPerfil" src={infoUser["imagenPerfil"]} class="w-28 h-28 mr-4">
+            <img id="imagenPerfilTemp" src={infoUser["imagenPerfil"]} class="w-28 h-28 mr-4">
             <form id="formUpdateImage" method="POST" enctype="multipart/form-data">
                 <label class="cursor-pointer" for="file_image">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -98,7 +98,7 @@ const { infoUser } = Astro.props
         //No se guardan los cambios hasta que no pulsa Guardar
         const nombreArchivo = document.getElementById("file_image").files[0]
 
-        document.getElementById("imagenPerfil").src = URL.createObjectURL(nombreArchivo)
+        document.getElementById("imagenPerfilTemp").src = URL.createObjectURL(nombreArchivo)
         document.getElementById("mensajeImagen").innerText = "Cambios pendientes de guardar"
     })
 
@@ -169,7 +169,6 @@ const { infoUser } = Astro.props
     document.getElementById("formUpdateImage").addEventListener("submit", async (e) => {
         e.preventDefault()
 
-        console.log("Cambiamos la imagen");
         const inputImage = document.getElementById("file_image")
 
         if(inputImage.files.length != 0)
@@ -188,7 +187,7 @@ const { infoUser } = Astro.props
                         document.getElementById("mensajeImagen").innerText = ""
                         document.getElementById("alertCambioPerfil").classList.add("flex")
                         document.getElementById("alertCambioPerfil").classList.remove("hidden")
-                        document.getElementById("imagenPerfil").src = inputImage.files[0]
+                        document.getElementById("imagenPerfil").src = URL.createObjectURL(inputImage.files[0])
                         
                         setTimeout(() => {
                             document.getElementById("alertCambioPerfil").classList.remove("flex")
