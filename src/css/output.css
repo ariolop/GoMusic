@@ -912,6 +912,11 @@ progress::-webkit-progress-value {
   max-height: 120px;
 }
 
+.max-h-min {
+  max-height: -moz-min-content;
+  max-height: min-content;
+}
+
 .min-h-12 {
   min-height: 3rem;
 }
@@ -1031,6 +1036,10 @@ progress::-webkit-progress-value {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-1\/2 {
+  width: 50%;
 }
 
 .max-w-28 {
@@ -1608,6 +1617,12 @@ progress::-webkit-progress-value {
   transition-duration: 150ms;
 }
 
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .placeholder\:text-gray-500::-moz-placeholder {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -1656,6 +1671,11 @@ progress::-webkit-progress-value {
 .hover\:bg-red-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-orange-200:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 215 170 / var(--tw-bg-opacity));
 }
 
 .hover\:font-bold:hover {
