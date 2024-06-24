@@ -4,7 +4,6 @@ import { db, Usuario, Audios, Album, Playlist } from "astro:db"
 const usuarios = await db.select().from(Usuario)
 const album = await db.select().from(Album)
 const audios = await db.select().from(Audios)
-const playlist = await db.select().from(Playlist)
 ---
 
 <div class="flex flex-wrap justify-between">

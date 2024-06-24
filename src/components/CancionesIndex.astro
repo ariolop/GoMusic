@@ -1,6 +1,6 @@
 ---
 import './../css/output.css'
-import { Audios, Artista, Album, Usuario, Album_Audio } from 'astro:db';
+import { Audios, Artista, Album, Usuario, Album_Audio, isNotNull } from 'astro:db';
 import { db, eq } from 'astro:db';
 
 const audios = (
@@ -18,10 +18,14 @@ const albumes = (
     ).leftJoin(
         Audios,
         eq(Album_Audio.idAudio, Audios.idAudio)
+    ).where(
+        isNotNull(Audios.idAudio)
     )
 ).filter((album, index, array) => {
     return !array.slice(0, index).some(elem => elem.Album.idAlbum == album.Album.idAlbum)
 });
+
+console.log(albumes);
 
 const randomPositionsCartas = []
 const randomPositionsSongs = []
@@ -51,6 +55,8 @@ while(randomPositionsAlbumes.length != 5)
     if (!randomPositionsAlbumes.includes(numAlea))
         randomPositionsAlbumes.push(numAlea) 
 }
+
+
 
 ---
 

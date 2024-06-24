@@ -1,7 +1,7 @@
 ---
 import { getUserActivo } from "../components/Cookies/Cookies.astro";
 import ListasIndex from '../components/ListasIndex.astro';
-import { db, Album_Audio, Audios, Normal, Usuario, eq, Album, Artista, Usuario_MeGusta_Audio } from "astro:db";
+import { db, Album_Audio, Audios, Normal, Usuario, eq, Album, Artista, Usuario_MeGusta_Audio, isNotNull } from "astro:db";
 
 const idAlbum = Astro.request.url.split("?")[1].split("=")[1]
 
@@ -50,6 +50,8 @@ const albumes = (
     ).leftJoin(
         Audios,
         eq(Album_Audio.idAudio, Audios.idAudio)
+    ).where(
+        isNotNull(Audios.idAudio)
     )
 ).filter((album, index, array) => {
     return !array.slice(0, index).some(elem => elem.Album.idAlbum == album.Album.idAlbum)

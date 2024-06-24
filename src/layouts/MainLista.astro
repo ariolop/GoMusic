@@ -1,5 +1,5 @@
 ---
-import { Album_Audio } from 'astro:db';
+import { Album_Audio, isNotNull } from 'astro:db';
 import ListasIndex from '../components/ListasIndex.astro';
 import { db, Audios, Normal, Usuario, eq, Playlist_Audio, Playlist, Album, Artista, Usuario_MeGusta_Audio } from "astro:db";
 
@@ -77,6 +77,8 @@ const albumes = (
     ).leftJoin(
         Audios,
         eq(Album_Audio.idAudio, Audios.idAudio)
+    ).where(
+        isNotNull(Audios.idAudio)
     )
 ).filter((album, index, array) => {
     return !array.slice(0, index).some(elem => elem.Album.idAlbum == album.Album.idAlbum)
