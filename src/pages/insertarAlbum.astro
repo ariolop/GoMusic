@@ -6,13 +6,13 @@ if(!estaLogueado(cookies))
     return Astro.redirect("./login")
 
 import { ViewTransitions } from 'astro:transitions';
-import Header from '../components/HeaderIndex.astro';
+import HeaderIndex from '../components/HeaderIndex.astro';
 import Layout from '../layouts/Layout.astro';
 import FormCreateAlbum from '../components/Album/FormCreateAlbum.astro';
 ---
 
 <Layout>
-    <Header perfil="true"/>
+    <HeaderIndex/>
     <ViewTransitions/>
     <FormCreateAlbum/>
 </Layout>

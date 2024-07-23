@@ -6,7 +6,7 @@ if(!estaLogueado(cookies))
     return Astro.redirect("./login")
 
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/HeaderIndex.astro';
+import HeaderIndex from '../components/HeaderIndex.astro';
 import { ViewTransitions } from 'astro:transitions';
 import ListaAudios from '../components/AdministrarMusica/ListaAudiosArtista.astro';
 import { db, Artista, eq } from 'astro:db';
@@ -16,7 +16,7 @@ const artistaId = (await db.select({idArtista: Artista.idArtista}).from(Artista)
 ---
 
 <Layout>
-    <Header perfil="true"/>
+    <HeaderIndex/>
     <ViewTransitions/>
     <ListaAudios idArtista={artistaId}/>
 </Layout>

@@ -68,6 +68,7 @@ import AvisoNuevoUsuario from '../components/Alerts/AvisoNuevoUsuario.astro'
             }
         ).catch(
             error => {
+                console.log(error);
                 document.getElementById("errorLogin").classList.add("flex")
                 document.getElementById("errorLogin").classList.remove("hidden")
             }

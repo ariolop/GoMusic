@@ -6,7 +6,7 @@ if(!estaLogueado(cookies))
     return Astro.redirect("./login")
 
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/HeaderIndex.astro';
+import HeaderIndex from '../components/HeaderIndex.astro';
 import { ViewTransitions } from 'astro:transitions';
 import ListaAlbumes from '../components/AdministrarMusica/ListaAlbumesArtista.astro';
 import { db, Artista, eq } from 'astro:db';
@@ -18,7 +18,7 @@ console.log(artistaId);
 ---
 
 <Layout>
-    <Header perfil="true"/>
+    <HeaderIndex/>
     <ViewTransitions/>
     <ListaAlbumes idArtista={artistaId}/>
 </Layout>

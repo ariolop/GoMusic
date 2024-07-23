@@ -3,7 +3,6 @@ import './../css/output.css'
 import { getUserActivo } from "../components/Cookies/Cookies.astro";
 import { db, Usuario, eq } from "astro:db";
 
-const { perfil } = Astro.props
 const url = Astro.request.url.split("/")[3]
 
 const cookies = Astro.request.headers.get('cookie')
@@ -14,7 +13,7 @@ const infoUser = (await db.select().from(Usuario).where(eq(Usuario.id, userActiv
 <div class="h-[16vh] sm:h-[10vh] max-h-[120px] sm:max-h-[80px]">
     <div class="h-full sm:h-full bg-black flex flex-wrap justify-between items-center">
         <div class="w-full sm:w-1/3 flex justify-center sm:justify-start h-[60%] sm:h-[90%] p-1">
-            <a href={perfil ? "" : "./"}>
+            <a href="./">
                 <picture class="h-full">
                     <source class="h-full" srcset="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/logos/logoConLetrasSinFondo-Fp5xPeztQ0ZyMsAQmRk66VfchrfBzR.png 641w" media="(min-width: 640px)" />
                     <img class="h-full" src="https://hdnqb6gk9llq7dvl.public.blob.vercel-storage.com/logos/logoSinFondo-IL0en8B1ubqISn7QAGxVZE3jlASqSW.png" />
@@ -34,7 +33,7 @@ const infoUser = (await db.select().from(Usuario).where(eq(Usuario.id, userActiv
                     </svg>                  
                 </a> : ""
             }
-            <a target={perfil ? "" : "_blank"} href="./perfil" class="h-full flex items-center">
+            <a href="./perfil" class="h-full flex items-center">
                 <img id="imagenPerfil" class="rounded-full w-10 h-10 sm:w-12 sm:h-12 bg-blue-300 border border-black" src={infoUser["imagenPerfil"]} alt="Foto del perfil del usuario">
             </a>
         </div>

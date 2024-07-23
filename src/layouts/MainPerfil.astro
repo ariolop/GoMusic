@@ -12,8 +12,8 @@ const userActivo = await getUserActivo(cookies)
 const infoUser = (await db.select().from(Usuario).where(eq(Usuario.id, userActivo)))[0]
 ---
 
-<div class="md:flex h-max max-w-7xl mx-auto">
-    <div class="md:h-full w-full md:w-1/3 p-2 md:pt-8 md:pl-8 md:max-w-80 md:min-w-56"> <!-- TODO: Menú responsive -->
+<div class="md:flex min-h-[80vh] max-w-7xl mx-auto md:justify-center">
+    <div class="md:h-full w-full md:w-1/3 p-2 md:pt-8 md:pl-8 md:pb-0 md:max-w-80 md:min-w-56"> <!-- TODO: Menú responsive -->
         <div class="w-full h-full bg-[#ffeed3] rounded shadow-[#DBAC63] shadow-lg p-4">
             <div class="flex justify-between items-center">
                 <h3 class="font-bold text-xl">Menú</h3>

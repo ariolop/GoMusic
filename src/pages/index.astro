@@ -7,7 +7,7 @@ if(!estaLogueado(cookies))
 
 import { ViewTransitions } from 'astro:transitions';
 import Reproductor from '../components/Reproductor.astro';
-import Header from '../components/HeaderIndex.astro';
+import HeaderIndex from '../components/HeaderIndex.astro';
 import MainIndex from '../layouts/MainIndex.astro';
 import Layout from '../layouts/Layout.astro';
 
@@ -17,7 +17,7 @@ import './../css/output.css'
 
 <Layout>
     <ViewTransitions/>
-    <Header/>
+    <HeaderIndex/>
     <MainIndex/>
     <Reproductor/>
 </Layout>

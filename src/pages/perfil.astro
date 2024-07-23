@@ -6,15 +6,17 @@ if(!estaLogueado(cookies))
     return Astro.redirect("./login")
 
 import Layout from "../layouts/Layout.astro";
-import Header from '../components/HeaderIndex.astro';
+import HeaderIndex from '../components/HeaderIndex.astro';
 import './../css/output.css'
 import { ViewTransitions } from 'astro:transitions';
 import MainPerfil from '../layouts/MainPerfil.astro';
+import Reproductor from '../components/Reproductor.astro';
 
 ---
 
 <Layout>
-    <Header perfil="true"/>
+    <HeaderIndex/>
     <ViewTransitions/>
     <MainPerfil/>
+    <Reproductor/>
 </Layout>
